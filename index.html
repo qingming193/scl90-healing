@@ -594,7 +594,7 @@
       border-radius: var(--radius-lg);
       padding: 14px 16px;
       box-shadow: var(--shadow-sm);
-      transition: transform 0.2s ease;
+      transition: all 0.25s ease;
     }
 
     .factor-header-line {
@@ -632,6 +632,23 @@
       line-height: 1.5;
     }
 
+    .factor-deep-insight {
+      display: none;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px dashed rgba(0,0,0,0.06);
+      font-size: 0.78rem;
+      color: #4A4E58;
+      line-height: 1.6;
+      background: rgba(240, 238, 252, 0.4);
+      padding: 8px 10px;
+      border-radius: 8px;
+    }
+
+    .factor-deep-insight.show {
+      display: block;
+    }
+
     /* 商业变现卡点锁区 (Lock Zone) */
     .monetize-lock-box {
       background: var(--bg-card);
@@ -667,7 +684,7 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      background: rgba(250, 248, 245, 0.86);
+      background: rgba(250, 248, 245, 0.88);
       backdrop-filter: blur(2px);
       padding: 20px;
       text-align: center;
@@ -703,6 +720,75 @@
       color: var(--text-muted);
       max-width: 320px;
       margin-bottom: 14px;
+    }
+
+    /* 真实资料交付中心卡片 */
+    .delivery-package-card {
+      display: none;
+      background: linear-gradient(135deg, #FFFFFF 0%, #F5F3FF 100%);
+      border: 1.5px solid var(--primary-color);
+      border-radius: var(--radius-xl);
+      padding: 22px 18px;
+      margin-bottom: 24px;
+      box-shadow: 0 10px 28px rgba(123, 115, 232, 0.16);
+    }
+
+    .delivery-package-card.active {
+      display: block;
+    }
+
+    .delivery-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .delivery-header i {
+      font-size: 1.4rem;
+      color: var(--primary-color);
+    }
+
+    .delivery-header h3 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+
+    .deliverable-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #FFFFFF;
+      padding: 12px 14px;
+      border-radius: 12px;
+      margin-bottom: 10px;
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .deliverable-info h4 {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 3px;
+    }
+
+    .deliverable-info p {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .btn-deliverable-action {
+      padding: 6px 14px;
+      background: var(--primary-color);
+      color: #FFFFFF;
+      font-size: 0.78rem;
+      font-weight: 700;
+      border-radius: var(--radius-pill);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
     }
 
     /* 报告底部操作栏 */
@@ -797,33 +883,65 @@
       color: #FFFFFF;
     }
 
-    /* 海报预览弹窗 */
+    /* 海报预览弹窗 (彻底杜绝滑动穿透) */
     .poster-modal {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(10px);
-      z-index: 1200;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(12px);
+      z-index: 2000;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      padding: 16px;
+      touch-action: none; /* 彻底防止手势穿透 */
     }
 
     .poster-modal.active {
       display: flex;
     }
 
-    .poster-card-wrap {
+    .poster-wrapper-outer {
       max-width: 360px;
       width: 100%;
-      background: #FFFFFF;
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+      max-height: 90vh;
       display: flex;
       flex-direction: column;
       align-items: center;
+      position: relative;
+    }
+
+    .btn-poster-close-top {
+      position: absolute;
+      top: -16px;
+      right: -8px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      color: #2D3139;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      border: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      cursor: pointer;
+      z-index: 2100;
+    }
+
+    .poster-card-wrap {
+      width: 100%;
+      max-height: 75vh;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      background: #FFFFFF;
+      border-radius: 20px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      touch-action: pan-y; /* 仅允许海报自身内部滑动 */
     }
 
     .poster-card-wrap img {
@@ -839,6 +957,24 @@
       text-align: center;
     }
 
+    .btn-poster-close-bottom {
+      width: 100%;
+      height: 48px;
+      border-radius: var(--radius-pill);
+      background: #FFFFFF;
+      color: var(--text-dark);
+      font-size: 0.95rem;
+      font-weight: 700;
+      border: none;
+      margin-top: 14px;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
     /* 卡密激活弹窗 */
     .key-modal {
       display: none;
@@ -846,7 +982,7 @@
       inset: 0;
       background: rgba(0, 0, 0, 0.5);
       backdrop-filter: blur(8px);
-      z-index: 1100;
+      z-index: 1500;
       align-items: center;
       justify-content: center;
       padding: 20px;
@@ -1091,8 +1227,47 @@
       </div>
 
       <!-- 10大维度拆解列表 -->
-      <div class="factors-container" id="factors-list-dom">
-        <!-- 动态渲染因子卡片 -->
+      <div class="factors-container" id="factors-list-dom"></div>
+
+      <!-- 📦 真实的虚拟资料交付中心卡片 (解锁后显示) -->
+      <div class="delivery-package-card" id="delivery-package-card">
+        <div class="delivery-header">
+          <i class="fa-solid fa-box-open"></i>
+          <div>
+            <h3>专属虚拟资料交付包已解锁</h3>
+            <p style="font-size:0.75rem; color:var(--text-muted);">已为您匹配全套电子白皮书与自愈行动指南</p>
+          </div>
+        </div>
+
+        <div class="deliverable-item">
+          <div class="deliverable-info">
+            <h4>📘《SCL-90身心自愈白皮书》</h4>
+            <p>十维度深度机制解析 · 手机全本阅读版</p>
+          </div>
+          <a href="资料交付/book.html" class="btn-deliverable-action" target="_blank">
+            <span>在线阅读</span> <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          </a>
+        </div>
+
+        <div class="deliverable-item">
+          <div class="deliverable-info">
+            <h4>📅《7天身心高敏感减压日历》</h4>
+            <p>每日10分钟觉察着陆与身体解绑实操手册</p>
+          </div>
+          <a href="资料交付/SCL90身心自愈白皮书.md" class="btn-deliverable-action" download>
+            <span>下载手册</span> <i class="fa-solid fa-download"></i>
+          </a>
+        </div>
+
+        <div class="deliverable-item">
+          <div class="deliverable-info">
+            <h4>🎧 睡前正念呼吸引导音频卡</h4>
+            <p>迷走神经刺激法 · 4-7-8呼吸减压音轨指引</p>
+          </div>
+          <span class="btn-deliverable-action" style="background:#48BB78; cursor:pointer;" onclick="alert('正念音频指引已附在白皮书附录中，可随时打开伴读练习！')">
+            <span>已随书配套</span>
+          </span>
+        </div>
       </div>
 
       <!-- 商业变现卡点锁区 (Lock Zone) -->
@@ -1103,13 +1278,13 @@
           <p style="margin-top:8px;"><strong>2. 焦虑与反刍思维阻断：</strong>入睡前若思绪盘旋不停，执行“5-4-3-2-1 感官着陆法”，切断大脑虚假警报回路。</p>
           <p style="margin-top:8px;"><strong>3. 高敏感身心边界重塑：</strong>停止向内归咎自责，建立“非我职责清单”，恢复身心能量基准线。</p>
           <div style="margin-top:14px; padding:10px 14px; background:#F0EEFC; border-radius:12px; font-size:0.82rem; color:#5D53C9;">
-            <i class="fa-solid fa-gift"></i> 已随报告解锁《身心自愈白皮书》与正念音频完整交付包。
+            <i class="fa-solid fa-gift"></i> 已随报告解锁完整自愈交付包。
           </div>
         </div>
 
         <div class="lock-overlay-cta" id="lock-overlay-cta">
           <div class="lock-badge"><i class="fa-solid fa-lock"></i></div>
-          <h4>解锁完整深度自愈报告</h4>
+          <h4>解锁完整深度自愈报告与交付包</h4>
           <p>获取 10 大维度针对性深度解读及日常改善方案，帮您摆脱内耗困扰</p>
           <button id="btn-unlock-report" class="btn-main" style="width: auto; padding: 0 28px; height: 46px;">
             <span>输入卡密 / 一键解锁报告</span>
@@ -1158,15 +1333,21 @@
   </div>
 </div>
 
-<!-- 海报生成预览弹窗 -->
+<!-- 海报生成预览弹窗 (彻底杜绝滑动穿透，双重退出) -->
 <div class="poster-modal" id="poster-modal">
-  <div class="poster-card-wrap">
-    <div id="poster-img-container"></div>
-    <div class="poster-hint">
-      <i class="fa-regular fa-hand-pointer"></i> 长按图片可保存至相册，分享至小红书/朋友圈打卡
+  <div class="poster-wrapper-outer" id="poster-wrapper-outer">
+    <button class="btn-poster-close-top" id="btn-close-poster-x" title="关闭"><i class="fa-solid fa-xmark"></i></button>
+    
+    <div class="poster-card-wrap" id="poster-scroll-box">
+      <div id="poster-img-container"></div>
+      <div class="poster-hint">
+        <i class="fa-regular fa-hand-pointer"></i> 长按图片可保存至相册，分享至小红书/朋友圈打卡
+      </div>
     </div>
-    <button class="btn-secondary" id="btn-close-poster" style="margin-bottom: 12px; width: 80%; justify-content: center;">
-      关闭
+
+    <button class="btn-poster-close-bottom" id="btn-close-poster">
+      <i class="fa-solid fa-arrow-left"></i>
+      <span>返回自测报告</span>
     </button>
   </div>
 </div>
@@ -1272,70 +1453,80 @@ const dimensions = [
     tag: "生理感知",
     indices: [0, 3, 11, 26, 39, 41, 47, 48, 51, 52, 55, 57],
     normMean: 1.37,
-    description: "反映身体客观检查无器质病变的主观不适（如胸闷、头痛、心慌、背部酸沉）。"
+    description: "反映身体客观检查无器质病变的主观不适（如胸闷、头痛、心慌、背部酸沉）。",
+    deepInsight: "【深度机制】：潜意识情绪压抑触发交感神经过度放电。建议每日坚持 15 分钟慢速腹式呼气（迷走神经激活），切断身体虚假警报。"
   },
   { 
     name: "强迫症状", 
     tag: "思维阻滞",
     indices: [2, 8, 9, 27, 37, 44, 45, 50, 54, 64],
     normMean: 1.62,
-    description: "明知无必要却无法摆脱的反复思绪、反复确认行为及注意力涣散。"
+    description: "明知无必要却无法摆脱的反复思绪、反复确认行为及注意力涣散。",
+    deepInsight: "【深度机制】：源于对“失控”的深度防御。建议使用“5秒物理切断法”，当死循环反刍时站起身洗手或换个环境，强行打破回路。"
   },
   { 
     name: "人际敏感", 
     tag: "社交防御",
     indices: [5, 20, 33, 35, 36, 40, 60, 68, 72],
     normMean: 1.65,
-    description: "在人际交往中过分在意外界眼光、易感委屈、自卑或不自在。"
+    description: "在人际交往中过分在意外界眼光、易感委屈、自卑或不自在。",
+    deepInsight: "【深度机制】：假想聚光灯效应。请练习阿德勒“课题分离”：别人如何评价是别人的事，过好自己是自己的事，树立健康的个人心理边界。"
   },
   { 
     name: "抑郁", 
     tag: "情绪底色",
     indices: [4, 13, 14, 19, 21, 25, 28, 29, 30, 31, 53, 70, 78],
     normMean: 1.50,
-    description: "缺乏动力、对事物丧失兴致、悲观内耗与自我苛责。"
+    description: "缺乏动力、对事物丧失兴致、悲观内耗与自我苛责。",
+    deepInsight: "【深度机制】：身心能量透支导致的保护性“低电量休眠”。无需逼自己振作，采用“微步激活法”，每天只做一件拉开窗帘的小事。"
   },
   { 
     name: "焦虑", 
     tag: "神经过敏",
     indices: [1, 16, 22, 32, 38, 56, 71, 77, 79, 85],
     normMean: 1.39,
-    description: "无缘由的莫名心慌、坐立难安、肌肉绷紧与对未来的过度预警。"
+    description: "无缘由的莫名心慌、坐立难安、肌肉绷紧与对未来的过度预警。",
+    deepInsight: "【深度机制】：大脑杏仁核过度报警。请掌握“5-4-3-2-1感官着陆技术”，随时观察周围5种颜色，让神经系统快速降频。"
   },
   { 
     name: "敌对", 
     tag: "冲动压抑",
     indices: [10, 23, 62, 66, 73, 80],
     normMean: 1.48,
-    description: "容易烦躁被激怒、内心有摔东西冲动或难以遏制的反感。"
+    description: "容易烦躁被激怒、内心有摔东西冲动或难以遏制的反感。",
+    deepInsight: "【深度机制】：积压的委屈未能得到安全表达。准备白纸自由乱涂乱撕，或者通过高阻抗运动（快走、击打沙袋）安全宣泄。"
   },
   { 
     name: "恐怖", 
     tag: "空间回避",
     indices: [12, 24, 46, 49, 69, 74, 81],
     normMean: 1.23,
-    description: "对密闭车厢、空旷街区、人多聚集场合产生特定退缩与恐慌。"
+    description: "对密闭车厢、空旷街区、人多聚集场合产生特定退缩与恐慌。",
+    deepInsight: "【深度机制】：条件反射式的惊恐回路。采用“渐进式阶梯暴露法”，允许自己随时撤退，逐步重建安全信任感。"
   },
   { 
     name: "偏执", 
     tag: "信任防御",
     indices: [7, 17, 42, 67, 75, 82],
     normMean: 1.43,
-    description: "对周围人抱有较强防备心，常觉他人不够友好或难以交心。"
+    description: "对周围人抱有较强防备心，常觉他人不够友好或难以交心。",
+    deepInsight: "【深度机制】：创伤后过度防御。练习区分“事实”与“内心假设”，不盲目把别人的无心之举解读为针对自己。"
   },
   { 
     name: "精神病性", 
     tag: "自我疏离",
     indices: [6, 15, 34, 61, 76, 83, 84, 86, 87, 89],
     normMean: 1.29,
-    description: "思维飘忽、感觉周遭世界不真实或有强烈的精神孤独漂浮感。"
+    description: "思维飘忽、感觉周遭世界不真实或有强烈的精神孤独漂浮感。",
+    deepInsight: "【深度机制】：心理防御中的“解离反应”。多接触有明确质感的大自然与泥土植物，洗热水澡恢复身体触觉感知。"
   },
   { 
     name: "其他(饮食睡眠)", 
     tag: "节律基石",
     indices: [18, 43, 58, 59, 63, 65, 88],
     normMean: 1.45,
-    description: "食欲紊乱、失眠早醒、多梦不深等身心节律紊乱表现。"
+    description: "食欲紊乱、失眠早醒、多梦不深等身心节律紊乱表现。",
+    deepInsight: "【深度机制】：自主神经生物钟紊乱。睡前 45 分钟离开所有短视频，固定早晨同一时间晒太阳 10 分钟重置节律。"
   }
 ];
 
@@ -1345,11 +1536,9 @@ let answers = new Array(questions.length).fill(0);
 let radarChartInstance = null;
 let isUnlocked = false;
 
-// 本地存储键
 const STORAGE_KEY = "scl90_monument_answers";
 const UNLOCK_KEY = "scl90_is_unlocked";
 
-// ==================== 卡密验证算法 ====================
 function verifyCardCode(code) {
   if (!code) return false;
   const clean = code.trim().toUpperCase();
@@ -1366,15 +1555,22 @@ function unlockVipAccess() {
   isUnlocked = true;
   localStorage.setItem(UNLOCK_KEY, "true");
   document.getElementById("vip-status-tag").classList.add("active");
+  
+  // 展现真实交付包卡片
+  const pkgCard = document.getElementById("delivery-package-card");
+  if (pkgCard) pkgCard.classList.add("active");
+
   const lockBlur = document.getElementById("lock-blur-content");
   if (lockBlur) lockBlur.classList.add("unlocked");
   const lockCta = document.getElementById("lock-overlay-cta");
   if (lockCta) lockCta.classList.add("hidden");
+
+  // 展开所有维度的深度解读
+  document.querySelectorAll(".factor-deep-insight").forEach(el => el.classList.add("show"));
 }
 
 // ==================== 初始化与事件绑定 ====================
 document.addEventListener("DOMContentLoaded", () => {
-  // 1. 检查 URL 中是否带激活卡密 (如 ?code=SCL-XXXX-YYYY-ZZ)
   const urlParams = new URLSearchParams(window.location.search);
   const urlCode = urlParams.get("code") || urlParams.get("key");
   if (urlCode && verifyCardCode(urlCode)) {
@@ -1383,7 +1579,6 @@ document.addEventListener("DOMContentLoaded", () => {
     unlockVipAccess();
   }
 
-  // 2. 检查是否有未完成的答题草稿
   const saved = localStorage.getItem(STORAGE_KEY);
   if (saved) {
     try {
@@ -1394,7 +1589,6 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (e) {}
   }
 
-  // 首屏开始按钮
   document.getElementById("btn-start").addEventListener("click", () => {
     switchScreen("screen-test");
     const firstUnanswered = answers.findIndex(a => a === 0);
@@ -1402,7 +1596,6 @@ document.addEventListener("DOMContentLoaded", () => {
     renderCurrentQuestion();
   });
 
-  // 选项点击事件 (自动跳题核心交互)
   const optionButtons = document.querySelectorAll(".option-btn");
   optionButtons.forEach(btn => {
     btn.addEventListener("click", () => {
@@ -1411,7 +1604,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // 上一题按钮
   document.getElementById("btn-prev-q").addEventListener("click", () => {
     if (currentQuestionIndex > 0) {
       currentQuestionIndex--;
@@ -1419,14 +1611,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // 题目清单弹窗打开/关闭
   document.getElementById("btn-open-grid").addEventListener("click", openGridModal);
   document.getElementById("btn-close-grid").addEventListener("click", closeGridModal);
   document.getElementById("grid-modal").addEventListener("click", (e) => {
     if (e.target.id === "grid-modal") closeGridModal();
   });
 
-  // 重新测试
   document.getElementById("btn-restart").addEventListener("click", () => {
     if (confirm("确定要清空当前进度重新自测吗？")) {
       answers = new Array(questions.length).fill(0);
@@ -1436,7 +1626,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // 卡密解锁弹窗交互
   document.getElementById("btn-unlock-report").addEventListener("click", () => {
     document.getElementById("key-modal").classList.add("active");
     document.getElementById("key-error-msg").textContent = "";
@@ -1453,20 +1642,27 @@ document.addEventListener("DOMContentLoaded", () => {
     if (verifyCardCode(inputVal)) {
       unlockVipAccess();
       document.getElementById("key-modal").classList.remove("active");
-      alert("✨ 激活成功！已为您完整解锁深度身心自愈报告与配套资料包。");
+      alert("✨ 恭喜激活成功！已为您完整解锁深度身心自愈报告与配套交付包，可随时在线阅读全本白皮书。");
     } else {
       document.getElementById("key-error-msg").textContent = "卡密格式有误或校验未通过，请检查后重新输入。";
     }
   });
 
-  // 生成小红书打卡海报
+  // 海报生成与弹窗控制 (彻底解决滑动穿透与无法退出问题)
   document.getElementById("btn-generate-poster").addEventListener("click", generateReportPoster);
-  document.getElementById("btn-close-poster").addEventListener("click", () => {
+  
+  function closePosterModal() {
     document.getElementById("poster-modal").classList.remove("active");
+    document.body.style.overflow = ""; // 恢复背景页面滚动
+  }
+
+  document.getElementById("btn-close-poster").addEventListener("click", closePosterModal);
+  document.getElementById("btn-close-poster-x").addEventListener("click", closePosterModal);
+  document.getElementById("poster-modal").addEventListener("click", (e) => {
+    if (e.target.id === "poster-modal") closePosterModal();
   });
 });
 
-// ==================== 屏幕切换 ====================
 function switchScreen(screenId) {
   document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
   const target = document.getElementById(screenId);
@@ -1476,7 +1672,6 @@ function switchScreen(screenId) {
   }
 }
 
-// ==================== 答题逻辑与渲染 ====================
 function renderCurrentQuestion() {
   const qNum = currentQuestionIndex + 1;
   document.getElementById("curr-q-num").textContent = qNum;
@@ -1647,6 +1842,7 @@ function calculateAndRenderReport() {
       statusClass: statusClass,
       dotColor: dotColor,
       desc: dim.description,
+      deepInsight: dim.deepInsight,
       normMean: dim.normMean
     };
   });
@@ -1672,6 +1868,7 @@ function renderFactorsList(factors) {
         <span class="factor-score-pill ${f.statusClass}">${f.status} ${f.avg}</span>
       </div>
       <div class="factor-desc">${f.desc}</div>
+      <div class="factor-deep-insight ${isUnlocked ? 'show' : ''}">${f.deepInsight}</div>
     `;
     container.appendChild(card);
   });
@@ -1780,7 +1977,10 @@ function generateReportPoster() {
     const imgData = canvas.toDataURL("image/png");
     const container = document.getElementById("poster-img-container");
     container.innerHTML = `<img src="${imgData}" alt="测试结果海报" />`;
+    
+    // 打开弹窗并彻底锁定 body 滚动，解决滑动穿透
     document.getElementById("poster-modal").classList.add("active");
+    document.body.style.overflow = "hidden";
   }).catch(err => {
     btn.innerHTML = originText;
     alert("生成海报遇到异常，请直接使用手机系统截屏保存。");
