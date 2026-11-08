@@ -1,0 +1,1791 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>心之迷宫 · SCL-90 情绪健康深度自测</title>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    :root {
+      --bg-warm: #FAF8F5;
+      --bg-card: rgba(255, 255, 255, 0.88);
+      --sand-stone: #EFE9E0;
+      --pastel-rose: #F4D9DC;
+      --pastel-mint: #CBE3D5;
+      --pastel-blue: #C6D8EB;
+      --pastel-peach: #FCE6D2;
+      --pastel-purple: #DCD6F7;
+      --primary-color: #7B73E8;
+      --primary-soft: #F0EEFC;
+      --primary-hover: #6960D8;
+      --text-dark: #2D3139;
+      --text-muted: #808695;
+      --text-light: #A5ABB6;
+      --border-soft: rgba(0, 0, 0, 0.05);
+      --radius-xl: 24px;
+      --radius-lg: 18px;
+      --radius-pill: 999px;
+      --shadow-soft: 0 12px 36px rgba(135, 120, 110, 0.08);
+      --shadow-sm: 0 4px 14px rgba(135, 120, 110, 0.05);
+      --color-normal: #48BB78;
+      --color-mild: #ECC94B;
+      --color-moderate: #ED8936;
+      --color-severe: #F56565;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+    }
+
+    body {
+      background: var(--bg-warm);
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 0;
+      position: relative;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(at 10% 10%, rgba(244, 217, 220, 0.35) 0px, transparent 50%),
+        radial-gradient(at 90% 20%, rgba(203, 227, 213, 0.35) 0px, transparent 50%),
+        radial-gradient(at 50% 85%, rgba(198, 216, 235, 0.35) 0px, transparent 50%);
+      background-attachment: fixed;
+    }
+
+    .app-viewport {
+      width: 100%;
+      max-width: 480px;
+      min-height: 100vh;
+      background: transparent;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      padding: 16px 18px 30px;
+    }
+
+    /* 顶部导航与杂志式标题 */
+    .top-editorial-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0 16px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      border-bottom: 1px dashed rgba(0, 0, 0, 0.08);
+      margin-bottom: 20px;
+    }
+
+    .editorial-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--sand-stone);
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      color: #6C665D;
+    }
+
+    .vip-active-tag {
+      display: none;
+      align-items: center;
+      gap: 4px;
+      background: #E6F4EA;
+      color: #2E7D32;
+      padding: 3px 8px;
+      border-radius: var(--radius-pill);
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+
+    .vip-active-tag.active {
+      display: inline-flex;
+    }
+
+    /* 纪念碑谷艺术主图容器 (SVG 几何) */
+    .monument-hero {
+      width: 100%;
+      height: 190px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+      position: relative;
+    }
+
+    .hero-svg {
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0 10px 20px rgba(150, 130, 120, 0.12));
+    }
+
+    /* 页面切换控制 */
+    .screen {
+      display: none;
+      animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .screen.active {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ========= 欢迎首屏 ========= */
+    .welcome-header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .welcome-header h1 {
+      font-size: 1.65rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
+    .welcome-header p {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .meta-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .meta-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-lg);
+      padding: 14px 10px;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .meta-card i {
+      font-size: 1.25rem;
+      color: var(--primary-color);
+      margin-bottom: 6px;
+    }
+
+    .meta-card .meta-title {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 3px;
+    }
+
+    .meta-card .meta-val {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .intro-notice-box {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(8px);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      border: 1px dashed rgba(123, 115, 232, 0.3);
+      margin-bottom: 26px;
+      font-size: 0.86rem;
+      color: #636875;
+      line-height: 1.6;
+    }
+
+    .intro-notice-box strong {
+      color: var(--primary-color);
+    }
+
+    .btn-main {
+      width: 100%;
+      height: 54px;
+      border-radius: var(--radius-pill);
+      background: linear-gradient(135deg, var(--primary-color) 0%, #8E85F3 100%);
+      color: #FFFFFF;
+      font-size: 1.05rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(123, 115, 232, 0.35);
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-main:active {
+      transform: scale(0.98);
+      box-shadow: 0 4px 12px rgba(123, 115, 232, 0.25);
+    }
+
+    /* ========= 答题屏幕 ========= */
+    .stair-progress-wrapper {
+      background: var(--bg-card);
+      backdrop-filter: blur(12px);
+      border-radius: var(--radius-xl);
+      padding: 14px 18px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-soft);
+    }
+
+    .stair-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .stair-tag {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--primary-color);
+      background: var(--primary-soft);
+      padding: 3px 10px;
+      border-radius: var(--radius-pill);
+    }
+
+    .stair-count {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .stair-bar-bg {
+      height: 8px;
+      background: #EAE6DF;
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+
+    .stair-bar-fill {
+      height: 100%;
+      width: 1%;
+      background: linear-gradient(90deg, var(--pastel-rose), var(--primary-color));
+      border-radius: var(--radius-pill);
+      transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .companion-quote {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .companion-quote i {
+      color: #F8B195;
+    }
+
+    /* 题目大卡片 */
+    .question-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      border-radius: var(--radius-xl);
+      padding: 28px 20px 24px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      margin-bottom: 20px;
+      min-height: 150px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      transition: transform 0.25s ease, opacity 0.25s ease;
+    }
+
+    .question-num-pill {
+      position: absolute;
+      top: 14px;
+      left: 20px;
+      font-size: 0.72rem;
+      color: var(--text-light);
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .question-category-pill {
+      position: absolute;
+      top: 12px;
+      right: 18px;
+      font-size: 0.72rem;
+      background: var(--sand-stone);
+      color: #6C665D;
+      padding: 2px 9px;
+      border-radius: var(--radius-pill);
+    }
+
+    .question-text {
+      font-size: 1.22rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      line-height: 1.55;
+      margin-top: 10px;
+    }
+
+    /* 选项组（5个高颜值大药丸） */
+    .options-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .option-btn {
+      width: 100%;
+      height: 52px;
+      border-radius: var(--radius-pill);
+      background: var(--bg-card);
+      border: 1px solid var(--border-soft);
+      backdrop-filter: blur(10px);
+      color: var(--text-dark);
+      font-size: 0.96rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 22px;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .option-btn .opt-sub {
+      font-size: 0.78rem;
+      color: var(--text-light);
+      font-weight: 400;
+    }
+
+    .option-btn:hover, .option-btn:active {
+      border-color: var(--primary-color);
+      background: var(--primary-soft);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(123, 115, 232, 0.18);
+    }
+
+    .option-btn.selected {
+      background: linear-gradient(135deg, var(--primary-color), #8B82F5);
+      color: #FFFFFF;
+      border-color: transparent;
+      box-shadow: 0 8px 20px rgba(123, 115, 232, 0.35);
+    }
+
+    .option-btn.selected .opt-sub {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    /* 底部导航控制 */
+    .nav-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-secondary {
+      height: 46px;
+      padding: 0 18px;
+      border-radius: var(--radius-pill);
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid var(--border-soft);
+      color: var(--text-dark);
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-secondary:active {
+      background: #EBE7DF;
+    }
+
+    /* ========= 报告屏幕 ========= */
+    .report-capture-area {
+      background: transparent;
+      padding-bottom: 10px;
+    }
+
+    .summary-hero-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(18px);
+      border-radius: var(--radius-xl);
+      padding: 26px 20px 22px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      text-align: center;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .summary-hero-card::before {
+      content: "";
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 120px;
+      height: 120px;
+      background: radial-gradient(circle, var(--pastel-rose) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .report-title-label {
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .score-huge {
+      font-size: 3.4rem;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, #FF6B6B 0%, #E64A19 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .level-pill-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 16px;
+      border-radius: var(--radius-pill);
+      font-size: 0.92rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .badge-normal {
+      background: #E6F4EA;
+      color: var(--color-normal);
+    }
+    .badge-mild {
+      background: #FEF7E0;
+      color: #B78103;
+    }
+    .badge-moderate {
+      background: #FCE8E6;
+      color: #C5221F;
+    }
+    .badge-severe {
+      background: #FCE8E6;
+      color: #C5221F;
+      box-shadow: 0 4px 12px rgba(197, 34, 31, 0.2);
+    }
+
+    .warm-insight-text {
+      font-size: 0.88rem;
+      color: #555A66;
+      line-height: 1.65;
+      text-align: justify;
+      background: rgba(250, 248, 245, 0.8);
+      padding: 14px 16px;
+      border-radius: var(--radius-lg);
+      border-left: 3px solid var(--primary-color);
+    }
+
+    /* 指标三元组 */
+    .stat-trio {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .stat-box {
+      background: var(--bg-card);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-lg);
+      padding: 12px 6px;
+      text-align: center;
+    }
+
+    .stat-box .stat-label {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .stat-box .stat-num {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+
+    /* 雷达图卡片 */
+    .chart-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      border-radius: var(--radius-xl);
+      padding: 20px 14px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-soft);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .chart-card h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 4px;
+    }
+
+    .chart-card p {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    #radar-chart-dom {
+      width: 100%;
+      height: 290px;
+      margin: 0 auto;
+    }
+
+    /* 10大维度拆解列表 */
+    .factors-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .factor-item-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-lg);
+      padding: 14px 16px;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.2s ease;
+    }
+
+    .factor-header-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .factor-name {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .factor-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .factor-score-pill {
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: var(--radius-pill);
+    }
+
+    .factor-desc {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* 商业变现卡点锁区 (Lock Zone) */
+    .monetize-lock-box {
+      background: var(--bg-card);
+      border-radius: var(--radius-xl);
+      border: 1.5px solid rgba(123, 115, 232, 0.4);
+      box-shadow: 0 12px 30px rgba(123, 115, 232, 0.15);
+      position: relative;
+      overflow: hidden;
+      padding: 24px 20px;
+      margin-bottom: 26px;
+    }
+
+    .lock-blur-content {
+      filter: blur(5px);
+      user-select: none;
+      opacity: 0.35;
+      text-align: left;
+      font-size: 0.88rem;
+      line-height: 1.8;
+      transition: all 0.4s ease;
+    }
+
+    .lock-blur-content.unlocked {
+      filter: none;
+      user-select: auto;
+      opacity: 1;
+    }
+
+    .lock-overlay-cta {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: rgba(250, 248, 245, 0.86);
+      backdrop-filter: blur(2px);
+      padding: 20px;
+      text-align: center;
+      transition: opacity 0.3s ease;
+    }
+
+    .lock-overlay-cta.hidden {
+      display: none;
+    }
+
+    .lock-badge {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--primary-soft);
+      color: var(--primary-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      margin-bottom: 10px;
+    }
+
+    .lock-overlay-cta h4 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+    }
+
+    .lock-overlay-cta p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      max-width: 320px;
+      margin-bottom: 14px;
+    }
+
+    /* 报告底部操作栏 */
+    .report-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    /* 题目选择抽屉弹窗 (Modal) */
+    .grid-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(6px);
+      z-index: 1000;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .grid-modal.active {
+      display: flex;
+    }
+
+    .grid-drawer {
+      width: 100%;
+      max-width: 480px;
+      max-height: 75vh;
+      background: #FFFFFF;
+      border-radius: 28px 28px 0 0;
+      padding: 20px 18px 30px;
+      overflow-y: auto;
+      box-shadow: 0 -10px 40px rgba(0,0,0,0.15);
+      animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    .drawer-title-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .drawer-title-bar h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+
+    .close-btn {
+      font-size: 1.2rem;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 6px;
+    }
+
+    .question-indices-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+    }
+
+    .index-pill {
+      height: 38px;
+      border-radius: 8px;
+      background: var(--sand-stone);
+      color: var(--text-dark);
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .index-pill.answered {
+      background: var(--primary-soft);
+      color: var(--primary-color);
+      border: 1px solid var(--primary-color);
+    }
+
+    .index-pill.active {
+      background: var(--primary-color);
+      color: #FFFFFF;
+    }
+
+    /* 海报预览弹窗 */
+    .poster-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(10px);
+      z-index: 1200;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .poster-modal.active {
+      display: flex;
+    }
+
+    .poster-card-wrap {
+      max-width: 360px;
+      width: 100%;
+      background: #FFFFFF;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .poster-card-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .poster-hint {
+      padding: 12px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    /* 卡密激活弹窗 */
+    .key-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(8px);
+      z-index: 1100;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .key-modal.active {
+      display: flex;
+    }
+
+    .key-box {
+      width: 100%;
+      max-width: 380px;
+      background: #FFFFFF;
+      border-radius: 24px;
+      padding: 26px 22px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+      text-align: center;
+      position: relative;
+      animation: scalePop 0.25s ease;
+    }
+
+    @keyframes scalePop {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .key-box h3 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+    }
+
+    .key-box p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+      line-height: 1.5;
+    }
+
+    .key-input {
+      width: 100%;
+      height: 48px;
+      border: 1.5px solid #DDD8D0;
+      border-radius: var(--radius-pill);
+      padding: 0 16px;
+      font-size: 0.95rem;
+      text-align: center;
+      letter-spacing: 2px;
+      font-weight: 700;
+      color: var(--text-dark);
+      outline: none;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      transition: border-color 0.2s;
+    }
+
+    .key-input:focus {
+      border-color: var(--primary-color);
+    }
+
+    .key-msg {
+      font-size: 0.78rem;
+      color: #E53E3E;
+      min-height: 20px;
+      margin-bottom: 10px;
+    }
+
+    .key-actions {
+      display: flex;
+      gap: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-viewport">
+  <!-- 顶部杂志排版标语 -->
+  <header class="top-editorial-bar">
+    <span class="editorial-badge"><i class="fa-solid fa-cube"></i> VOL.01 LABYRINTH</span>
+    <span class="vip-active-tag" id="vip-status-tag"><i class="fa-solid fa-circle-check"></i> 专属权益已解锁</span>
+    <span>SCL-90 心理健康自评</span>
+  </header>
+
+  <!-- ================= 屏幕 1: 欢迎首页 ================= -->
+  <section id="screen-welcome" class="screen active">
+    <!-- 纪念碑谷风格等距矢量主图 -->
+    <div class="monument-hero">
+      <svg class="hero-svg" viewBox="0 0 360 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="30" y="140" width="300" height="40" rx="12" fill="#EFE9E0"/>
+        <path d="M 60 140 L 60 50 A 25 25 0 0 1 110 50 L 110 140 Z" fill="#F4D9DC"/>
+        <path d="M 72 140 L 72 65 A 13 13 0 0 1 98 65 L 98 140 Z" fill="#FAF8F5"/>
+        <ellipse cx="85" cy="140" rx="20" ry="6" fill="#E2C4C8" opacity="0.4"/>
+        <polygon points="130,140 160,125 180,135 150,150" fill="#CBE3D5"/>
+        <polygon points="150,125 180,110 200,120 170,135" fill="#B7D9C3"/>
+        <polygon points="170,110 200,95 220,105 190,120" fill="#A8D1B6"/>
+        <polygon points="190,95 220,80 240,90 210,105" fill="#98C8A8"/>
+        <polygon points="220,70 270,45 310,65 260,90" fill="#C6D8EB"/>
+        <polygon points="220,70 260,90 260,140 220,120" fill="#AEC8E0"/>
+        <polygon points="260,90 310,65 310,115 260,140" fill="#95B9D8"/>
+        <path d="M 235 95 L 235 75 A 10 10 0 0 1 255 75 L 255 105 Z" fill="#FFF8E7"/>
+        <circle cx="178" cy="98" r="3.5" fill="#4A455A"/>
+        <path d="M 175 102 L 181 102 L 183 113 L 173 113 Z" fill="#5F5973"/>
+      </svg>
+    </div>
+
+    <div class="welcome-header">
+      <h1>心之迷宫 · 情绪深度自测</h1>
+      <p>每个负面情绪，都是身体正在向你发出需要被关照的求救信号</p>
+    </div>
+
+    <!-- 关键参数胶囊卡片 -->
+    <div class="meta-cards-grid">
+      <div class="meta-card">
+        <i class="fa-solid fa-layer-group"></i>
+        <div class="meta-title">筛查维度</div>
+        <div class="meta-val">10大因子</div>
+      </div>
+      <div class="meta-card">
+        <i class="fa-solid fa-hourglass-half"></i>
+        <div class="meta-title">预计耗时</div>
+        <div class="meta-val">3~5 分钟</div>
+      </div>
+      <div class="meta-card">
+        <i class="fa-solid fa-shield-halved"></i>
+        <div class="meta-title">私密性</div>
+        <div class="meta-val">匿名加密</div>
+      </div>
+    </div>
+
+    <div class="intro-notice-box">
+      <i class="fa-regular fa-compass" style="color:var(--primary-color);"></i>
+      <strong>测前贴士：</strong> 本量表为国际通用 SCL-90（90项症状自评量表）。请根据您<strong>最近一周</strong>的真实感受作答。没有对错，跟随第一直觉即可。
+    </div>
+
+    <button id="btn-start" class="btn-main">
+      <span>步入内心长廊 · 开始自测</span>
+      <i class="fa-solid fa-arrow-right"></i>
+    </button>
+  </section>
+
+  <!-- ================= 屏幕 2: 答题流程 ================= -->
+  <section id="screen-test" class="screen">
+    <!-- 台阶式进度与陪伴语 -->
+    <div class="stair-progress-wrapper">
+      <div class="stair-header-row">
+        <span class="stair-tag" id="current-factor-tag">躯体化筛查</span>
+        <span class="stair-count"><span id="curr-q-num">1</span> / 90</span>
+      </div>
+      <div class="stair-bar-bg">
+        <div class="stair-bar-fill" id="stair-progress-fill"></div>
+      </div>
+      <div class="companion-quote" id="companion-quote-text">
+        <i class="fa-solid fa-sparkles"></i>
+        <span>慢慢来，听听内心真实的声音...</span>
+      </div>
+    </div>
+
+    <!-- 题目聚焦卡片 -->
+    <div class="question-card" id="q-card-element">
+      <span class="question-num-pill" id="q-pill-index">QUESTION 01</span>
+      <span class="question-category-pill" id="q-pill-category">生理感知</span>
+      <div class="question-text" id="q-text-dom">头痛？</div>
+    </div>
+
+    <!-- 5个大药丸选项 (触控即走) -->
+    <div class="options-group" id="options-container">
+      <button class="option-btn" data-value="1">
+        <span>从无</span>
+        <span class="opt-sub">Not at all</span>
+      </button>
+      <button class="option-btn" data-value="2">
+        <span>轻度</span>
+        <span class="opt-sub">A little bit</span>
+      </button>
+      <button class="option-btn" data-value="3">
+        <span>中度</span>
+        <span class="opt-sub">Moderately</span>
+      </button>
+      <button class="option-btn" data-value="4">
+        <span>偏重</span>
+        <span class="opt-sub">Quite a bit</span>
+      </button>
+      <button class="option-btn" data-value="5">
+        <span>严重</span>
+        <span class="opt-sub">Extremely</span>
+      </button>
+    </div>
+
+    <!-- 底部辅助工具栏 -->
+    <div class="nav-actions">
+      <button id="btn-prev-q" class="btn-secondary">
+        <i class="fa-solid fa-chevron-left"></i>
+        <span>上一题</span>
+      </button>
+      <button id="btn-open-grid" class="btn-secondary">
+        <i class="fa-solid fa-grip-vertical"></i>
+        <span>题目清单</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ================= 屏幕 3: 报告结果页 ================= -->
+  <section id="screen-report" class="screen">
+    <div class="report-capture-area" id="report-canvas-target">
+      <!-- 顶部综合状态核心卡片 -->
+      <div class="summary-hero-card">
+        <div class="report-title-label">SCL-90 总体评估结果</div>
+        <div class="score-huge" id="rep-total-score">387</div>
+        <div>
+          <span class="level-pill-badge badge-severe" id="rep-level-badge">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <span id="rep-level-text">重度 · 困扰突出</span>
+          </span>
+        </div>
+        <div class="warm-insight-text" id="rep-warm-insight">
+          总分 387，近期整体心理困扰比较突出。这并非你的软弱或自制力不足，很大程度是身心在长期高压负荷下触发的“保护性应激反应”。请及时给予自己足够的休整空间。
+        </div>
+      </div>
+
+      <!-- 核心指标三元组 -->
+      <div class="stat-trio">
+        <div class="stat-box">
+          <div class="stat-label">总均分</div>
+          <div class="stat-num" id="rep-avg-score">4.21</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">阳性项目数</div>
+          <div class="stat-num" id="rep-positive-items">68 项</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">阳性均分</div>
+          <div class="stat-num" id="rep-positive-avg">4.42</div>
+        </div>
+      </div>
+
+      <!-- 纪念碑谷风格多维切面雷达图 -->
+      <div class="chart-card">
+        <h3>多维身心画像切面</h3>
+        <p>基于中国正常人群体常模比对</p>
+        <div id="radar-chart-dom"></div>
+      </div>
+
+      <!-- 10大维度拆解列表 -->
+      <div class="factors-container" id="factors-list-dom">
+        <!-- 动态渲染因子卡片 -->
+      </div>
+
+      <!-- 商业变现卡点锁区 (Lock Zone) -->
+      <div class="monetize-lock-box" id="lock-box-element">
+        <div class="lock-blur-content" id="lock-blur-content">
+          <h4 style="margin-bottom:10px; color:var(--primary-color);"><i class="fa-solid fa-feather"></i> 【深度归因与 7 天身心自愈处方】</h4>
+          <p><strong>1. 躯体化深度切断机制：</strong>长期心慌胸闷去体检却无异常，多为交感神经与潜意识应激锁定，建议每日进行 15 分钟“腹式迷走神经刺激法”。</p>
+          <p style="margin-top:8px;"><strong>2. 焦虑与反刍思维阻断：</strong>入睡前若思绪盘旋不停，执行“5-4-3-2-1 感官着陆法”，切断大脑虚假警报回路。</p>
+          <p style="margin-top:8px;"><strong>3. 高敏感身心边界重塑：</strong>停止向内归咎自责，建立“非我职责清单”，恢复身心能量基准线。</p>
+          <div style="margin-top:14px; padding:10px 14px; background:#F0EEFC; border-radius:12px; font-size:0.82rem; color:#5D53C9;">
+            <i class="fa-solid fa-gift"></i> 已随报告解锁《身心自愈白皮书》与正念音频完整交付包。
+          </div>
+        </div>
+
+        <div class="lock-overlay-cta" id="lock-overlay-cta">
+          <div class="lock-badge"><i class="fa-solid fa-lock"></i></div>
+          <h4>解锁完整深度自愈报告</h4>
+          <p>获取 10 大维度针对性深度解读及日常改善方案，帮您摆脱内耗困扰</p>
+          <button id="btn-unlock-report" class="btn-main" style="width: auto; padding: 0 28px; height: 46px;">
+            <span>输入卡密 / 一键解锁报告</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 底部操作按钮 -->
+    <div class="report-actions">
+      <button id="btn-generate-poster" class="btn-main">
+        <i class="fa-regular fa-image"></i>
+        <span>生成打卡海报 · 分享小红书</span>
+      </button>
+      <button id="btn-restart" class="btn-secondary" style="justify-content: center;">
+        <i class="fa-solid fa-arrow-rotate-left"></i>
+        <span>重新测试</span>
+      </button>
+    </div>
+  </section>
+</div>
+
+<!-- 题目清单抽屉弹窗 -->
+<div class="grid-modal" id="grid-modal">
+  <div class="grid-drawer">
+    <div class="drawer-title-bar">
+      <h3>答题进度列表 (90题)</h3>
+      <button class="close-btn" id="btn-close-grid"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="question-indices-grid" id="indices-grid-dom"></div>
+  </div>
+</div>
+
+<!-- 卡密输入弹窗 -->
+<div class="key-modal" id="key-modal">
+  <div class="key-box">
+    <div class="lock-badge" style="margin:0 auto 10px;"><i class="fa-solid fa-key"></i></div>
+    <h3>激活专属深度报告</h3>
+    <p>请输入您下单后获取的解锁卡密<br/>(格式如: SCL-1234-5678-AB)</p>
+    <input type="text" id="key-input-field" class="key-input" placeholder="输入或粘贴卡密" maxlength="20" />
+    <div class="key-msg" id="key-error-msg"></div>
+    <div class="key-actions">
+      <button class="btn-secondary" id="btn-cancel-key" style="flex:1; justify-content:center;">取消</button>
+      <button class="btn-main" id="btn-submit-key" style="flex:1; height:46px;">验证并解锁</button>
+    </div>
+  </div>
+</div>
+
+<!-- 海报生成预览弹窗 -->
+<div class="poster-modal" id="poster-modal">
+  <div class="poster-card-wrap">
+    <div id="poster-img-container"></div>
+    <div class="poster-hint">
+      <i class="fa-regular fa-hand-pointer"></i> 长按图片可保存至相册，分享至小红书/朋友圈打卡
+    </div>
+    <button class="btn-secondary" id="btn-close-poster" style="margin-bottom: 12px; width: 80%; justify-content: center;">
+      关闭
+    </button>
+  </div>
+</div>
+
+<script>
+// ==================== 题库数据与维度定义 (标准90题) ====================
+const questions = [
+  "头痛",
+  "神经过敏，心中不宁",
+  "头脑中有不必要的想法或字句盘旋",
+  "头晕或昏倒",
+  "对异性的兴趣减退",
+  "对旁人责备求全",
+  "感到别人能控制您的思想",
+  "责怪别人制造麻烦",
+  "忘性大",
+  "担心自己的衣饰整齐及仪态的端正",
+  "容易烦恼和激动",
+  "胸痛",
+  "害怕空旷的场所或街道",
+  "感到自己的精力下降，活动减慢",
+  "想结束自己的生命",
+  "听到旁人听不到的声音",
+  "发抖",
+  "感到大多数人都不可信任",
+  "胃口不好",
+  "容易哭泣",
+  "同异性相处时感到害羞不自在",
+  "感到受骗、受欺侮或有人想抓您",
+  "无缘无故地突然感到害怕",
+  "自己不能控制地大发脾气",
+  "怕单独出门",
+  "经常责怪自己",
+  "腰痛",
+  "感到难以完成任务",
+  "感到孤独",
+  "感到苦闷",
+  "过分担忧",
+  "对事物不感兴趣",
+  "感到害怕",
+  "您的感情容易受到伤害",
+  "旁人能知道您的私下想法",
+  "感到别人不理解您、不同情您",
+  "感到旁人对您不友好，不喜欢您",
+  "做事必须做得很慢以保证做得正确",
+  "心跳得很厉害",
+  "恶心或胃部不舒服",
+  "感到比不上他人",
+  "肌肉酸痛",
+  "感到有人在监视您、谈论您",
+  "难以入睡",
+  "做事必须反复检查",
+  "难以作出决定",
+  "怕乘电车、公共汽车、地铁或火车",
+  "呼吸有困难",
+  "阵阵发冷或发热",
+  "因为感到害怕而避开某些东西、场合或活动",
+  "脑子变空了",
+  "身体发麻或刺痛",
+  "喉咙有梗塞感",
+  "感到前途没有希望",
+  "不能集中注意力",
+  "感到身体某一部分软弱无力",
+  "感到紧张或容易紧张",
+  "感到手或脚发重",
+  "想到死亡的事",
+  "吃得太多",
+  "当别人看着您或谈论您时感到不自在",
+  "有一些不属于您自己的想法",
+  "有想打人或伤害他人的冲动",
+  "醒得太早",
+  "必须反复洗手、点数目或触摸某些东西",
+  "睡得不稳不深",
+  "有想摔坏或破坏东西的想法及冲动",
+  "有一些别人没有的想法或念头",
+  "对旁人很在意",
+  "在商店或电影院等人多的地方感到不自在",
+  "感到任何事情都很困难",
+  "一阵阵恐惧或惊恐",
+  "感到在公共场合吃东西很不舒服",
+  "经常与人争论",
+  "单独一人时神经很紧张",
+  "别人对您的成绩没有作出恰当的评价",
+  "即使和别人在一起也感到孤单",
+  "感到坐立不安、心神不定",
+  "感到自己没有什么价值",
+  "感到熟悉的东西变成陌生或不像是真的",
+  "大叫或摔东西",
+  "害怕会在公共场合昏倒",
+  "感到别人想占您的便宜",
+  "为一些有关性的想法而很苦恼",
+  "您认为应该因为自己的过错而受到惩罚",
+  "感到要赶快把事情做完",
+  "感到自己的身体有严重问题",
+  "从未感到和其他人很亲近",
+  "感到自己有罪",
+  "感到自己的脑子有毛病"
+];
+
+const dimensions = [
+  { 
+    name: "躯体化", 
+    tag: "生理感知",
+    indices: [0, 3, 11, 26, 39, 41, 47, 48, 51, 52, 55, 57],
+    normMean: 1.37,
+    description: "反映身体客观检查无器质病变的主观不适（如胸闷、头痛、心慌、背部酸沉）。"
+  },
+  { 
+    name: "强迫症状", 
+    tag: "思维阻滞",
+    indices: [2, 8, 9, 27, 37, 44, 45, 50, 54, 64],
+    normMean: 1.62,
+    description: "明知无必要却无法摆脱的反复思绪、反复确认行为及注意力涣散。"
+  },
+  { 
+    name: "人际敏感", 
+    tag: "社交防御",
+    indices: [5, 20, 33, 35, 36, 40, 60, 68, 72],
+    normMean: 1.65,
+    description: "在人际交往中过分在意外界眼光、易感委屈、自卑或不自在。"
+  },
+  { 
+    name: "抑郁", 
+    tag: "情绪底色",
+    indices: [4, 13, 14, 19, 21, 25, 28, 29, 30, 31, 53, 70, 78],
+    normMean: 1.50,
+    description: "缺乏动力、对事物丧失兴致、悲观内耗与自我苛责。"
+  },
+  { 
+    name: "焦虑", 
+    tag: "神经过敏",
+    indices: [1, 16, 22, 32, 38, 56, 71, 77, 79, 85],
+    normMean: 1.39,
+    description: "无缘由的莫名心慌、坐立难安、肌肉绷紧与对未来的过度预警。"
+  },
+  { 
+    name: "敌对", 
+    tag: "冲动压抑",
+    indices: [10, 23, 62, 66, 73, 80],
+    normMean: 1.48,
+    description: "容易烦躁被激怒、内心有摔东西冲动或难以遏制的反感。"
+  },
+  { 
+    name: "恐怖", 
+    tag: "空间回避",
+    indices: [12, 24, 46, 49, 69, 74, 81],
+    normMean: 1.23,
+    description: "对密闭车厢、空旷街区、人多聚集场合产生特定退缩与恐慌。"
+  },
+  { 
+    name: "偏执", 
+    tag: "信任防御",
+    indices: [7, 17, 42, 67, 75, 82],
+    normMean: 1.43,
+    description: "对周围人抱有较强防备心，常觉他人不够友好或难以交心。"
+  },
+  { 
+    name: "精神病性", 
+    tag: "自我疏离",
+    indices: [6, 15, 34, 61, 76, 83, 84, 86, 87, 89],
+    normMean: 1.29,
+    description: "思维飘忽、感觉周遭世界不真实或有强烈的精神孤独漂浮感。"
+  },
+  { 
+    name: "其他(饮食睡眠)", 
+    tag: "节律基石",
+    indices: [18, 43, 58, 59, 63, 65, 88],
+    normMean: 1.45,
+    description: "食欲紊乱、失眠早醒、多梦不深等身心节律紊乱表现。"
+  }
+];
+
+// ==================== 状态管理 ====================
+let currentQuestionIndex = 0;
+let answers = new Array(questions.length).fill(0);
+let radarChartInstance = null;
+let isUnlocked = false;
+
+// 本地存储键
+const STORAGE_KEY = "scl90_monument_answers";
+const UNLOCK_KEY = "scl90_is_unlocked";
+
+// ==================== 卡密验证算法 ====================
+function verifyCardCode(code) {
+  if (!code) return false;
+  const clean = code.trim().toUpperCase();
+  const match = clean.match(/^SCL-(\d{4})-(\d{4})-([0-9A-F]{2})$/);
+  if (!match) return false;
+  const x = parseInt(match[1], 10);
+  const y = parseInt(match[2], 10);
+  const check = (x * 31 + y * 17 + 89) % 256;
+  const expected = check.toString(16).padStart(2, '0').toUpperCase();
+  return match[3] === expected;
+}
+
+function unlockVipAccess() {
+  isUnlocked = true;
+  localStorage.setItem(UNLOCK_KEY, "true");
+  document.getElementById("vip-status-tag").classList.add("active");
+  const lockBlur = document.getElementById("lock-blur-content");
+  if (lockBlur) lockBlur.classList.add("unlocked");
+  const lockCta = document.getElementById("lock-overlay-cta");
+  if (lockCta) lockCta.classList.add("hidden");
+}
+
+// ==================== 初始化与事件绑定 ====================
+document.addEventListener("DOMContentLoaded", () => {
+  // 1. 检查 URL 中是否带激活卡密 (如 ?code=SCL-XXXX-YYYY-ZZ)
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlCode = urlParams.get("code") || urlParams.get("key");
+  if (urlCode && verifyCardCode(urlCode)) {
+    unlockVipAccess();
+  } else if (localStorage.getItem(UNLOCK_KEY) === "true") {
+    unlockVipAccess();
+  }
+
+  // 2. 检查是否有未完成的答题草稿
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved) {
+    try {
+      const parsed = JSON.parse(saved);
+      if (Array.isArray(parsed) && parsed.length === questions.length) {
+        answers = parsed;
+      }
+    } catch (e) {}
+  }
+
+  // 首屏开始按钮
+  document.getElementById("btn-start").addEventListener("click", () => {
+    switchScreen("screen-test");
+    const firstUnanswered = answers.findIndex(a => a === 0);
+    currentQuestionIndex = firstUnanswered !== -1 ? firstUnanswered : 0;
+    renderCurrentQuestion();
+  });
+
+  // 选项点击事件 (自动跳题核心交互)
+  const optionButtons = document.querySelectorAll(".option-btn");
+  optionButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const val = parseInt(btn.getAttribute("data-value"));
+      handleSelectOption(val);
+    });
+  });
+
+  // 上一题按钮
+  document.getElementById("btn-prev-q").addEventListener("click", () => {
+    if (currentQuestionIndex > 0) {
+      currentQuestionIndex--;
+      renderCurrentQuestion();
+    }
+  });
+
+  // 题目清单弹窗打开/关闭
+  document.getElementById("btn-open-grid").addEventListener("click", openGridModal);
+  document.getElementById("btn-close-grid").addEventListener("click", closeGridModal);
+  document.getElementById("grid-modal").addEventListener("click", (e) => {
+    if (e.target.id === "grid-modal") closeGridModal();
+  });
+
+  // 重新测试
+  document.getElementById("btn-restart").addEventListener("click", () => {
+    if (confirm("确定要清空当前进度重新自测吗？")) {
+      answers = new Array(questions.length).fill(0);
+      localStorage.removeItem(STORAGE_KEY);
+      currentQuestionIndex = 0;
+      switchScreen("screen-welcome");
+    }
+  });
+
+  // 卡密解锁弹窗交互
+  document.getElementById("btn-unlock-report").addEventListener("click", () => {
+    document.getElementById("key-modal").classList.add("active");
+    document.getElementById("key-error-msg").textContent = "";
+    document.getElementById("key-input-field").value = "";
+    document.getElementById("key-input-field").focus();
+  });
+
+  document.getElementById("btn-cancel-key").addEventListener("click", () => {
+    document.getElementById("key-modal").classList.remove("active");
+  });
+
+  document.getElementById("btn-submit-key").addEventListener("click", () => {
+    const inputVal = document.getElementById("key-input-field").value.trim();
+    if (verifyCardCode(inputVal)) {
+      unlockVipAccess();
+      document.getElementById("key-modal").classList.remove("active");
+      alert("✨ 激活成功！已为您完整解锁深度身心自愈报告与配套资料包。");
+    } else {
+      document.getElementById("key-error-msg").textContent = "卡密格式有误或校验未通过，请检查后重新输入。";
+    }
+  });
+
+  // 生成小红书打卡海报
+  document.getElementById("btn-generate-poster").addEventListener("click", generateReportPoster);
+  document.getElementById("btn-close-poster").addEventListener("click", () => {
+    document.getElementById("poster-modal").classList.remove("active");
+  });
+});
+
+// ==================== 屏幕切换 ====================
+function switchScreen(screenId) {
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+  const target = document.getElementById(screenId);
+  if (target) {
+    target.classList.add("active");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+}
+
+// ==================== 答题逻辑与渲染 ====================
+function renderCurrentQuestion() {
+  const qNum = currentQuestionIndex + 1;
+  document.getElementById("curr-q-num").textContent = qNum;
+  document.getElementById("q-pill-index").textContent = `QUESTION ${qNum < 10 ? '0' + qNum : qNum}`;
+  document.getElementById("q-text-dom").textContent = questions[currentQuestionIndex];
+
+  let dimName = "情绪探索";
+  let dimTag = "心理自评";
+  for (let dim of dimensions) {
+    if (dim.indices.includes(currentQuestionIndex)) {
+      dimName = dim.name;
+      dimTag = dim.tag;
+      break;
+    }
+  }
+  document.getElementById("current-factor-tag").textContent = `${dimName} · ${dimTag}`;
+  document.getElementById("q-pill-category").textContent = dimTag;
+
+  const progressPercent = Math.round((qNum / questions.length) * 100);
+  document.getElementById("stair-progress-fill").style.width = `${progressPercent}%`;
+
+  updateCompanionQuote(qNum);
+
+  const currentAnswer = answers[currentQuestionIndex];
+  document.querySelectorAll(".option-btn").forEach(btn => {
+    const val = parseInt(btn.getAttribute("data-value"));
+    if (val === currentAnswer) {
+      btn.classList.add("selected");
+    } else {
+      btn.classList.remove("selected");
+    }
+  });
+
+  document.getElementById("btn-prev-q").style.visibility = currentQuestionIndex === 0 ? "hidden" : "visible";
+}
+
+function updateCompanionQuote(qNum) {
+  const quoteDom = document.getElementById("companion-quote-text");
+  let quote = "慢慢来，听听内心真实的声音...";
+  if (qNum <= 20) {
+    quote = "步入内心几何长廊，无需焦虑，这里绝对安全。";
+  } else if (qNum <= 45) {
+    quote = "身体的每一处紧绷，都是情绪想要被你看见的信号。";
+  } else if (qNum <= 70) {
+    quote = "已经走过大半台阶了，你比自己想象的更有韧性。";
+  } else if (qNum < 90) {
+    quote = "拱门就在前方，给耐心对待自己的你一个拥抱。";
+  } else {
+    quote = "已成功穿越心之迷宫，专属画像即将呈现。";
+  }
+  quoteDom.innerHTML = `<i class="fa-solid fa-sparkles"></i> <span>${quote}</span>`;
+}
+
+function handleSelectOption(val) {
+  answers[currentQuestionIndex] = val;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(answers));
+
+  document.querySelectorAll(".option-btn").forEach(btn => {
+    btn.classList.toggle("selected", parseInt(btn.getAttribute("data-value")) === val);
+  });
+
+  const card = document.getElementById("q-card-element");
+  card.style.transform = "scale(0.98)";
+  card.style.opacity = "0.7";
+
+  setTimeout(() => {
+    card.style.transform = "scale(1)";
+    card.style.opacity = "1";
+
+    if (currentQuestionIndex < questions.length - 1) {
+      currentQuestionIndex++;
+      renderCurrentQuestion();
+    } else {
+      finishAssessment();
+    }
+  }, 220);
+}
+
+function openGridModal() {
+  const container = document.getElementById("indices-grid-dom");
+  container.innerHTML = "";
+  for (let i = 0; i < questions.length; i++) {
+    const pill = document.createElement("div");
+    pill.className = "index-pill";
+    pill.textContent = i + 1;
+    if (answers[i] > 0) pill.classList.add("answered");
+    if (i === currentQuestionIndex) pill.classList.add("active");
+    pill.addEventListener("click", () => {
+      currentQuestionIndex = i;
+      renderCurrentQuestion();
+      closeGridModal();
+    });
+    container.appendChild(pill);
+  }
+  document.getElementById("grid-modal").classList.add("active");
+}
+
+function closeGridModal() {
+  document.getElementById("grid-modal").classList.remove("active");
+}
+
+function finishAssessment() {
+  switchScreen("screen-report");
+  calculateAndRenderReport();
+}
+
+function calculateAndRenderReport() {
+  const totalScore = answers.reduce((a, b) => a + (b || 1), 0);
+  const totalAverage = (totalScore / questions.length).toFixed(2);
+  
+  const positiveItems = answers.filter(score => score >= 2).length;
+  const positiveSum = answers.filter(score => score >= 2).reduce((a, b) => a + b, 0);
+  const positiveAvg = positiveItems > 0 ? (positiveSum / positiveItems).toFixed(2) : "0.00";
+
+  let levelText = "身心健康 · 状态良好";
+  let badgeClass = "badge-normal";
+  let insightText = `您的总分为 ${totalScore} 分，处于身心平衡状态。虽偶有轻微波动，但整体自我修复能力良好。`;
+
+  if (totalScore >= 250 || totalAverage >= 3.0) {
+    levelText = "重度 · 困扰突出";
+    badgeClass = "badge-severe";
+    insightText = `总分 ${totalScore} 分，近期整体心理困扰比较突出。这并非你的软弱或自制力不足，很大程度是身心在长期负荷下的自我保护预警。请务必放慢步调，给自己深度的休整期。`;
+  } else if (totalScore >= 200 || totalAverage >= 2.5) {
+    levelText = "中度 · 负荷较重";
+    badgeClass = "badge-moderate";
+    insightText = `总分 ${totalScore} 分，整体情绪负荷较重，在部分维度上存在较为明显的内耗或躯体化反应，建议及时通过调节作息与自愈练习进行干预。`;
+  } else if (totalScore >= 160 || positiveItems >= 43) {
+    levelText = "轻度 · 存在困扰";
+    badgeClass = "badge-mild";
+    insightText = `总分 ${totalScore} 分，存在轻度心理疲劳与情绪波动。属于现代快节奏生活的常见亚健康信号，适时减压即可逐步复原。`;
+  }
+
+  document.getElementById("rep-total-score").textContent = totalScore;
+  document.getElementById("rep-level-text").textContent = levelText;
+  document.getElementById("rep-level-badge").className = `level-pill-badge ${badgeClass}`;
+  document.getElementById("rep-warm-insight").textContent = insightText;
+  document.getElementById("rep-avg-score").textContent = totalAverage;
+  document.getElementById("rep-positive-items").textContent = `${positiveItems} 项`;
+  document.getElementById("rep-positive-avg").textContent = positiveAvg;
+
+  const factorResults = dimensions.map(dim => {
+    const scores = dim.indices.map(idx => answers[idx] || 1);
+    const sum = scores.reduce((a, b) => a + b, 0);
+    const avg = parseFloat((sum / dim.indices.length).toFixed(2));
+    
+    let status = "正常";
+    let statusClass = "badge-normal";
+    let dotColor = "#48BB78";
+    if (avg >= 3.0) {
+      status = "偏重";
+      statusClass = "badge-severe";
+      dotColor = "#F56565";
+    } else if (avg >= 2.5) {
+      status = "中度";
+      statusClass = "badge-moderate";
+      dotColor = "#ED8936";
+    } else if (avg >= 2.0) {
+      status = "轻度";
+      statusClass = "badge-mild";
+      dotColor = "#ECC94B";
+    }
+
+    return {
+      name: dim.name,
+      tag: dim.tag,
+      avg: avg,
+      status: status,
+      statusClass: statusClass,
+      dotColor: dotColor,
+      desc: dim.description,
+      normMean: dim.normMean
+    };
+  });
+
+  renderFactorsList(factorResults);
+  renderMonumentRadarChart(factorResults);
+}
+
+function renderFactorsList(factors) {
+  const container = document.getElementById("factors-list-dom");
+  container.innerHTML = "";
+
+  factors.forEach(f => {
+    const card = document.createElement("div");
+    card.className = "factor-item-card";
+    card.innerHTML = `
+      <div class="factor-header-line">
+        <div class="factor-name">
+          <span class="factor-dot" style="background:${f.dotColor}"></span>
+          <span>${f.name}</span>
+          <span style="font-size:0.75rem; color:var(--text-light); font-weight:normal;">(${f.tag})</span>
+        </div>
+        <span class="factor-score-pill ${f.statusClass}">${f.status} ${f.avg}</span>
+      </div>
+      <div class="factor-desc">${f.desc}</div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function renderMonumentRadarChart(factors) {
+  const chartDom = document.getElementById("radar-chart-dom");
+  if (!chartDom) return;
+
+  if (radarChartInstance) {
+    radarChartInstance.dispose();
+  }
+  radarChartInstance = echarts.init(chartDom);
+
+  const indicators = factors.map(f => ({
+    name: f.name,
+    max: 5
+  }));
+  const userValues = factors.map(f => f.avg);
+  const normValues = factors.map(f => f.normMean);
+
+  const option = {
+    backgroundColor: 'transparent',
+    tooltip: { trigger: 'item' },
+    legend: {
+      bottom: 0,
+      data: ['您的得分', '常模均值'],
+      textStyle: { color: '#808695', fontSize: 12 }
+    },
+    radar: {
+      indicator: indicators,
+      radius: '62%',
+      splitNumber: 4,
+      axisName: {
+        color: '#2D3139',
+        fontSize: 11,
+        fontWeight: 'bold'
+      },
+      splitArea: {
+        areaStyle: {
+          color: [
+            'rgba(244, 217, 220, 0.25)', 
+            'rgba(203, 227, 213, 0.25)', 
+            'rgba(198, 216, 235, 0.25)', 
+            'rgba(252, 230, 210, 0.25)'
+          ]
+        }
+      },
+      splitLine: {
+        lineStyle: { color: 'rgba(0, 0, 0, 0.06)' }
+      },
+      axisLine: {
+        lineStyle: { color: 'rgba(0, 0, 0, 0.08)' }
+      }
+    },
+    series: [
+      {
+        type: 'radar',
+        data: [
+          {
+            value: userValues,
+            name: '您的得分',
+            symbol: 'circle',
+            symbolSize: 4,
+            lineStyle: { width: 2.5, color: '#7B73E8' },
+            areaStyle: {
+              color: 'rgba(123, 115, 232, 0.35)'
+            },
+            itemStyle: { color: '#7B73E8' }
+          },
+          {
+            value: normValues,
+            name: '常模均值',
+            symbol: 'none',
+            lineStyle: { width: 1.5, type: 'dashed', color: '#A5ABB6' },
+            itemStyle: { color: '#A5ABB6' }
+          }
+        ]
+      }
+    ]
+  };
+
+  radarChartInstance.setOption(option);
+  window.addEventListener('resize', () => radarChartInstance.resize());
+}
+
+function generateReportPoster() {
+  const target = document.getElementById("report-canvas-target");
+  if (!target) return;
+
+  if (typeof html2canvas === "undefined") {
+    alert("海报渲染组件加载中，请稍候重试");
+    return;
+  }
+
+  const btn = document.getElementById("btn-generate-poster");
+  const originText = btn.innerHTML;
+  btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> 正在生成艺术打卡图...`;
+
+  html2canvas(target, {
+    scale: 2,
+    useCORS: true,
+    backgroundColor: "#FAF8F5"
+  }).then(canvas => {
+    btn.innerHTML = originText;
+    const imgData = canvas.toDataURL("image/png");
+    const container = document.getElementById("poster-img-container");
+    container.innerHTML = `<img src="${imgData}" alt="测试结果海报" />`;
+    document.getElementById("poster-modal").classList.add("active");
+  }).catch(err => {
+    btn.innerHTML = originText;
+    alert("生成海报遇到异常，请直接使用手机系统截屏保存。");
+  });
+}
+</script>
+</body>
+</html>
