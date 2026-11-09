@@ -1232,41 +1232,26 @@
       <!-- 📦 真实的虚拟资料交付中心卡片 (解锁后显示) -->
       <div class="delivery-package-card" id="delivery-package-card">
         <div class="delivery-header">
-          <i class="fa-solid fa-box-open"></i>
+          <i class="fa-solid fa-book-bookmark"></i>
           <div>
-            <h3>专属虚拟资料交付包已解锁</h3>
-            <p style="font-size:0.75rem; color:var(--text-muted);">已为您匹配全套电子白皮书与自愈行动指南</p>
+            <h3>专属自愈白皮书已解锁</h3>
+            <p style="font-size:0.75rem; color:var(--text-muted);">已为您匹配专属《SCL-90身心自愈白皮书》</p>
           </div>
         </div>
 
-        <div class="deliverable-item">
+        <div class="deliverable-item" style="flex-direction: column; align-items: stretch; gap: 12px; padding: 16px;">
           <div class="deliverable-info">
-            <h4>📘《SCL-90身心自愈白皮书》</h4>
-            <p>十维度深度机制解析 · 手机全本阅读版</p>
+            <h4 style="font-size: 0.95rem;">📘《SCL-90身心自愈白皮书》</h4>
+            <p style="margin-top: 4px;">十维度深度机制解析 · 情绪疗愈与身心自愈全本指南</p>
           </div>
-          <a href="资料交付/book.html" class="btn-deliverable-action" target="_blank">
-            <span>在线阅读</span> <i class="fa-solid fa-arrow-up-right-from-square"></i>
-          </a>
-        </div>
-
-        <div class="deliverable-item">
-          <div class="deliverable-info">
-            <h4>📅《7天身心高敏感减压日历》</h4>
-            <p>十维度机制解析 · 手机全本 PDF 电子书</p>
+          <div style="display: flex; gap: 10px; width: 100%;">
+            <a href="资料交付/book.html" class="btn-deliverable-action" target="_blank" style="flex: 1; justify-content: center; height: 38px;">
+              <span>在线阅读</span> <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </a>
+            <a href="资料交付/SCL90_Healing_Guide.pdf" download="SCL90身心自愈白皮书.pdf" class="btn-deliverable-action" style="flex: 1; justify-content: center; height: 38px; background: #5D53C9;" download>
+              <span>下载 PDF 电子书</span> <i class="fa-solid fa-file-pdf"></i>
+            </a>
           </div>
-          <a href="资料交付/SCL90_Healing_Guide.pdf" download="SCL90身心自愈白皮书.pdf" class="btn-deliverable-action" download>
-            <span>下载 PDF 电子书</span> <i class="fa-solid fa-file-pdf"></i>
-          </a>
-        </div>
-
-        <div class="deliverable-item">
-          <div class="deliverable-info">
-            <h4>🎧 睡前正念呼吸引导音频卡</h4>
-            <p>迷走神经刺激法 · 4-7-8呼吸减压音轨指引</p>
-          </div>
-          <span class="btn-deliverable-action" style="background:#48BB78; cursor:pointer;" onclick="alert('正念音频指引已附在白皮书附录中，可随时打开伴读练习！')">
-            <span>已随书配套</span>
-          </span>
         </div>
       </div>
 
@@ -1278,13 +1263,13 @@
           <p style="margin-top:8px;"><strong>2. 焦虑与反刍思维阻断：</strong>入睡前若思绪盘旋不停，执行“5-4-3-2-1 感官着陆法”，切断大脑虚假警报回路。</p>
           <p style="margin-top:8px;"><strong>3. 高敏感身心边界重塑：</strong>停止向内归咎自责，建立“非我职责清单”，恢复身心能量基准线。</p>
           <div style="margin-top:14px; padding:10px 14px; background:#F0EEFC; border-radius:12px; font-size:0.82rem; color:#5D53C9;">
-            <i class="fa-solid fa-gift"></i> 已随报告解锁完整自愈交付包。
+            <i class="fa-solid fa-gift"></i> 已随报告解锁专属自愈白皮书。
           </div>
         </div>
 
         <div class="lock-overlay-cta" id="lock-overlay-cta">
           <div class="lock-badge"><i class="fa-solid fa-lock"></i></div>
-          <h4>解锁完整深度自愈报告与交付包</h4>
+          <h4>解锁完整深度自愈报告与白皮书</h4>
           <p>获取 10 大维度针对性深度解读及日常改善方案，帮您摆脱内耗困扰</p>
           <button id="btn-unlock-report" class="btn-main" style="width: auto; padding: 0 28px; height: 46px;">
             <span>输入卡密 / 一键解锁报告</span>
@@ -1642,7 +1627,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (verifyCardCode(inputVal)) {
       unlockVipAccess();
       document.getElementById("key-modal").classList.remove("active");
-      alert("✨ 恭喜激活成功！已为您完整解锁深度身心自愈报告与配套交付包，可随时在线阅读全本白皮书。");
+      alert("✨ 恭喜激活成功！已为您完整解锁深度身心自愈报告，可随时阅读或下载专属自愈白皮书。");
     } else {
       document.getElementById("key-error-msg").textContent = "卡密格式有误或校验未通过，请检查后重新输入。";
     }
