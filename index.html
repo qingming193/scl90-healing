@@ -1055,9 +1055,167 @@
       display: flex;
       gap: 10px;
     }
+  
+    /* ================= 2.0 纪念碑谷风格场景化选项与舞台美学 ================= */
+    .monument-bg-ornaments {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .monument-bg-ornaments .geo-arch {
+      position: absolute;
+      top: -40px;
+      right: -30px;
+      width: 180px;
+      height: 240px;
+      border: 2px solid rgba(123, 115, 232, 0.08);
+      border-radius: 90px 90px 0 0;
+      transform: rotate(15deg);
+    }
+
+    .monument-bg-ornaments .geo-cube {
+      position: absolute;
+      bottom: 80px;
+      left: -20px;
+      width: 100px;
+      height: 100px;
+      background: linear-gradient(135deg, rgba(230, 247, 242, 0.4) 0%, rgba(254, 243, 199, 0.2) 100%);
+      transform: rotate(45deg);
+      border-radius: 18px;
+    }
+
+    .stage-chapter-banner {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, rgba(93, 83, 201, 0.08) 0%, rgba(248, 177, 149, 0.12) 100%);
+      border: 1px solid rgba(93, 83, 201, 0.15);
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+      box-shadow: 0 2px 8px rgba(93, 83, 201, 0.05);
+    }
+
+    .options-group-20 {
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+      margin-bottom: 24px;
+    }
+
+    .option-card-20 {
+      width: 100%;
+      min-height: 64px;
+      padding: 13px 15px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1.5px solid rgba(226, 232, 240, 0.85);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 3px 12px rgba(93, 83, 201, 0.04);
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+
+    .option-card-20:hover, .option-card-20:active {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(123, 115, 232, 0.15);
+      border-color: var(--primary-color);
+    }
+
+    .option-card-20.selected {
+      background: linear-gradient(135deg, #FAF8FF 0%, #F3F0FF 100%);
+      border-color: var(--primary-color);
+      box-shadow: 0 6px 22px rgba(123, 115, 232, 0.2);
+      transform: scale(1.01);
+    }
+
+    .opt-badge-pill {
+      width: 30px;
+      height: 30px;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.92rem;
+      flex-shrink: 0;
+      margin-top: 1px;
+      box-shadow: inset 0 1px 2px rgba(255,255,255,0.8);
+    }
+
+    .opt-badge-A { background: #E6F7F2; color: #1E7E68; border: 1px solid #B8EAD9; }
+    .opt-badge-B { background: #EBF4FF; color: #2B6CB0; border: 1px solid #BEE3F8; }
+    .opt-badge-C { background: #FEF3C7; color: #D97706; border: 1px solid #FDE68A; }
+    .opt-badge-D { background: #FFEDD5; color: #EA580C; border: 1px solid #FDBA74; }
+    .opt-badge-E { background: #FEE2E2; color: #DC2626; border: 1px solid #FECACA; }
+
+    .opt-content-wrap {
+      flex: 1;
+    }
+
+    .opt-tone-tag {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      margin-bottom: 3px;
+      display: inline-block;
+    }
+    .tone-A { color: #1E7E68; }
+    .tone-B { color: #2B6CB0; }
+    .tone-C { color: #D97706; }
+    .tone-D { color: #EA580C; }
+    .tone-E { color: #DC2626; }
+
+    .opt-narrative-text {
+      font-size: 0.91rem;
+      line-height: 1.56;
+      color: var(--text-dark);
+      font-weight: 500;
+    }
+
+    .opt-check-bubble {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 1.5px solid #CBD5E0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      color: transparent;
+      flex-shrink: 0;
+      margin-top: 4px;
+      transition: all 0.18s ease;
+    }
+
+    .option-card-20.selected .opt-check-bubble {
+      background: var(--primary-color);
+      border-color: var(--primary-color);
+      color: #FFFFFF;
+      box-shadow: 0 2px 6px rgba(123, 115, 232, 0.4);
+    }
+
   </style>
+  <script src="questions_2_0.js"></script>
 </head>
 <body>
+  <!-- 几何治愈背景装饰 -->
+  <div class="monument-bg-ornaments">
+    <div class="geo-arch"></div>
+    <div class="geo-cube"></div>
+  </div>
 
 <div class="app-viewport">
   <!-- 顶部杂志排版标语 -->
@@ -1090,17 +1248,29 @@
     </div>
 
     <div class="welcome-header">
-      <h1>心之迷宫 · 情绪深度自测</h1>
-      <p>每个负面情绪，都是身体正在向你发出需要被关照的求救信号</p>
+      <div class="stage-chapter-banner"><i class="fa-solid fa-gem"></i> SCL-90 2026 本土科学升级版</div>
+      <h1 style="font-size: 1.55rem; margin-top: 6px;">心之几何 · 身心场景扫描</h1>
+      <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 6px;">融合中国当代青年生活微情境 · 90项全维度身心沉浸式深度探测</p>
     </div>
 
     <!-- 关键参数胶囊卡片 -->
     <div class="meta-cards-grid">
       <div class="meta-card">
-        <i class="fa-solid fa-layer-group"></i>
-        <div class="meta-title">筛查维度</div>
-        <div class="meta-val">10大因子</div>
+        <i class="fa-solid fa-compass-drafting"></i>
+        <div class="meta-title">情境切片</div>
+        <div class="meta-val">90 题</div>
       </div>
+      <div class="meta-card">
+        <i class="fa-solid fa-layer-group"></i>
+        <div class="meta-title">医学维度</div>
+        <div class="meta-val">10 大项</div>
+      </div>
+      <div class="meta-card">
+        <i class="fa-solid fa-shield-halved"></i>
+        <div class="meta-title">离线加密</div>
+        <div class="meta-val">私密确权</div>
+      </div>
+    </div>
       <div class="meta-card">
         <i class="fa-solid fa-hourglass-half"></i>
         <div class="meta-title">预计耗时</div>
@@ -1115,7 +1285,7 @@
 
     <div class="intro-notice-box">
       <i class="fa-regular fa-compass" style="color:var(--primary-color);"></i>
-      <strong>测前贴士：</strong> 本量表为国际通用 SCL-90（90项症状自评量表）。请根据您<strong>最近一周</strong>的真实感受作答。没有对错，跟随第一直觉即可。
+      <strong>测前指引：</strong> 本版已彻底优化传统模棱两可的模糊刻度，请根据你在职场、租房、微信与社交中的<strong>真实第一生理/心理直觉</strong>选择，开启专属身心自愈之旅。
     </div>
 
     <button id="btn-start" class="btn-main">
@@ -1143,33 +1313,16 @@
 
     <!-- 题目聚焦卡片 -->
     <div class="question-card" id="q-card-element">
+      <div class="stage-chapter-banner" id="stage-chapter-pill"><i class="fa-solid fa-landmark"></i> STAGE 01 · 初探回音之谷</div>
       <span class="question-num-pill" id="q-pill-index">QUESTION 01</span>
       <span class="question-category-pill" id="q-pill-category">生理感知</span>
       <div class="question-text" id="q-text-dom">头痛？</div>
     </div>
 
     <!-- 5个大药丸选项 (触控即走) -->
-    <div class="options-group" id="options-container">
-      <button class="option-btn" data-value="1">
-        <span>从无</span>
-        <span class="opt-sub">Not at all</span>
-      </button>
-      <button class="option-btn" data-value="2">
-        <span>轻度</span>
-        <span class="opt-sub">A little bit</span>
-      </button>
-      <button class="option-btn" data-value="3">
-        <span>中度</span>
-        <span class="opt-sub">Moderately</span>
-      </button>
-      <button class="option-btn" data-value="4">
-        <span>偏重</span>
-        <span class="opt-sub">Quite a bit</span>
-      </button>
-      <button class="option-btn" data-value="5">
-        <span>严重</span>
-        <span class="opt-sub">Extremely</span>
-      </button>
+        <!-- 2.0 场景化情境选项卡片组 -->
+    <div class="options-group-20" id="options-container">
+      <!-- 动态渲染 5 项情境卡片 -->
     </div>
 
     <!-- 底部辅助工具栏 -->
@@ -1657,13 +1810,41 @@ function switchScreen(screenId) {
   }
 }
 
+function getStageInfo(qNum) {
+  if (qNum <= 18) {
+    return { name: "STAGE 01 · 初探回音之谷", icon: "fa-landmark", quote: "步入心之几何长廊，倾听身体最初的微澜与回响。" };
+  } else if (qNum <= 36) {
+    return { name: "STAGE 02 · 穿行水之回廊", icon: "fa-water", quote: "身心积压的紧绷不是过错，只是情绪在向你轻轻招手。" };
+  } else if (qNum <= 54) {
+    return { name: "STAGE 03 · 攀登几何天梯", icon: "fa-stairs", quote: "已经跨过大半心阶了，你的韧性远超自己的预料。" };
+  } else if (qNum <= 72) {
+    return { name: "STAGE 04 · 幽微星光庭院", icon: "fa-star-and-crescent", quote: "给勇敢审视内心的自己一个轻柔的拥抱，出口就在眼前。" };
+  } else {
+    return { name: "STAGE 05 · 终抵自愈圣殿", icon: "fa-gem", quote: "即将穿过迷雾拱门，你的专属身心自愈图谱已准备呈现。" };
+  }
+}
+
 function renderCurrentQuestion() {
   const qNum = currentQuestionIndex + 1;
   document.getElementById("curr-q-num").textContent = qNum;
   document.getElementById("q-pill-index").textContent = `QUESTION ${qNum < 10 ? '0' + qNum : qNum}`;
-  document.getElementById("q-text-dom").textContent = questions[currentQuestionIndex];
 
-  let dimName = "情绪探索";
+  // Get question data (2.0 情境题库)
+  const allQ20 = (typeof questions2_0 !== 'undefined' && questions2_0) || (typeof window !== 'undefined' && window.questions2_0);
+  const qData = (allQ20 && allQ20[currentQuestionIndex]) ? allQ20[currentQuestionIndex] : null;
+
+  // Title
+  document.getElementById("q-text-dom").textContent = qData ? qData.title : questions[currentQuestionIndex];
+
+  // Stage chapter
+  const stageInfo = getStageInfo(qNum);
+  const stageBanner = document.getElementById("stage-chapter-pill");
+  if (stageBanner) {
+    stageBanner.innerHTML = `<i class="fa-solid ${stageInfo.icon}"></i> ${stageInfo.name}`;
+  }
+
+  // Dimension tag
+  let dimName = "情绪感知";
   let dimTag = "心理自评";
   for (let dim of dimensions) {
     if (dim.indices.includes(currentQuestionIndex)) {
@@ -1678,84 +1859,92 @@ function renderCurrentQuestion() {
   const progressPercent = Math.round((qNum / questions.length) * 100);
   document.getElementById("stair-progress-fill").style.width = `${progressPercent}%`;
 
-  updateCompanionQuote(qNum);
+  // Companion quote
+  const quoteDom = document.getElementById("companion-quote-text");
+  if (quoteDom) {
+    quoteDom.innerHTML = `<i class="fa-solid fa-sparkles"></i> <span>${stageInfo.quote}</span>`;
+  }
 
+  // Render 5 scenario option cards
+  const container = document.getElementById("options-container");
+  container.innerHTML = "";
   const currentAnswer = answers[currentQuestionIndex];
-  document.querySelectorAll(".option-btn").forEach(btn => {
-    const val = parseInt(btn.getAttribute("data-value"));
-    if (val === currentAnswer) {
-      btn.classList.add("selected");
-    } else {
-      btn.classList.remove("selected");
+
+  const toneConfig = [
+    { name: "松弛吐槽 · 精神状态领先", cls: "tone-A", badgeCls: "opt-badge-A" },
+    { name: "轻微疲惫 · 正常生理调节", cls: "tone-B", badgeCls: "opt-badge-B" },
+    { name: "扎心内耗 · 表面假笑硬撑", cls: "tone-C", badgeCls: "opt-badge-C" },
+    { name: "严重超频 · 身体频繁报警", cls: "tone-D", badgeCls: "opt-badge-D" },
+    { name: "极限告急 · 急需自愈解药", cls: "tone-E", badgeCls: "opt-badge-E" }
+  ];
+
+  if (qData && qData.options) {
+    qData.options.forEach((opt, idx) => {
+      const isSel = currentAnswer === opt.val;
+      const tone = toneConfig[idx] || toneConfig[0];
+      const card = document.createElement("div");
+      card.className = `option-card-20 ${isSel ? 'selected' : ''}`;
+      card.setAttribute("data-value", opt.val);
+      card.onclick = () => handleSelectOption(opt.val);
+      card.innerHTML = `
+        <div class="opt-badge-pill ${tone.badgeCls}">${opt.label}</div>
+        <div class="opt-content-wrap">
+          <div class="opt-tone-tag ${tone.cls}">【${tone.name}】</div>
+          <div class="opt-narrative-text">${opt.text}</div>
+        </div>
+        <div class="opt-check-bubble"><i class="fa-solid fa-check"></i></div>
+      `;
+      container.appendChild(card);
+    });
+  } else {
+    // Fallback if questions2_0 not loaded
+    const standardLabels = ["从无", "很轻", "中度", "偏重", "严重"];
+    for (let i = 1; i <= 5; i++) {
+      const isSel = currentAnswer === i;
+      const tone = toneConfig[i - 1];
+      const label = ["A", "B", "C", "D", "E"][i - 1];
+      const card = document.createElement("div");
+      card.className = `option-card-20 ${isSel ? 'selected' : ''}`;
+      card.setAttribute("data-value", i);
+      card.onclick = () => handleSelectOption(i);
+      card.innerHTML = `
+        <div class="opt-badge-pill ${tone.badgeCls}">${label}</div>
+        <div class="opt-content-wrap">
+          <div class="opt-tone-tag ${tone.cls}">【${tone.name}】</div>
+          <div class="opt-narrative-text">${standardLabels[i - 1]}</div>
+        </div>
+        <div class="opt-check-bubble"><i class="fa-solid fa-check"></i></div>
+      `;
+      container.appendChild(card);
     }
-  });
+  }
 
   document.getElementById("btn-prev-q").style.visibility = currentQuestionIndex === 0 ? "hidden" : "visible";
-}
-
-function updateCompanionQuote(qNum) {
-  const quoteDom = document.getElementById("companion-quote-text");
-  let quote = "慢慢来，听听内心真实的声音...";
-  if (qNum <= 20) {
-    quote = "步入内心几何长廊，无需焦虑，这里绝对安全。";
-  } else if (qNum <= 45) {
-    quote = "身体的每一处紧绷，都是情绪想要被你看见的信号。";
-  } else if (qNum <= 70) {
-    quote = "已经走过大半台阶了，你比自己想象的更有韧性。";
-  } else if (qNum < 90) {
-    quote = "拱门就在前方，给耐心对待自己的你一个拥抱。";
-  } else {
-    quote = "已成功穿越心之迷宫，专属画像即将呈现。";
-  }
-  quoteDom.innerHTML = `<i class="fa-solid fa-sparkles"></i> <span>${quote}</span>`;
 }
 
 function handleSelectOption(val) {
   answers[currentQuestionIndex] = val;
   localStorage.setItem(STORAGE_KEY, JSON.stringify(answers));
 
-  document.querySelectorAll(".option-btn").forEach(btn => {
-    btn.classList.toggle("selected", parseInt(btn.getAttribute("data-value")) === val);
+  document.querySelectorAll(".option-card-20").forEach(card => {
+    card.classList.toggle("selected", parseInt(card.getAttribute("data-value")) === val);
   });
 
   const card = document.getElementById("q-card-element");
-  card.style.transform = "scale(0.98)";
-  card.style.opacity = "0.7";
+  card.style.transform = "scale(0.985)";
+  card.style.opacity = "0.75";
 
   setTimeout(() => {
     card.style.transform = "scale(1)";
     card.style.opacity = "1";
-
     if (currentQuestionIndex < questions.length - 1) {
       currentQuestionIndex++;
       renderCurrentQuestion();
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
       finishAssessment();
     }
   }, 220);
-}
-
-function openGridModal() {
-  const container = document.getElementById("indices-grid-dom");
-  container.innerHTML = "";
-  for (let i = 0; i < questions.length; i++) {
-    const pill = document.createElement("div");
-    pill.className = "index-pill";
-    pill.textContent = i + 1;
-    if (answers[i] > 0) pill.classList.add("answered");
-    if (i === currentQuestionIndex) pill.classList.add("active");
-    pill.addEventListener("click", () => {
-      currentQuestionIndex = i;
-      renderCurrentQuestion();
-      closeGridModal();
-    });
-    container.appendChild(pill);
-  }
-  document.getElementById("grid-modal").classList.add("active");
-}
-
-function closeGridModal() {
-  document.getElementById("grid-modal").classList.remove("active");
 }
 
 function finishAssessment() {
