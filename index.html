@@ -1936,6 +1936,33 @@ function handleSelectOption(val) {
   }, 220);
 }
 
+
+function openGridModal() {
+  const container = document.getElementById("indices-grid-dom");
+  container.innerHTML = "";
+  for (let i = 0; i < questions.length; i++) {
+    const pill = document.createElement("div");
+    pill.className = "index-pill";
+    pill.textContent = i + 1;
+    if (answers[i] > 0) pill.classList.add("answered");
+    if (i === currentQuestionIndex) pill.classList.add("active");
+    pill.addEventListener("click", () => {
+      currentQuestionIndex = i;
+      renderCurrentQuestion();
+      closeGridModal();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+    container.appendChild(pill);
+  }
+  document.getElementById("grid-modal").classList.add("active");
+  document.body.style.overflow = "hidden";
+}
+
+function closeGridModal() {
+  document.getElementById("grid-modal").classList.remove("active");
+  document.body.style.overflow = "";
+}
+
 function finishAssessment() {
   switchScreen("screen-report");
   calculateAndRenderReport();
