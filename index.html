@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <title>心之迷宫 · SCL-90 情绪健康深度自测</title>
+  <title>SCL-90 · 牛马身心沉浸自测版</title>
   <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -1220,9 +1220,9 @@
 <div class="app-viewport">
   <!-- 顶部杂志排版标语 -->
   <header class="top-editorial-bar">
-    <span class="editorial-badge"><i class="fa-solid fa-cube"></i> VOL.01 LABYRINTH</span>
+    <span class="editorial-badge"><i class="fa-solid fa-mug-hot"></i> 情绪工伤自救室</span>
     <span class="vip-active-tag" id="vip-status-tag"><i class="fa-solid fa-circle-check"></i> 专属权益已解锁</span>
-    <span>SCL-90 心理健康自评</span>
+    <span>SCL-90 · 牛马身心自测</span>
   </header>
 
   <!-- ================= 屏幕 1: 欢迎首页 ================= -->
@@ -1248,37 +1248,37 @@
     </div>
 
     <div class="welcome-header">
-      <div class="stage-chapter-banner"><i class="fa-solid fa-gem"></i> SCL-90 2026 本土科学升级版</div>
-      <h1 style="font-size: 1.55rem; margin-top: 6px;">心之几何 · 身心场景扫描</h1>
-      <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 6px;">融合中国当代青年生活微情境 · 90项全维度身心沉浸式深度探测</p>
+      <div class="stage-chapter-banner"><i class="fa-solid fa-bolt"></i> SCL-90 · 牛马身心沉浸自测版</div>
+      <h1 style="font-size: 1.55rem; margin-top: 6px;">心之几何 · 牛马身心健康扫描</h1>
+      <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 6px;">90个打工人真实微情境 · 测测你被生活偷走了多少电量</p>
     </div>
 
     <!-- 关键元卡片 -->
     <div class="meta-cards-grid">
       <div class="meta-card">
-        <i class="fa-solid fa-compass-drafting"></i>
-        <div class="meta-title">情境切片</div>
-        <div class="meta-val">90 题</div>
+        <i class="fa-solid fa-briefcase"></i>
+        <div class="meta-title">打工切片</div>
+        <div class="meta-val">90 场日常</div>
       </div>
       <div class="meta-card">
-        <i class="fa-solid fa-layer-group"></i>
-        <div class="meta-title">医学维度</div>
-        <div class="meta-val">10 大项</div>
+        <i class="fa-solid fa-heart-pulse"></i>
+        <div class="meta-title">情绪工伤</div>
+        <div class="meta-val">10 维诊断</div>
       </div>
       <div class="meta-card">
-        <i class="fa-solid fa-shield-halved"></i>
-        <div class="meta-title">离线加密</div>
-        <div class="meta-val">私密确权</div>
+        <i class="fa-solid fa-user-shield"></i>
+        <div class="meta-title">无痕自查</div>
+        <div class="meta-val">老板看不到</div>
       </div>
     </div>
 
     <div class="intro-notice-box">
-      <i class="fa-regular fa-compass" style="color:var(--primary-color);"></i>
-      <strong>测前指引：</strong> 本版已彻底优化传统模棱两可的模糊刻度，请根据你在职场、租房、微信与社交中的<strong>真实第一生理/心理直觉</strong>选择，开启专属身心自愈之旅。
+      <i class="fa-solid fa-seedling" style="color:var(--primary-color);"></i>
+      <strong>给打工人的温和提醒：</strong> 搬砖已经够累了，做题就别再为难自己了。这里没有及格线，也没有标准答案。请凭你在微信消息、深夜出租屋和职场假笑里的<strong>第一真实生理直觉</strong>点选。测完抱抱那个咬牙撑了很久的自己。
     </div>
 
     <button id="btn-start" class="btn-main">
-      <span>步入内心长廊 · 开始自测</span>
+      <span>开启自测 · 看看我的牛马指数</span>
       <i class="fa-solid fa-arrow-right"></i>
     </button>
   </section>
@@ -1332,7 +1332,7 @@
     <div class="report-capture-area" id="report-canvas-target">
       <!-- 顶部综合状态核心卡片 -->
       <div class="summary-hero-card">
-        <div class="report-title-label">SCL-90 总体评估结果</div>
+        <div class="report-title-label">SCL-90 · 牛马身心负荷总评</div>
         <div class="score-huge" id="rep-total-score">387</div>
         <div>
           <span class="level-pill-badge badge-severe" id="rep-level-badge">
@@ -1801,15 +1801,15 @@ function switchScreen(screenId) {
 
 function getStageInfo(qNum) {
   if (qNum <= 18) {
-    return { name: "STAGE 01 · 初探回音之谷", icon: "fa-landmark", quote: "步入心之几何长廊，倾听身体最初的微澜与回响。" };
+    return { name: "STAGE 01 · 晨起打卡与微澜", icon: "fa-mug-hot", quote: "虽然每天自嘲是牛马，但也别忘了你是有血有肉的人类。" };
   } else if (qNum <= 36) {
-    return { name: "STAGE 02 · 穿行水之回廊", icon: "fa-water", quote: "身心积压的紧绷不是过错，只是情绪在向你轻轻招手。" };
+    return { name: "STAGE 02 · 穿行职场水之回廊", icon: "fa-briefcase", quote: "身体的每一次酸痛和叹气，都是它在拼命替你硬扛生活的暴击。" };
   } else if (qNum <= 54) {
-    return { name: "STAGE 03 · 攀登几何天梯", icon: "fa-stairs", quote: "已经跨过大半心阶了，你的韧性远超自己的预料。" };
+    return { name: "STAGE 03 · 攀登周会与内耗阶梯", icon: "fa-stairs", quote: "进度条已经过半，承认自己偶尔想‘摆烂’，其实是本能的自我保护。" };
   } else if (qNum <= 72) {
-    return { name: "STAGE 04 · 幽微星光庭院", icon: "fa-star-and-crescent", quote: "给勇敢审视内心的自己一个轻柔的拥抱，出口就在眼前。" };
+    return { name: "STAGE 04 · 独处深夜的星光庭院", icon: "fa-moon", quote: "下班后的世界才是真正属于你的，卸下坚强，这里绝对安全。" };
   } else {
-    return { name: "STAGE 05 · 终抵自愈圣殿", icon: "fa-gem", quote: "即将穿过迷雾拱门，你的专属身心自愈图谱已准备呈现。" };
+    return { name: "STAGE 05 · 终抵自愈与重启殿堂", icon: "fa-seedling", quote: "马上通关了，测完给那个在生活里咬牙撑到现在的自己点个赞。" };
   }
 }
 
@@ -1976,22 +1976,22 @@ function calculateAndRenderReport() {
   const positiveSum = answers.filter(score => score >= 2).reduce((a, b) => a + b, 0);
   const positiveAvg = positiveItems > 0 ? (positiveSum / positiveItems).toFixed(2) : "0.00";
 
-  let levelText = "身心健康 · 状态良好";
+  let levelText = "身心平衡 · 精神状态领先";
   let badgeClass = "badge-normal";
-  let insightText = `您的总分为 ${totalScore} 分，处于身心平衡状态。虽偶有轻微波动，但整体自我修复能力良好。`;
+  let insightText = `总分 ${totalScore} 分。牛马指数极低！你的精神状态遥遥领先，身心电量充足，自愈与钝感力满分，请继续保持这股神仙般的松弛感！`;
 
   if (totalScore >= 250 || totalAverage >= 3.0) {
-    levelText = "重度 · 困扰突出";
+    levelText = "电量告急 · 亟需深度自愈";
     badgeClass = "badge-severe";
-    insightText = `总分 ${totalScore} 分，近期整体心理困扰比较突出。这并非你的软弱或自制力不足，很大程度是身心在长期负荷下的自我保护预警。请务必放慢步调，给自己深度的休整期。`;
+    insightText = `总分 ${totalScore} 分。你的身心电量已经严重告急！这不是你不够坚强或脆弱，而是你的机体替你硬扛了太多职场与生活的隐形暴击。今晚放下对齐、微信和内耗，允许自己彻底断电休息。`;
   } else if (totalScore >= 200 || totalAverage >= 2.5) {
-    levelText = "中度 · 负荷较重";
+    levelText = "超频待机 · 负荷明显预警";
     badgeClass = "badge-moderate";
-    insightText = `总分 ${totalScore} 分，整体情绪负荷较重，在部分维度上存在较为明显的内耗或躯体化反应，建议及时通过调节作息与自愈练习进行干预。`;
+    insightText = `总分 ${totalScore} 分。当前处于超频待机状态，日常工伤虽在咬牙硬撑，但在部分维度上机体已在频繁拉警报。记得给自己的下班时间设好坚固的心理防线。`;
   } else if (totalScore >= 160 || positiveItems >= 43) {
-    levelText = "轻度 · 存在困扰";
+    levelText = "轻度损耗 · 处于微疲状态";
     badgeClass = "badge-mild";
-    insightText = `总分 ${totalScore} 分，存在轻度心理疲劳与情绪波动。属于现代快节奏生活的常见亚健康信号，适时减压即可逐步复原。`;
+    insightText = `总分 ${totalScore} 分。存在轻度的搬砖电量损耗与情绪波动。属于当代打工生活的常见微疲信号，今晚吃顿好的、睡个好觉即可逐步满血复活。`;
   }
 
   document.getElementById("rep-total-score").textContent = totalScore;
