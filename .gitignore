@@ -1,0 +1,4 @@
+.vercel
+backend/auth.db*
+授权码库_双店100万/
+__pycache__/

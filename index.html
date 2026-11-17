@@ -10,29 +10,28 @@
   <style>
     :root {
       --bg-warm: #FAF8F5;
-      --bg-card: rgba(255, 255, 255, 0.88);
+      --bg-card: rgba(255, 255, 255, 0.92);
       --sand-stone: #EFE9E0;
       --pastel-rose: #F4D9DC;
       --pastel-mint: #CBE3D5;
       --pastel-blue: #C6D8EB;
       --pastel-peach: #FCE6D2;
-      --pastel-purple: #DCD6F7;
       --primary-color: #7B73E8;
       --primary-soft: #F0EEFC;
       --primary-hover: #6960D8;
       --text-dark: #2D3139;
-      --text-muted: #808695;
-      --text-light: #A5ABB6;
-      --border-soft: rgba(0, 0, 0, 0.05);
-      --radius-xl: 24px;
-      --radius-lg: 18px;
+      --text-muted: #6E7582;
+      --text-light: #9AA1AE;
+      --border-soft: rgba(0, 0, 0, 0.06);
+      --radius-xl: 22px;
+      --radius-lg: 16px;
       --radius-pill: 999px;
-      --shadow-soft: 0 12px 36px rgba(135, 120, 110, 0.08);
-      --shadow-sm: 0 4px 14px rgba(135, 120, 110, 0.05);
-      --color-normal: #48BB78;
-      --color-mild: #ECC94B;
-      --color-moderate: #ED8936;
-      --color-severe: #F56565;
+      --shadow-soft: 0 12px 34px rgba(100, 95, 130, 0.08);
+      --shadow-sm: 0 4px 14px rgba(100, 95, 130, 0.05);
+      --color-normal: #38A169;
+      --color-mild: #D69E2E;
+      --color-moderate: #DD6B20;
+      --color-severe: #E53E3E;
     }
 
     * {
@@ -40,1023 +39,29 @@
       margin: 0;
       padding: 0;
       -webkit-tap-highlight-color: transparent;
-      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
     }
 
-    body {
+    html, body {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
       background: var(--bg-warm);
       color: var(--text-dark);
       min-height: 100vh;
+    }
+
+    body {
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      padding: 0;
-      position: relative;
-      overflow-x: hidden;
-      background-image: 
+      background-image:
         radial-gradient(at 10% 10%, rgba(244, 217, 220, 0.35) 0px, transparent 50%),
         radial-gradient(at 90% 20%, rgba(203, 227, 213, 0.35) 0px, transparent 50%),
         radial-gradient(at 50% 85%, rgba(198, 216, 235, 0.35) 0px, transparent 50%);
       background-attachment: fixed;
     }
 
-    .app-viewport {
-      width: 100%;
-      max-width: 480px;
-      min-height: 100vh;
-      background: transparent;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      padding: 16px 18px 30px;
-    }
-
-    /* 顶部导航与杂志式标题 */
-    .top-editorial-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 0 16px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 1.5px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      border-bottom: 1px dashed rgba(0, 0, 0, 0.08);
-      margin-bottom: 20px;
-    }
-
-    .editorial-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      background: var(--sand-stone);
-      padding: 4px 10px;
-      border-radius: var(--radius-pill);
-      color: #6C665D;
-    }
-
-    .vip-active-tag {
-      display: none;
-      align-items: center;
-      gap: 4px;
-      background: #E6F4EA;
-      color: #2E7D32;
-      padding: 3px 8px;
-      border-radius: var(--radius-pill);
-      font-size: 0.72rem;
-      font-weight: 700;
-    }
-
-    .vip-active-tag.active {
-      display: inline-flex;
-    }
-
-    /* 纪念碑谷艺术主图容器 (SVG 几何) */
-    .monument-hero {
-      width: 100%;
-      height: 190px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 18px;
-      position: relative;
-    }
-
-    .hero-svg {
-      width: 100%;
-      height: 100%;
-      filter: drop-shadow(0 10px 20px rgba(150, 130, 120, 0.12));
-    }
-
-    /* 页面切换控制 */
-    .screen {
-      display: none;
-      animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    .screen.active {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ========= 欢迎首屏 ========= */
-    .welcome-header {
-      text-align: center;
-      margin-bottom: 24px;
-    }
-
-    .welcome-header h1 {
-      font-size: 1.65rem;
-      font-weight: 700;
-      color: var(--text-dark);
-      letter-spacing: 0.5px;
-      margin-bottom: 8px;
-      line-height: 1.3;
-    }
-
-    .welcome-header p {
-      font-size: 0.92rem;
-      color: var(--text-muted);
-      line-height: 1.5;
-    }
-
-    .meta-cards-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-bottom: 22px;
-    }
-
-    .meta-card {
-      background: var(--bg-card);
-      backdrop-filter: blur(10px);
-      border: 1px solid var(--border-soft);
-      border-radius: var(--radius-lg);
-      padding: 14px 10px;
-      text-align: center;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .meta-card i {
-      font-size: 1.25rem;
-      color: var(--primary-color);
-      margin-bottom: 6px;
-    }
-
-    .meta-card .meta-title {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      margin-bottom: 3px;
-    }
-
-    .meta-card .meta-val {
-      font-size: 0.88rem;
-      font-weight: 700;
-      color: var(--text-dark);
-    }
-
-    .intro-notice-box {
-      background: rgba(255, 255, 255, 0.7);
-      backdrop-filter: blur(8px);
-      border-radius: var(--radius-lg);
-      padding: 16px;
-      border: 1px dashed rgba(123, 115, 232, 0.3);
-      margin-bottom: 26px;
-      font-size: 0.86rem;
-      color: #636875;
-      line-height: 1.6;
-    }
-
-    .intro-notice-box strong {
-      color: var(--primary-color);
-    }
-
-    .btn-main {
-      width: 100%;
-      height: 54px;
-      border-radius: var(--radius-pill);
-      background: linear-gradient(135deg, var(--primary-color) 0%, #8E85F3 100%);
-      color: #FFFFFF;
-      font-size: 1.05rem;
-      font-weight: 600;
-      border: none;
-      cursor: pointer;
-      box-shadow: 0 10px 24px rgba(123, 115, 232, 0.35);
-      transition: all 0.25s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    .btn-main:active {
-      transform: scale(0.98);
-      box-shadow: 0 4px 12px rgba(123, 115, 232, 0.25);
-    }
-
-    /* ========= 答题屏幕 ========= */
-    .stair-progress-wrapper {
-      background: var(--bg-card);
-      backdrop-filter: blur(12px);
-      border-radius: var(--radius-xl);
-      padding: 14px 18px;
-      margin-bottom: 20px;
-      box-shadow: var(--shadow-sm);
-      border: 1px solid var(--border-soft);
-    }
-
-    .stair-header-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-    }
-
-    .stair-tag {
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: var(--primary-color);
-      background: var(--primary-soft);
-      padding: 3px 10px;
-      border-radius: var(--radius-pill);
-    }
-
-    .stair-count {
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: var(--text-dark);
-    }
-
-    .stair-bar-bg {
-      height: 8px;
-      background: #EAE6DF;
-      border-radius: var(--radius-pill);
-      overflow: hidden;
-      margin-bottom: 8px;
-    }
-
-    .stair-bar-fill {
-      height: 100%;
-      width: 1%;
-      background: linear-gradient(90deg, var(--pastel-rose), var(--primary-color));
-      border-radius: var(--radius-pill);
-      transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .companion-quote {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      line-height: 1.4;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .companion-quote i {
-      color: #F8B195;
-    }
-
-    /* 题目大卡片 */
-    .question-card {
-      background: var(--bg-card);
-      backdrop-filter: blur(16px);
-      border-radius: var(--radius-xl);
-      padding: 28px 20px 24px;
-      box-shadow: var(--shadow-soft);
-      border: 1px solid rgba(255, 255, 255, 0.8);
-      margin-bottom: 20px;
-      min-height: 150px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      position: relative;
-      transition: transform 0.25s ease, opacity 0.25s ease;
-    }
-
-    .question-num-pill {
-      position: absolute;
-      top: 14px;
-      left: 20px;
-      font-size: 0.72rem;
-      color: var(--text-light);
-      font-weight: 700;
-      letter-spacing: 1px;
-    }
-
-    .question-category-pill {
-      position: absolute;
-      top: 12px;
-      right: 18px;
-      font-size: 0.72rem;
-      background: var(--sand-stone);
-      color: #6C665D;
-      padding: 2px 9px;
-      border-radius: var(--radius-pill);
-    }
-
-    .question-text {
-      font-size: 1.22rem;
-      font-weight: 700;
-      color: var(--text-dark);
-      line-height: 1.55;
-      margin-top: 10px;
-    }
-
-    /* 选项组（5个高颜值大药丸） */
-    .options-group {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-bottom: 24px;
-    }
-
-    .option-btn {
-      width: 100%;
-      height: 52px;
-      border-radius: var(--radius-pill);
-      background: var(--bg-card);
-      border: 1px solid var(--border-soft);
-      backdrop-filter: blur(10px);
-      color: var(--text-dark);
-      font-size: 0.96rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 22px;
-      cursor: pointer;
-      box-shadow: var(--shadow-sm);
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .option-btn .opt-sub {
-      font-size: 0.78rem;
-      color: var(--text-light);
-      font-weight: 400;
-    }
-
-    .option-btn:hover, .option-btn:active {
-      border-color: var(--primary-color);
-      background: var(--primary-soft);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 18px rgba(123, 115, 232, 0.18);
-    }
-
-    .option-btn.selected {
-      background: linear-gradient(135deg, var(--primary-color), #8B82F5);
-      color: #FFFFFF;
-      border-color: transparent;
-      box-shadow: 0 8px 20px rgba(123, 115, 232, 0.35);
-    }
-
-    .option-btn.selected .opt-sub {
-      color: rgba(255, 255, 255, 0.8);
-    }
-
-    /* 底部导航控制 */
-    .nav-actions {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .btn-secondary {
-      height: 46px;
-      padding: 0 18px;
-      border-radius: var(--radius-pill);
-      background: rgba(255, 255, 255, 0.7);
-      border: 1px solid var(--border-soft);
-      color: var(--text-dark);
-      font-size: 0.88rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.2s ease;
-    }
-
-    .btn-secondary:active {
-      background: #EBE7DF;
-    }
-
-    /* ========= 报告屏幕 ========= */
-    .report-capture-area {
-      background: transparent;
-      padding-bottom: 10px;
-    }
-
-    .summary-hero-card {
-      background: var(--bg-card);
-      backdrop-filter: blur(18px);
-      border-radius: var(--radius-xl);
-      padding: 26px 20px 22px;
-      box-shadow: var(--shadow-soft);
-      border: 1px solid rgba(255, 255, 255, 0.9);
-      text-align: center;
-      margin-bottom: 20px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .summary-hero-card::before {
-      content: "";
-      position: absolute;
-      top: -40px;
-      right: -40px;
-      width: 120px;
-      height: 120px;
-      background: radial-gradient(circle, var(--pastel-rose) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .report-title-label {
-      font-size: 0.8rem;
-      letter-spacing: 2px;
-      font-weight: 700;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      margin-bottom: 6px;
-    }
-
-    .score-huge {
-      font-size: 3.4rem;
-      font-weight: 800;
-      line-height: 1;
-      margin-bottom: 10px;
-      background: linear-gradient(135deg, #FF6B6B 0%, #E64A19 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .level-pill-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 16px;
-      border-radius: var(--radius-pill);
-      font-size: 0.92rem;
-      font-weight: 700;
-      margin-bottom: 14px;
-    }
-
-    .badge-normal {
-      background: #E6F4EA;
-      color: var(--color-normal);
-    }
-    .badge-mild {
-      background: #FEF7E0;
-      color: #B78103;
-    }
-    .badge-moderate {
-      background: #FCE8E6;
-      color: #C5221F;
-    }
-    .badge-severe {
-      background: #FCE8E6;
-      color: #C5221F;
-      box-shadow: 0 4px 12px rgba(197, 34, 31, 0.2);
-    }
-
-    .warm-insight-text {
-      font-size: 0.88rem;
-      color: #555A66;
-      line-height: 1.65;
-      text-align: justify;
-      background: rgba(250, 248, 245, 0.8);
-      padding: 14px 16px;
-      border-radius: var(--radius-lg);
-      border-left: 3px solid var(--primary-color);
-    }
-
-    /* 指标三元组 */
-    .stat-trio {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
-    .stat-box {
-      background: var(--bg-card);
-      backdrop-filter: blur(10px);
-      border: 1px solid var(--border-soft);
-      border-radius: var(--radius-lg);
-      padding: 12px 6px;
-      text-align: center;
-    }
-
-    .stat-box .stat-label {
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      margin-bottom: 4px;
-    }
-
-    .stat-box .stat-num {
-      font-size: 1.05rem;
-      font-weight: 800;
-      color: var(--text-dark);
-    }
-
-    /* 雷达图卡片 */
-    .chart-card {
-      background: var(--bg-card);
-      backdrop-filter: blur(16px);
-      border-radius: var(--radius-xl);
-      padding: 20px 14px;
-      box-shadow: var(--shadow-sm);
-      border: 1px solid var(--border-soft);
-      margin-bottom: 20px;
-      text-align: center;
-    }
-
-    .chart-card h3 {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--text-dark);
-      margin-bottom: 4px;
-    }
-
-    .chart-card p {
-      font-size: 0.76rem;
-      color: var(--text-muted);
-      margin-bottom: 12px;
-    }
-
-    #radar-chart-dom {
-      width: 100%;
-      height: 290px;
-      margin: 0 auto;
-    }
-
-    /* 10大维度拆解列表 */
-    .factors-container {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-bottom: 24px;
-    }
-
-    .factor-item-card {
-      background: var(--bg-card);
-      backdrop-filter: blur(10px);
-      border: 1px solid var(--border-soft);
-      border-radius: var(--radius-lg);
-      padding: 14px 16px;
-      box-shadow: var(--shadow-sm);
-      transition: all 0.25s ease;
-    }
-
-    .factor-header-line {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-    }
-
-    .factor-name {
-      font-size: 0.92rem;
-      font-weight: 700;
-      color: var(--text-dark);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .factor-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-    }
-
-    .factor-score-pill {
-      font-size: 0.8rem;
-      font-weight: 700;
-      padding: 3px 9px;
-      border-radius: var(--radius-pill);
-    }
-
-    .factor-desc {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      line-height: 1.5;
-    }
-
-    .factor-deep-insight {
-      display: none;
-      margin-top: 10px;
-      padding-top: 10px;
-      border-top: 1px dashed rgba(0,0,0,0.06);
-      font-size: 0.78rem;
-      color: #4A4E58;
-      line-height: 1.6;
-      background: rgba(240, 238, 252, 0.4);
-      padding: 8px 10px;
-      border-radius: 8px;
-    }
-
-    .factor-deep-insight.show {
-      display: block;
-    }
-
-    /* 商业变现卡点锁区 (Lock Zone) */
-    .monetize-lock-box {
-      background: var(--bg-card);
-      border-radius: var(--radius-xl);
-      border: 1.5px solid rgba(123, 115, 232, 0.4);
-      box-shadow: 0 12px 30px rgba(123, 115, 232, 0.15);
-      position: relative;
-      overflow: hidden;
-      padding: 24px 20px;
-      margin-bottom: 26px;
-    }
-
-    .lock-blur-content {
-      filter: blur(5px);
-      user-select: none;
-      opacity: 0.35;
-      text-align: left;
-      font-size: 0.88rem;
-      line-height: 1.8;
-      transition: all 0.4s ease;
-    }
-
-    .lock-blur-content.unlocked {
-      filter: none;
-      user-select: auto;
-      opacity: 1;
-    }
-
-    .lock-overlay-cta {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      background: rgba(250, 248, 245, 0.88);
-      backdrop-filter: blur(2px);
-      padding: 20px;
-      text-align: center;
-      transition: opacity 0.3s ease;
-    }
-
-    .lock-overlay-cta.hidden {
-      display: none;
-    }
-
-    .lock-badge {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: var(--primary-soft);
-      color: var(--primary-color);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.25rem;
-      margin-bottom: 10px;
-    }
-
-    .lock-overlay-cta h4 {
-      font-size: 1.05rem;
-      font-weight: 800;
-      color: var(--text-dark);
-      margin-bottom: 6px;
-    }
-
-    .lock-overlay-cta p {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      max-width: 320px;
-      margin-bottom: 14px;
-    }
-
-    /* 真实资料交付中心卡片 */
-    .delivery-package-card {
-      display: none;
-      background: linear-gradient(135deg, #FFFFFF 0%, #F5F3FF 100%);
-      border: 1.5px solid var(--primary-color);
-      border-radius: var(--radius-xl);
-      padding: 22px 18px;
-      margin-bottom: 24px;
-      box-shadow: 0 10px 28px rgba(123, 115, 232, 0.16);
-    }
-
-    .delivery-package-card.active {
-      display: block;
-    }
-
-    .delivery-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 14px;
-    }
-
-    .delivery-header i {
-      font-size: 1.4rem;
-      color: var(--primary-color);
-    }
-
-    .delivery-header h3 {
-      font-size: 1.05rem;
-      font-weight: 800;
-      color: var(--text-dark);
-    }
-
-    .deliverable-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: #FFFFFF;
-      padding: 12px 14px;
-      border-radius: 12px;
-      margin-bottom: 10px;
-      border: 1px solid rgba(0,0,0,0.05);
-    }
-
-    .deliverable-info h4 {
-      font-size: 0.88rem;
-      font-weight: 700;
-      color: var(--text-dark);
-      margin-bottom: 3px;
-    }
-
-    .deliverable-info p {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-    }
-
-    .btn-deliverable-action {
-      padding: 6px 14px;
-      background: var(--primary-color);
-      color: #FFFFFF;
-      font-size: 0.78rem;
-      font-weight: 700;
-      border-radius: var(--radius-pill);
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    /* 报告底部操作栏 */
-    .report-actions {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-top: 10px;
-    }
-
-    /* 题目选择抽屉弹窗 (Modal) */
-    .grid-modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(6px);
-      z-index: 1000;
-      align-items: flex-end;
-      justify-content: center;
-    }
-
-    .grid-modal.active {
-      display: flex;
-    }
-
-    .grid-drawer {
-      width: 100%;
-      max-width: 480px;
-      max-height: 75vh;
-      background: #FFFFFF;
-      border-radius: 28px 28px 0 0;
-      padding: 20px 18px 30px;
-      overflow-y: auto;
-      box-shadow: 0 -10px 40px rgba(0,0,0,0.15);
-      animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    @keyframes slideUp {
-      from { transform: translateY(100%); }
-      to { transform: translateY(0); }
-    }
-
-    .drawer-title-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 16px;
-    }
-
-    .drawer-title-bar h3 {
-      font-size: 1.05rem;
-      font-weight: 700;
-    }
-
-    .close-btn {
-      font-size: 1.2rem;
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      cursor: pointer;
-      padding: 6px;
-    }
-
-    .question-indices-grid {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 8px;
-    }
-
-    .index-pill {
-      height: 38px;
-      border-radius: 8px;
-      background: var(--sand-stone);
-      color: var(--text-dark);
-      font-size: 0.85rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-    }
-
-    .index-pill.answered {
-      background: var(--primary-soft);
-      color: var(--primary-color);
-      border: 1px solid var(--primary-color);
-    }
-
-    .index-pill.active {
-      background: var(--primary-color);
-      color: #FFFFFF;
-    }
-
-    /* 海报预览弹窗 (彻底杜绝滑动穿透) */
-    .poster-modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.75);
-      backdrop-filter: blur(12px);
-      z-index: 2000;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-      touch-action: none; /* 彻底防止手势穿透 */
-    }
-
-    .poster-modal.active {
-      display: flex;
-    }
-
-    .poster-wrapper-outer {
-      max-width: 360px;
-      width: 100%;
-      max-height: 90vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: relative;
-    }
-
-    .btn-poster-close-top {
-      position: absolute;
-      top: -16px;
-      right: -8px;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: #FFFFFF;
-      color: #2D3139;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-      border: none;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-      cursor: pointer;
-      z-index: 2100;
-    }
-
-    .poster-card-wrap {
-      width: 100%;
-      max-height: 75vh;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-      background: #FFFFFF;
-      border-radius: 20px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      touch-action: pan-y; /* 仅允许海报自身内部滑动 */
-    }
-
-    .poster-card-wrap img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    .poster-hint {
-      padding: 12px;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      text-align: center;
-    }
-
-    .btn-poster-close-bottom {
-      width: 100%;
-      height: 48px;
-      border-radius: var(--radius-pill);
-      background: #FFFFFF;
-      color: var(--text-dark);
-      font-size: 0.95rem;
-      font-weight: 700;
-      border: none;
-      margin-top: 14px;
-      cursor: pointer;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.25);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-    }
-
-    /* 卡密激活弹窗 */
-    .key-modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(8px);
-      z-index: 1500;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .key-modal.active {
-      display: flex;
-    }
-
-    .key-box {
-      width: 100%;
-      max-width: 380px;
-      background: #FFFFFF;
-      border-radius: 24px;
-      padding: 26px 22px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.25);
-      text-align: center;
-      position: relative;
-      animation: scalePop 0.25s ease;
-    }
-
-    @keyframes scalePop {
-      from { transform: scale(0.9); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
-
-    .key-box h3 {
-      font-size: 1.15rem;
-      font-weight: 800;
-      color: var(--text-dark);
-      margin-bottom: 6px;
-    }
-
-    .key-box p {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      margin-bottom: 18px;
-      line-height: 1.5;
-    }
-
-    .key-input {
-      width: 100%;
-      height: 48px;
-      border: 1.5px solid #DDD8D0;
-      border-radius: var(--radius-pill);
-      padding: 0 16px;
-      font-size: 0.95rem;
-      text-align: center;
-      letter-spacing: 2px;
-      font-weight: 700;
-      color: var(--text-dark);
-      outline: none;
-      margin-bottom: 12px;
-      text-transform: uppercase;
-      transition: border-color 0.2s;
-    }
-
-    .key-input:focus {
-      border-color: var(--primary-color);
-    }
-
-    .key-msg {
-      font-size: 0.78rem;
-      color: #E53E3E;
-      min-height: 20px;
-      margin-bottom: 10px;
-    }
-
-    .key-actions {
-      display: flex;
-      gap: 10px;
-    }
-  
-    /* ================= 2.0 纪念碑谷风格场景化选项与舞台美学 ================= */
     .monument-bg-ornaments {
       position: fixed;
       inset: 0;
@@ -1064,7 +69,6 @@
       z-index: 0;
       overflow: hidden;
     }
-
     .monument-bg-ornaments .geo-arch {
       position: absolute;
       top: -40px;
@@ -1075,72 +79,356 @@
       border-radius: 90px 90px 0 0;
       transform: rotate(15deg);
     }
-
     .monument-bg-ornaments .geo-cube {
       position: absolute;
       bottom: 80px;
       left: -20px;
       width: 100px;
       height: 100px;
-      background: linear-gradient(135deg, rgba(230, 247, 242, 0.4) 0%, rgba(254, 243, 199, 0.2) 100%);
+      background: linear-gradient(135deg, rgba(230, 247, 242, 0.45) 0%, rgba(254, 243, 199, 0.25) 100%);
       transform: rotate(45deg);
       border-radius: 18px;
     }
 
+    .app-viewport {
+      width: 100%;
+      max-width: 480px;
+      min-height: 100vh;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 14px 16px 32px;
+      margin: 0 auto;
+    }
+
+    .top-editorial-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 0 14px;
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      border-bottom: 1px dashed rgba(0, 0, 0, 0.08);
+      margin-bottom: 16px;
+    }
+
+    .editorial-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--sand-stone);
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      color: #5E584F;
+      font-weight: 700;
+    }
+
+    .top-right-Controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .vip-active-tag {
+      display: none;
+      align-items: center;
+      gap: 4px;
+      background: #E6F4EA;
+      color: #276749;
+      padding: 4px 9px;
+      border-radius: var(--radius-pill);
+      font-size: 0.71rem;
+      font-weight: 700;
+    }
+    .vip-active-tag.active {
+      display: inline-flex;
+    }
+
+    .history-trigger-btn {
+      border: 1px solid rgba(0,0,0,0.08);
+      background: rgba(255,255,255,0.85);
+      color: var(--text-dark);
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      font-size: 0.73rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .monument-hero {
+      width: 100%;
+      height: 170px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 8px;
+    }
+    .hero-svg {
+      width: 100%;
+      max-height: 170px;
+    }
+
+    .screen {
+      display: none;
+      animation: fadeIn 0.3s ease forwards;
+    }
+    .screen.active {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .welcome-header {
+      text-align: center;
+      margin-bottom: 18px;
+    }
     .stage-chapter-banner {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: linear-gradient(135deg, rgba(93, 83, 201, 0.08) 0%, rgba(248, 177, 149, 0.12) 100%);
-      border: 1px solid rgba(93, 83, 201, 0.15);
+      background: linear-gradient(135deg, rgba(85, 104, 201, 0.09) 0%, rgba(248, 177, 149, 0.14) 100%);
+      border: 1px solid rgba(85, 104, 201, 0.18);
       padding: 4px 12px;
       border-radius: var(--radius-pill);
       font-size: 0.74rem;
       font-weight: 700;
       color: var(--primary-color);
-      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+    .welcome-header h1 {
+      font-size: 1.52rem;
+      font-weight: 800;
+      color: var(--text-dark);
+      line-height: 1.3;
+      margin-top: 4px;
+    }
+    .welcome-header p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+
+    .meta-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .meta-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 12px 8px;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-soft);
+    }
+    .meta-card i {
+      font-size: 1.15rem;
+      color: var(--primary-color);
+      margin-bottom: 5px;
+    }
+    .meta-title {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+    .meta-val {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .intro-notice-box {
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(8px);
+      border-radius: var(--radius-lg);
+      padding: 15px 16px;
+      border: 1px dashed rgba(123, 115, 232, 0.32);
+      margin-bottom: 20px;
+      font-size: 0.85rem;
+      color: #525866;
+    }
+
+    .btn-main {
+      width: 100%;
+      height: 52px;
+      border-radius: var(--radius-pill);
+      background: linear-gradient(135deg, var(--primary-color) 0%, #8E85F3 100%);
+      color: #FFFFFF;
+      font-size: 1rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(85, 104, 201, 0.28);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+    .btn-main:active {
+      transform: scale(0.985);
+    }
+
+    .btn-secondary {
+      height: 42px;
+      padding: 0 16px;
+      border-radius: var(--radius-pill);
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      color: var(--text-dark);
+      font-size: 0.86rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+
+    .compliance-foot {
+      margin-top: 16px;
+      text-align: center;
+      font-size: 0.73rem;
+      color: var(--text-light);
+      line-height: 1.5;
+    }
+
+    /* ========= 答题页 ========= */
+    .expiry-urgency-bar {
+      background: #FFFBEB;
+      border: 1px solid #FDE68A;
+      color: #B45309;
+      font-size: 0.74rem;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .stair-progress-wrapper {
+      margin-bottom: 14px;
+    }
+    .stair-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+    .stair-tag {
+      color: var(--primary-color);
+    }
+    .stair-count {
+      color: var(--text-muted);
+    }
+    .stair-bar-bg {
+      width: 100%;
+      height: 8px;
+      background: rgba(0, 0, 0, 0.06);
+      border-radius: var(--radius-pill);
+      overflow: hidden;
       margin-bottom: 8px;
-      box-shadow: 0 2px 8px rgba(93, 83, 201, 0.05);
+    }
+    .stair-bar-fill {
+      height: 100%;
+      width: 1%;
+      background: linear-gradient(90deg, var(--primary-color), #F8B195);
+      border-radius: var(--radius-pill);
+      transition: width 0.25s ease;
+    }
+    .companion-quote {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .companion-quote i {
+      color: #F59E0B;
+    }
+
+    .question-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-xl);
+      padding: 20px 18px 18px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      margin-bottom: 14px;
+      text-align: center;
+      position: relative;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+    .q-card-top-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .question-num-pill {
+      font-size: 0.72rem;
+      color: var(--text-light);
+      font-weight: 800;
+      letter-spacing: 0.8px;
+    }
+    .question-category-pill {
+      font-size: 0.72rem;
+      background: var(--sand-stone);
+      color: #6C665D;
+      padding: 2px 9px;
+      border-radius: var(--radius-pill);
+      font-weight: 600;
+    }
+    .question-text {
+      font-size: 1.12rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      line-height: 1.5;
     }
 
     .options-group-20 {
       display: flex;
       flex-direction: column;
-      gap: 11px;
-      margin-bottom: 24px;
+      gap: 10px;
+      margin-bottom: 18px;
     }
-
     .option-card-20 {
       width: 100%;
-      min-height: 64px;
-      padding: 13px 15px;
-      border-radius: 16px;
-      background: rgba(255, 255, 255, 0.92);
-      border: 1.5px solid rgba(226, 232, 240, 0.85);
-      backdrop-filter: blur(12px);
-      box-shadow: 0 3px 12px rgba(93, 83, 201, 0.04);
+      padding: 12px 14px;
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.94);
+      border: 1.5px solid rgba(226, 232, 240, 0.9);
+      box-shadow: 0 3px 10px rgba(93, 83, 201, 0.04);
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       gap: 11px;
       cursor: pointer;
       text-align: left;
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-      position: relative;
+      transition: all 0.18s ease;
     }
-
-    .option-card-20:hover, .option-card-20:active {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(123, 115, 232, 0.15);
-      border-color: var(--primary-color);
+    .option-card-20:active {
+      transform: scale(0.99);
     }
-
     .option-card-20.selected {
-      background: linear-gradient(135deg, #FAF8FF 0%, #F3F0FF 100%);
+      background: linear-gradient(135deg, #FAF8FF 0%, var(--primary-soft) 100%);
       border-color: var(--primary-color);
-      box-shadow: 0 6px 22px rgba(123, 115, 232, 0.2);
-      transform: scale(1.01);
+      box-shadow: 0 6px 18px rgba(85, 104, 201, 0.18);
     }
-
     .opt-badge-pill {
       width: 30px;
       height: 30px;
@@ -1149,12 +437,9 @@
       align-items: center;
       justify-content: center;
       font-weight: 800;
-      font-size: 0.92rem;
+      font-size: 0.9rem;
       flex-shrink: 0;
-      margin-top: 1px;
-      box-shadow: inset 0 1px 2px rgba(255,255,255,0.8);
     }
-
     .opt-badge-A { background: #E6F7F2; color: #1E7E68; border: 1px solid #B8EAD9; }
     .opt-badge-B { background: #EBF4FF; color: #2B6CB0; border: 1px solid #BEE3F8; }
     .opt-badge-C { background: #FEF3C7; color: #D97706; border: 1px solid #FDE68A; }
@@ -1164,13 +449,11 @@
     .opt-content-wrap {
       flex: 1;
     }
-
     .opt-tone-tag {
-      font-size: 0.7rem;
+      font-size: 0.72rem;
       font-weight: 700;
-      letter-spacing: 0.3px;
-      margin-bottom: 3px;
-      display: inline-block;
+      margin-bottom: 2px;
+      display: block;
     }
     .tone-A { color: #1E7E68; }
     .tone-B { color: #2B6CB0; }
@@ -1179,12 +462,11 @@
     .tone-E { color: #DC2626; }
 
     .opt-narrative-text {
-      font-size: 0.91rem;
-      line-height: 1.56;
+      font-size: 0.89rem;
+      line-height: 1.52;
       color: var(--text-dark);
       font-weight: 500;
     }
-
     .opt-check-bubble {
       width: 20px;
       height: 20px;
@@ -1196,65 +478,562 @@
       font-size: 0.65rem;
       color: transparent;
       flex-shrink: 0;
-      margin-top: 4px;
-      transition: all 0.18s ease;
     }
-
     .option-card-20.selected .opt-check-bubble {
       background: var(--primary-color);
       border-color: var(--primary-color);
       color: #FFFFFF;
-      box-shadow: 0 2px 6px rgba(123, 115, 232, 0.4);
     }
 
+    .nav-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* ========= 结果报告页 ========= */
+    .summary-hero-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-xl);
+      padding: 24px 18px 20px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      text-align: center;
+      margin-bottom: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .report-title-label {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--primary-color);
+      letter-spacing: 1px;
+    }
+    .report-time-sub {
+      font-size: 0.73rem;
+      color: var(--text-light);
+      margin-top: 3px;
+      margin-bottom: 10px;
+    }
+    .score-huge {
+      font-size: 3.3rem;
+      font-weight: 900;
+      line-height: 1.05;
+      color: var(--text-dark);
+    }
+    .score-max-sub {
+      font-size: 0.78rem;
+      color: var(--text-light);
+      margin-bottom: 10px;
+    }
+    .level-pill-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 18px;
+      border-radius: var(--radius-pill);
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: #FFFFFF;
+      margin-bottom: 14px;
+    }
+    .badge-normal { background: var(--color-normal); }
+    .badge-mild { background: var(--color-mild); }
+    .badge-moderate { background: var(--color-moderate); }
+    .badge-severe { background: var(--color-severe); }
+
+    .warm-insight-text {
+      background: #F8FAFC;
+      border-radius: 14px;
+      padding: 13px 14px;
+      font-size: 0.85rem;
+      line-height: 1.65;
+      color: #475569;
+      text-align: left;
+    }
+
+    .stat-trio {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .stat-box {
+      background: var(--bg-card);
+      border-radius: 16px;
+      padding: 12px 8px;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+    }
+    .stat-label {
+      font-size: 0.73rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+    .stat-num {
+      font-size: 1.08rem;
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+
+    .chart-card, .table-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-xl);
+      padding: 18px 14px;
+      box-shadow: var(--shadow-soft);
+      margin-bottom: 16px;
+    }
+    .card-sec-title {
+      font-size: 0.96rem;
+      font-weight: 800;
+      color: var(--text-dark);
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    #radar-chart-dom {
+      width: 100%;
+      height: 290px;
+    }
+
+    /* 对标爆款同款：评估标准图例 + 10维度总表 */
+    .std-legend-box {
+      background: #F8FAFC;
+      border-radius: 12px;
+      padding: 10px 10px;
+      margin-bottom: 12px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px 10px;
+      font-size: 0.75rem;
+      color: #475569;
+    }
+    .std-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+    }
+    .std-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .factor-summary-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.84rem;
+    }
+    .factor-summary-table th {
+      background: #F1F5F9;
+      color: #475569;
+      font-weight: 700;
+      padding: 9px 6px;
+      text-align: center;
+      font-size: 0.78rem;
+    }
+    .factor-summary-table th:first-child,
+    .factor-summary-table td:first-child {
+      text-align: left;
+      padding-left: 10px;
+    }
+    .factor-summary-table td {
+      padding: 10px 6px;
+      text-align: center;
+      border-bottom: 1px solid #F1F5F9;
+      font-weight: 600;
+    }
+    .tbl-pill {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: var(--radius-pill);
+      color: #fff;
+      font-size: 0.74rem;
+      font-weight: 700;
+    }
+
+    /* 10大因子特征与改善建议详细卡 */
+    .factor-item-card {
+      background: var(--bg-card);
+      border-radius: 18px;
+      padding: 16px 15px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 12px;
+      border: 1px solid rgba(0,0,0,0.04);
+    }
+    .factor-header-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .factor-name {
+      font-size: 0.96rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .factor-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    .factor-score-pill {
+      padding: 3px 10px;
+      border-radius: var(--radius-pill);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    .factor-sub-box {
+      background: #F8FAFC;
+      border-radius: 12px;
+      padding: 10px 12px;
+      margin-top: 8px;
+      font-size: 0.82rem;
+      line-height: 1.6;
+      color: #334155;
+    }
+    .factor-sub-title {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      font-size: 0.8rem;
+    }
+    .badge-icon-blue {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #3B82F6;
+      color: #fff;
+      font-size: 0.68rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .badge-icon-green {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #10B981;
+      color: #fff;
+      font-size: 0.68rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* 白皮书交付卡 */
+    .delivery-package-card {
+      background: linear-gradient(135deg, #FFFFFF 0%, var(--primary-soft) 100%);
+      border: 1.5px solid var(--primary-color);
+      border-radius: var(--radius-xl);
+      padding: 18px 16px;
+      margin: 16px 0;
+      box-shadow: 0 10px 26px rgba(85, 104, 201, 0.14);
+    }
+    .delivery-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .delivery-header i {
+      font-size: 1.35rem;
+      color: var(--primary-color);
+    }
+    .delivery-header h3 {
+      font-size: 1rem;
+      font-weight: 800;
+    }
+    .deliverable-item {
+      background: #FFFFFF;
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+    .btn-deliverable-action {
+      padding: 8px 12px;
+      background: var(--primary-color);
+      color: #FFFFFF;
+      font-size: 0.8rem;
+      font-weight: 700;
+      border-radius: var(--radius-pill);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    .report-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    /* ========= 弹窗系统（授权码 / 题目清单 / 历史记录 / 海报） ========= */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.52);
+      backdrop-filter: blur(6px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+    }
+    .modal-backdrop.active {
+      display: flex;
+    }
+    .auth-box {
+      width: 100%;
+      max-width: 380px;
+      background: #FFFFFF;
+      border-radius: 22px;
+      padding: 24px 20px 20px;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.22);
+      position: relative;
+    }
+    .auth-close-x {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      border: none;
+      background: #F1F5F9;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      font-size: 0.9rem;
+      color: #64748B;
+      cursor: pointer;
+    }
+    .auth-key-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      background: var(--primary-soft);
+      color: var(--primary-color);
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 12px;
+    }
+    .auth-input {
+      width: 100%;
+      height: 48px;
+      border-radius: 14px;
+      border: 1.5px solid #CBD5E1;
+      padding: 0 14px;
+      font-size: 1rem;
+      font-weight: 700;
+      text-align: center;
+      letter-spacing: 1px;
+      margin-top: 12px;
+      outline: none;
+    }
+    .auth-input:focus {
+      border-color: var(--primary-color);
+    }
+    .auth-err-msg {
+      min-height: 20px;
+      font-size: 0.78rem;
+      color: #DC2626;
+      margin: 8px 0;
+      line-height: 1.4;
+    }
+    .auth-urgency-tip {
+      background: #FFFBEB;
+      color: #B45309;
+      font-size: 0.74rem;
+      padding: 8px 10px;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      line-height: 1.45;
+    }
+    .get-code-link-btn {
+      margin-top: 12px;
+      background: none;
+      border: none;
+      color: var(--primary-color);
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    /* 底部抽屉弹窗（题目网格 & 历史记录） */
+    .drawer-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.45);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .drawer-backdrop.active {
+      display: flex;
+    }
+    .drawer-sheet {
+      width: 100%;
+      max-width: 480px;
+      max-height: 76vh;
+      background: #FFFFFF;
+      border-radius: 22px 22px 0 0;
+      padding: 18px 16px 26px;
+      display: flex;
+      flex-direction: column;
+    }
+    .drawer-title-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #F1F5F9;
+      margin-bottom: 12px;
+    }
+    .drawer-title-bar h3 {
+      font-size: 0.98rem;
+      font-weight: 800;
+    }
+    .question-indices-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+      overflow-y: auto;
+      padding: 4px 2px;
+    }
+    .index-pill {
+      height: 36px;
+      border-radius: 10px;
+      background: #F1F5F9;
+      color: #64748B;
+      font-size: 0.82rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .index-pill.answered {
+      background: var(--primary-soft);
+      color: var(--primary-color);
+    }
+    .index-pill.active {
+      background: var(--primary-color);
+      color: #FFFFFF;
+    }
+
+    .history-item-row {
+      background: #F8FAFC;
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      border: 1px solid #E2E8F0;
+    }
+
+    /* 海报弹窗 */
+    .poster-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.78);
+      z-index: 1100;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .poster-modal.active {
+      display: flex;
+    }
+    .poster-wrapper-outer {
+      width: 100%;
+      max-width: 400px;
+      max-height: 90vh;
+      background: #FFFFFF;
+      border-radius: 20px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .poster-scroll-box {
+      overflow-y: auto;
+      flex: 1;
+      border-radius: 12px;
+    }
+    .poster-scroll-box img {
+      width: 100%;
+      display: block;
+      border-radius: 10px;
+    }
+    .poster-hint {
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      padding: 10px 0 6px;
+      font-weight: 600;
+    }
   </style>
-  <script src="questions_2_0.js"></script>
 </head>
 <body>
-  <!-- 几何治愈背景装饰 -->
   <div class="monument-bg-ornaments">
     <div class="geo-arch"></div>
     <div class="geo-cube"></div>
   </div>
 
-<div class="app-viewport">
-  <!-- 顶部杂志排版标语 -->
-  <header class="top-editorial-bar">
-    <span class="editorial-badge"><i class="fa-solid fa-mug-hot"></i> 情绪工伤自救室</span>
-    <span class="vip-active-tag" id="vip-status-tag"><i class="fa-solid fa-circle-check"></i> 专属权益已解锁</span>
-    <span>SCL-90 · 牛马身心自测</span>
-  </header>
+  <div class="app-viewport">
+    <header class="top-editorial-bar">
+      <span class="editorial-badge"><i class="fa-solid fa-mug-hot"></i> 情绪工伤自救室</span>
+      <div class="top-right-Controls">
+        <span class="vip-active-tag" id="vip-status-tag"><i class="fa-solid fa-circle-check"></i> 已激活</span>
+        <button class="history-trigger-btn" id="btn-open-history"><i class="fa-solid fa-clock-rotate-left"></i> 测评记录</button>
+      </div>
+    </header>
 
-  <!-- ================= 屏幕 1: 欢迎首页 ================= -->
-  <section id="screen-welcome" class="screen active">
-    <!-- 纪念碑谷风格等距矢量主图 -->
-    <div class="monument-hero">
-      <svg class="hero-svg" viewBox="0 0 360 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="30" y="140" width="300" height="40" rx="12" fill="#EFE9E0"/>
-        <path d="M 60 140 L 60 50 A 25 25 0 0 1 110 50 L 110 140 Z" fill="#F4D9DC"/>
-        <path d="M 72 140 L 72 65 A 13 13 0 0 1 98 65 L 98 140 Z" fill="#FAF8F5"/>
-        <ellipse cx="85" cy="140" rx="20" ry="6" fill="#E2C4C8" opacity="0.4"/>
-        <polygon points="130,140 160,125 180,135 150,150" fill="#CBE3D5"/>
-        <polygon points="150,125 180,110 200,120 170,135" fill="#B7D9C3"/>
-        <polygon points="170,110 200,95 220,105 190,120" fill="#A8D1B6"/>
-        <polygon points="190,95 220,80 240,90 210,105" fill="#98C8A8"/>
-        <polygon points="220,70 270,45 310,65 260,90" fill="#C6D8EB"/>
-        <polygon points="220,70 260,90 260,140 220,120" fill="#AEC8E0"/>
-        <polygon points="260,90 310,65 310,115 260,140" fill="#95B9D8"/>
-        <path d="M 235 95 L 235 75 A 10 10 0 0 1 255 75 L 255 105 Z" fill="#FFF8E7"/>
-        <circle cx="178" cy="98" r="3.5" fill="#4A455A"/>
-        <path d="M 175 102 L 181 102 L 183 113 L 173 113 Z" fill="#5F5973"/>
-      </svg>
-    </div>
+    <!-- ================= 屏幕 1: 欢迎首页 ================= -->
+    <section id="screen-welcome" class="screen active">
+      <div class="monument-hero">
+        <svg class="hero-svg" viewBox="0 0 360 190" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="135" width="300" height="38" rx="12" fill="#EFE9E0"/>
+          <path d="M 60 135 L 60 48 A 25 25 0 0 1 110 48 L 110 135 Z" fill="#F4D9DC"/>
+          <path d="M 72 135 L 72 62 A 13 13 0 0 1 98 62 L 98 135 Z" fill="#FAF8F5"/>
+          <ellipse cx="85" cy="135" rx="20" ry="6" fill="#E2C4C8" opacity="0.4"/>
+          <polygon points="130,135 160,120 180,130 150,145" fill="#CBE3D5"/>
+          <polygon points="150,120 180,105 200,115 170,130" fill="#B7D9C3"/>
+          <polygon points="170,105 200,90 220,100 190,115" fill="#A8D1B6"/>
+          <polygon points="190,90 220,75 240,85 210,100" fill="#98C8A8"/>
+          <polygon points="220,65 270,40 310,60 260,85" fill="#C6D8EB"/>
+          <polygon points="220,65 260,85 260,135 220,115" fill="#AEC8E0"/>
+          <polygon points="260,85 310,60 310,110 260,135" fill="#95B9D8"/>
+          <path d="M 235 90 L 235 70 A 10 10 0 0 1 255 70 L 255 100 Z" fill="#FFF8E7"/>
+          <circle cx="178" cy="93" r="3.5" fill="#4A455A"/>
+          <path d="M 175 97 L 181 97 L 183 108 L 173 108 Z" fill="#5F5973"/>
+        </svg>
+      </div>
 
-    <div class="welcome-header">
-      <div class="stage-chapter-banner"><i class="fa-solid fa-bolt"></i> SCL-90 · 牛马身心沉浸自测版</div>
-      <h1 style="font-size: 1.55rem; margin-top: 6px;">心之几何 · 牛马身心健康扫描</h1>
-      <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 6px;">测测最近这些莫名的疲惫与焦虑，究竟是谁带给你的</p>
-    </div>
+      <div class="welcome-header">
+        <div class="stage-chapter-banner"><i class="fa-solid fa-bolt"></i> SCL-90 · 牛马身心沉浸自测版</div>
+        <h1>心之几何 · 牛马身心健康扫描</h1>
+        <p>测测最近这些莫名的疲惫与焦虑，究竟是谁带给你的</p>
+      </div>
 
-    <!-- 关键元卡片 -->
-    <div class="meta-cards-grid">
+      <div class="meta-cards-grid">
+        
       <div class="meta-card">
         <i class="fa-solid fa-briefcase"></i>
         <div class="meta-title">打工切片</div>
@@ -1263,15 +1042,16 @@
       <div class="meta-card">
         <i class="fa-solid fa-heart-pulse"></i>
         <div class="meta-title">情绪工伤</div>
-        <div class="meta-val">10 维诊断</div>
+        <div class="meta-val">10 维状态</div>
       </div>
       <div class="meta-card">
         <i class="fa-solid fa-user-shield"></i>
         <div class="meta-title">无痕自查</div>
         <div class="meta-val">老板看不到</div>
       </div>
-    </div>
+      </div>
 
+      
     <div class="intro-notice-box" style="text-align: left; line-height: 1.75;">
       <p style="margin-bottom: 8px;">好像也没有遇到什么天塌下来的大事，但最近就是莫名觉得好累、有点快撑不住了。</p>
       <p style="margin-bottom: 8px;">白天还能正常回消息、假装情绪稳定，可一到下班回到出租屋，或者深夜关了灯，心里就像突然空了一块，对什么都提不起劲。</p>
@@ -1279,518 +1059,383 @@
       <p style="margin-bottom: 0; color: var(--primary-color); font-weight: 600;">别急着责怪自己矫情，带着这个疑问往下选，找出真正压垮你的那根弦。</p>
     </div>
 
-    <button id="btn-start" class="btn-main">
-      <span>带着疑问开始 · 看看我到底怎么了</span>
-      <i class="fa-solid fa-arrow-right"></i>
-    </button>
-  </section>
-
-  <!-- ================= 屏幕 2: 答题流程 ================= -->
-  <section id="screen-test" class="screen">
-    <!-- 台阶式进度与陪伴语 -->
-    <div class="stair-progress-wrapper">
-      <div class="stair-header-row">
-        <span class="stair-tag" id="current-factor-tag">躯体化筛查</span>
-        <span class="stair-count"><span id="curr-q-num">1</span> / 90</span>
-      </div>
-      <div class="stair-bar-bg">
-        <div class="stair-bar-fill" id="stair-progress-fill"></div>
-      </div>
-      <div class="companion-quote" id="companion-quote-text">
-        <i class="fa-solid fa-sparkles"></i>
-        <span>慢慢来，听听内心真实的声音...</span>
-      </div>
-    </div>
-
-    <!-- 题目聚焦卡片 -->
-    <div class="question-card" id="q-card-element">
-      <div class="stage-chapter-banner" id="stage-chapter-pill"><i class="fa-solid fa-landmark"></i> STAGE 01 · 初探回音之谷</div>
-      <span class="question-num-pill" id="q-pill-index">QUESTION 01</span>
-      <span class="question-category-pill" id="q-pill-category">生理感知</span>
-      <div class="question-text" id="q-text-dom">头痛？</div>
-    </div>
-
-    <!-- 5个大药丸选项 (触控即走) -->
-        <!-- 2.0 场景化情境选项卡片组 -->
-    <div class="options-group-20" id="options-container">
-      <!-- 动态渲染 5 项情境卡片 -->
-    </div>
-
-    <!-- 底部辅助工具栏 -->
-    <div class="nav-actions">
-      <button id="btn-prev-q" class="btn-secondary">
-        <i class="fa-solid fa-chevron-left"></i>
-        <span>上一题</span>
+      <button id="btn-start" class="btn-main">
+        <span>带着疑问开始 · 看看我到底怎么了</span>
+        <i class="fa-solid fa-arrow-right"></i>
       </button>
-      <button id="btn-open-grid" class="btn-secondary">
-        <i class="fa-solid fa-grip-vertical"></i>
-        <span>题目清单</span>
-      </button>
-    </div>
-  </section>
 
-  <!-- ================= 屏幕 3: 报告结果页 ================= -->
-  <section id="screen-report" class="screen">
-    <div class="report-capture-area" id="report-canvas-target">
-      <!-- 顶部综合状态核心卡片 -->
-      <div class="summary-hero-card">
-        <div class="report-title-label">SCL-90 · 牛马身心负荷总评</div>
-        <div class="score-huge" id="rep-total-score">387</div>
-        <div>
-          <span class="level-pill-badge badge-severe" id="rep-level-badge">
-            <i class="fa-solid fa-circle-exclamation"></i>
-            <span id="rep-level-text">重度 · 困扰突出</span>
-          </span>
+      <div class="compliance-foot">
+        温馨提示：本测评工具仅供个人情绪与心理状态自我觉察参考，不作为医疗诊断依据；若长期遭受严重身心痛苦，请及时寻求线下专业医生帮助。
+      </div>
+    </section>
+
+    <!-- ================= 屏幕 2: 答题流程 ================= -->
+    <section id="screen-test" class="screen">
+      <div class="expiry-urgency-bar">
+        <i class="fa-regular fa-clock"></i>
+        <span>专属授权已绑定本机 · 今日 24:00 失效，测完请及时截图保存</span>
+      </div>
+
+      <div class="stair-progress-wrapper">
+        <div class="stair-header-row">
+          <span class="stair-tag" id="current-factor-tag">状态评估</span>
+          <span class="stair-count"><span id="curr-q-num">1</span> / 90</span>
         </div>
-        <div class="warm-insight-text" id="rep-warm-insight">
-          总分 387，近期整体心理困扰比较突出。这并非你的软弱或自制力不足，很大程度是身心在长期高压负荷下触发的“保护性应激反应”。请及时给予自己足够的休整空间。
+        <div class="stair-bar-bg">
+          <div class="stair-bar-fill" id="stair-progress-fill"></div>
+        </div>
+        <div class="companion-quote" id="companion-quote-text">
+          <i class="fa-solid fa-sparkles"></i>
+          <span>请凭第一直觉作答，无需反复纠结...</span>
         </div>
       </div>
 
-      <!-- 核心指标三元组 -->
-      <div class="stat-trio">
-        <div class="stat-box">
-          <div class="stat-label">总均分</div>
-          <div class="stat-num" id="rep-avg-score">4.21</div>
+      <div class="question-card" id="q-card-element">
+        <div class="stage-chapter-banner" id="stage-chapter-pill"><i class="fa-solid fa-compass"></i> STAGE 01</div>
+        <div class="q-card-top-meta">
+          <span class="question-num-pill" id="q-pill-index">QUESTION 01</span>
+          <span class="question-category-pill" id="q-pill-category">心理评估</span>
         </div>
-        <div class="stat-box">
-          <div class="stat-label">阳性项目数</div>
-          <div class="stat-num" id="rep-positive-items">68 项</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-label">阳性均分</div>
-          <div class="stat-num" id="rep-positive-avg">4.42</div>
-        </div>
+        <div class="question-text" id="q-text-dom">正在加载专属题库...</div>
       </div>
 
-      <!-- 纪念碑谷风格多维切面雷达图 -->
-      <div class="chart-card">
-        <h3>多维身心画像切面</h3>
-        <p>基于中国正常人群体常模比对</p>
-        <div id="radar-chart-dom"></div>
+      <div class="options-group-20" id="options-container"></div>
+
+      <div class="nav-actions">
+        <button id="btn-prev-q" class="btn-secondary">
+          <i class="fa-solid fa-chevron-left"></i>
+          <span>上一题</span>
+        </button>
+        <button id="btn-open-grid" class="btn-secondary">
+          <i class="fa-solid fa-grip"></i>
+          <span>题目清单</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ================= 屏幕 3: 结果报告页 ================= -->
+    <section id="screen-report" class="screen">
+      <div id="report-canvas-target">
+        <div class="summary-hero-card">
+          <div class="report-title-label">SCL-90 · 牛马身心负荷总评</div>
+          <div class="report-time-sub" id="rep-timestamp">测评完成时间：--</div>
+          <div class="score-huge" id="rep-total-score">--</div>
+          <div class="score-max-sub">满分 450 分</div>
+          <div>
+            <span class="level-pill-badge badge-normal" id="rep-level-badge">
+              <span id="rep-level-text">正常</span>
+            </span>
+          </div>
+          <div class="warm-insight-text" id="rep-warm-insight"></div>
+        </div>
+
+        <div class="stat-trio">
+          <div class="stat-box">
+            <div class="stat-label">总均分</div>
+            <div class="stat-num" id="rep-avg-score">--</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">阳性项目数</div>
+            <div class="stat-num" id="rep-positive-items">--</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">阳性症状均分</div>
+            <div class="stat-num" id="rep-positive-avg">--</div>
+          </div>
+        </div>
+
+        <!-- 十维切面雷达图 -->
+        <div class="chart-card">
+          <div class="card-sec-title">十维情绪与心理状态切面图谱</div>
+          <div id="radar-chart-dom"></div>
+        </div>
+
+        <!-- 对标高好评同款：10大因子得分红黄绿对照总览表 -->
+        <div class="table-card">
+          <div class="card-sec-title">因子维度得分详情总表</div>
+          <div class="std-legend-box">
+            <div class="std-legend-item"><span class="std-dot" style="background:#38A169"></span> 正常 (&lt; 2.0)</div>
+            <div class="std-legend-item"><span class="std-dot" style="background:#D69E2E"></span> 轻度 (2.0-2.49)</div>
+            <div class="std-legend-item"><span class="std-dot" style="background:#DD6B20"></span> 中度 (2.5-2.99)</div>
+            <div class="std-legend-item"><span class="std-dot" style="background:#E53E3E"></span> 重度 (≥ 3.0)</div>
+          </div>
+          <table class="factor-summary-table">
+            <thead>
+              <tr>
+                <th>维度</th>
+                <th>原始分</th>
+                <th>均分</th>
+                <th>水平</th>
+              </tr>
+            </thead>
+            <tbody id="factor-table-body"></tbody>
+          </table>
+        </div>
+
+        <!-- 10大维度逐项特征表现与改善建议 -->
+        <div class="factors-container" id="factors-list-dom"></div>
       </div>
 
-      <!-- 10大维度拆解列表 -->
-      <div class="factors-container" id="factors-list-dom"></div>
-
-      <!-- 📦 真实的虚拟资料交付中心卡片 (解锁后显示) -->
-      <div class="delivery-package-card" id="delivery-package-card">
+      <!-- 专属自愈白皮书交付中心 -->
+      <div class="delivery-package-card">
         <div class="delivery-header">
           <i class="fa-solid fa-book-bookmark"></i>
           <div>
-            <h3>专属自愈白皮书已解锁</h3>
-            <p style="font-size:0.75rem; color:var(--text-muted);">已为您匹配专属《SCL-90身心自愈白皮书》</p>
+            <h3>专属自愈白皮书已随报告解锁</h3>
+            <p style="font-size:0.75rem; color:var(--text-muted);">已为您匹配十维度《SCL-90身心自愈白皮书》</p>
           </div>
         </div>
-
-        <div class="deliverable-item" style="flex-direction: column; align-items: stretch; gap: 12px; padding: 16px;">
-          <div class="deliverable-info">
-            <h4 style="font-size: 0.95rem;">📘《SCL-90身心自愈白皮书》</h4>
-            <p style="margin-top: 4px;">十维度深度机制解析 · 情绪疗愈与身心自愈全本指南</p>
-          </div>
+        <div class="deliverable-item">
+          <h4 style="font-size: 0.94rem; margin-bottom: 4px;">📘《SCL-90身心自愈白皮书》</h4>
+          <p style="font-size: 0.76rem; color: var(--text-muted); margin-bottom: 12px;">十维度深度机制解析 · 情绪降频与身心自愈全本实操指南</p>
           <div style="display: flex; gap: 10px; width: 100%;">
-            <a href="资料交付/book.html" class="btn-deliverable-action" target="_blank" style="flex: 1; justify-content: center; height: 38px;">
+            <a href="/资料交付/book.html" class="btn-deliverable-action" target="_blank" style="flex: 1;">
               <span>在线阅读</span> <i class="fa-solid fa-arrow-up-right-from-square"></i>
             </a>
-            <a href="资料交付/SCL90_Healing_Guide.pdf" download="SCL90身心自愈白皮书.pdf" class="btn-deliverable-action" style="flex: 1; justify-content: center; height: 38px; background: #5D53C9;" download>
+            <a href="/资料交付/SCL90_Healing_Guide.pdf" download="SCL90身心自愈白皮书.pdf" class="btn-deliverable-action" style="flex: 1; background: #4C51BF;" download>
               <span>下载 PDF 电子书</span> <i class="fa-solid fa-file-pdf"></i>
             </a>
           </div>
         </div>
       </div>
 
-      <!-- 商业变现卡点锁区 (Lock Zone) -->
-      <div class="monetize-lock-box" id="lock-box-element">
-        <div class="lock-blur-content" id="lock-blur-content">
-          <h4 style="margin-bottom:10px; color:var(--primary-color);"><i class="fa-solid fa-feather"></i> 【深度归因与 7 天身心自愈处方】</h4>
-          <p><strong>1. 躯体化深度切断机制：</strong>长期心慌胸闷去体检却无异常，多为交感神经与潜意识应激锁定，建议每日进行 15 分钟“腹式迷走神经刺激法”。</p>
-          <p style="margin-top:8px;"><strong>2. 焦虑与反刍思维阻断：</strong>入睡前若思绪盘旋不停，执行“5-4-3-2-1 感官着陆法”，切断大脑虚假警报回路。</p>
-          <p style="margin-top:8px;"><strong>3. 高敏感身心边界重塑：</strong>停止向内归咎自责，建立“非我职责清单”，恢复身心能量基准线。</p>
-          <div style="margin-top:14px; padding:10px 14px; background:#F0EEFC; border-radius:12px; font-size:0.82rem; color:#5D53C9;">
-            <i class="fa-solid fa-gift"></i> 已随报告解锁专属自愈白皮书。
-          </div>
-        </div>
-
-        <div class="lock-overlay-cta" id="lock-overlay-cta">
-          <div class="lock-badge"><i class="fa-solid fa-lock"></i></div>
-          <h4>解锁完整深度自愈报告与白皮书</h4>
-          <p>获取 10 大维度针对性深度解读及日常改善方案，帮您摆脱内耗困扰</p>
-          <button id="btn-unlock-report" class="btn-main" style="width: auto; padding: 0 28px; height: 46px;">
-            <span>输入卡密 / 一键解锁报告</span>
-          </button>
-        </div>
+      <div class="report-actions">
+        <button id="btn-generate-poster" class="btn-main">
+          <i class="fa-regular fa-image"></i>
+          <span>一键生成报告长图 · 保存至手机相册</span>
+        </button>
+        <button id="btn-restart" class="btn-secondary" style="justify-content: center; width: 100%;">
+          <i class="fa-solid fa-arrow-rotate-left"></i>
+          <span>重新测评</span>
+        </button>
       </div>
-    </div>
 
-    <!-- 底部操作按钮 -->
-    <div class="report-actions">
-      <button id="btn-generate-poster" class="btn-main">
-        <i class="fa-regular fa-image"></i>
-        <span>生成打卡海报 · 分享小红书</span>
-      </button>
-      <button id="btn-restart" class="btn-secondary" style="justify-content: center;">
-        <i class="fa-solid fa-arrow-rotate-left"></i>
-        <span>重新测试</span>
-      </button>
-    </div>
-  </section>
-</div>
-
-<!-- 题目清单抽屉弹窗 -->
-<div class="grid-modal" id="grid-modal">
-  <div class="grid-drawer">
-    <div class="drawer-title-bar">
-      <h3>答题进度列表 (90题)</h3>
-      <button class="close-btn" id="btn-close-grid"><i class="fa-solid fa-xmark"></i></button>
-    </div>
-    <div class="question-indices-grid" id="indices-grid-dom"></div>
-  </div>
-</div>
-
-<!-- 卡密输入弹窗 -->
-<div class="key-modal" id="key-modal">
-  <div class="key-box">
-    <div class="lock-badge" style="margin:0 auto 10px;"><i class="fa-solid fa-key"></i></div>
-    <h3>激活专属深度报告</h3>
-    <p>请输入您下单后获取的解锁卡密<br/>(格式如: SCL-1234-5678-AB)</p>
-    <input type="text" id="key-input-field" class="key-input" placeholder="输入或粘贴卡密" maxlength="20" />
-    <div class="key-msg" id="key-error-msg"></div>
-    <div class="key-actions">
-      <button class="btn-secondary" id="btn-cancel-key" style="flex:1; justify-content:center;">取消</button>
-      <button class="btn-main" id="btn-submit-key" style="flex:1; height:46px;">验证并解锁</button>
-    </div>
-  </div>
-</div>
-
-<!-- 海报生成预览弹窗 (彻底杜绝滑动穿透，双重退出) -->
-<div class="poster-modal" id="poster-modal">
-  <div class="poster-wrapper-outer" id="poster-wrapper-outer">
-    <button class="btn-poster-close-top" id="btn-close-poster-x" title="关闭"><i class="fa-solid fa-xmark"></i></button>
-    
-    <div class="poster-card-wrap" id="poster-scroll-box">
-      <div id="poster-img-container"></div>
-      <div class="poster-hint">
-        <i class="fa-regular fa-hand-pointer"></i> 长按图片可保存至相册，分享至小红书/朋友圈打卡
+      <div class="compliance-foot">
+        免责声明：本报告结果基于受测者主观自评生成，仅供个人心理状态自我认知与日常情绪调适参考，不具备临床医学诊断效力。请及时长按保存长图或截屏留存结果。
       </div>
-    </div>
-
-    <button class="btn-poster-close-bottom" id="btn-close-poster">
-      <i class="fa-solid fa-arrow-left"></i>
-      <span>返回自测报告</span>
-    </button>
+    </section>
   </div>
-</div>
+
+  <!-- ================= 首屏前置授权码激活弹窗 ================= -->
+  <div class="modal-backdrop" id="auth-gate-modal">
+    <div class="auth-box">
+      <button class="auth-close-x" id="btn-close-auth"><i class="fa-solid fa-xmark"></i></button>
+      <div class="auth-key-icon"><i class="fa-solid fa-key"></i></div>
+      <h3 style="font-size: 1.12rem; font-weight: 800; margin-bottom: 4px;">输入专属授权码开启测评</h3>
+      <p style="font-size: 0.79rem; color: var(--text-muted); line-height: 1.5;">
+        请输入小红书客服发送的 <strong>6位授权码</strong><br/>（或直接粘贴本单 <strong>P开头订单编号</strong>）
+      </p>
+      <input type="text" id="auth-code-input" class="auth-input" placeholder="输入6位授权码 / P开头订单号" maxlength="24" autocomplete="off" />
+      <div class="auth-err-msg" id="auth-err-msg"></div>
+      <div class="auth-urgency-tip">
+        ⏳ 一单一码仅限绑定当前手机设备使用，当天 24:00 自动失效，测完请及时截图保存报告。
+      </div>
+      <button id="btn-submit-auth" class="btn-main" style="height: 46px; font-size: 0.95rem;">
+        <span>验证授权码 · 立即开始</span>
+      </button>
+      <button id="btn-how-to-get-code" class="get-code-link-btn">📕 还没有授权码？查看获取方式</button>
+    </div>
+  </div>
+
+  <!-- ================= 90题导航抽屉 ================= -->
+  <div class="drawer-backdrop" id="grid-modal">
+    <div class="drawer-sheet">
+      <div class="drawer-title-bar">
+        <h3>答题进度清单 (90题)</h3>
+        <button class="auth-close-x" style="position:static;" id="btn-close-grid"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="question-indices-grid" id="indices-grid-dom"></div>
+    </div>
+  </div>
+
+  <!-- ================= 历史测评记录抽屉 ================= -->
+  <div class="drawer-backdrop" id="history-modal">
+    <div class="drawer-sheet">
+      <div class="drawer-title-bar">
+        <h3>本机历史测评记录</h3>
+        <button class="auth-close-x" style="position:static;" id="btn-close-history"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div id="history-list-dom" style="overflow-y:auto; flex:1;"></div>
+    </div>
+  </div>
+
+  <!-- ================= 海报保存预览弹窗 ================= -->
+  <div class="poster-modal" id="poster-modal">
+    <div class="poster-wrapper-outer">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+        <span style="font-size:0.85rem; font-weight:800;">长按下方图片保存完整报告</span>
+        <button class="auth-close-x" style="position:static;" id="btn-close-poster"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="poster-scroll-box" id="poster-img-container"></div>
+      <div class="poster-hint"><i class="fa-regular fa-hand-pointer"></i> 请长按上方报告长图选择“保存到相册”</div>
+    </div>
+  </div>
 
 <script>
-// ==================== 题库数据与维度定义 (标准90题) ====================
-const questions = [
-  "头痛",
-  "神经过敏，心中不宁",
-  "头脑中有不必要的想法或字句盘旋",
-  "头晕或昏倒",
-  "对异性的兴趣减退",
-  "对旁人责备求全",
-  "感到别人能控制您的思想",
-  "责怪别人制造麻烦",
-  "忘性大",
-  "担心自己的衣饰整齐及仪态的端正",
-  "容易烦恼和激动",
-  "胸痛",
-  "害怕空旷的场所或街道",
-  "感到自己的精力下降，活动减慢",
-  "想结束自己的生命",
-  "听到旁人听不到的声音",
-  "发抖",
-  "感到大多数人都不可信任",
-  "胃口不好",
-  "容易哭泣",
-  "同异性相处时感到害羞不自在",
-  "感到受骗、受欺侮或有人想抓您",
-  "无缘无故地突然感到害怕",
-  "自己不能控制地大发脾气",
-  "怕单独出门",
-  "经常责怪自己",
-  "腰痛",
-  "感到难以完成任务",
-  "感到孤独",
-  "感到苦闷",
-  "过分担忧",
-  "对事物不感兴趣",
-  "感到害怕",
-  "您的感情容易受到伤害",
-  "旁人能知道您的私下想法",
-  "感到别人不理解您、不同情您",
-  "感到旁人对您不友好，不喜欢您",
-  "做事必须做得很慢以保证做得正确",
-  "心跳得很厉害",
-  "恶心或胃部不舒服",
-  "感到比不上他人",
-  "肌肉酸痛",
-  "感到有人在监视您、谈论您",
-  "难以入睡",
-  "做事必须反复检查",
-  "难以作出决定",
-  "怕乘电车、公共汽车、地铁或火车",
-  "呼吸有困难",
-  "阵阵发冷或发热",
-  "因为感到害怕而避开某些东西、场合或活动",
-  "脑子变空了",
-  "身体发麻或刺痛",
-  "喉咙有梗塞感",
-  "感到前途没有希望",
-  "不能集中注意力",
-  "感到身体某一部分软弱无力",
-  "感到紧张或容易紧张",
-  "感到手或脚发重",
-  "想到死亡的事",
-  "吃得太多",
-  "当别人看着您或谈论您时感到不自在",
-  "有一些不属于您自己的想法",
-  "有想打人或伤害他人的冲动",
-  "醒得太早",
-  "必须反复洗手、点数目或触摸某些东西",
-  "睡得不稳不深",
-  "有想摔坏或破坏东西的想法及冲动",
-  "有一些别人没有的想法或念头",
-  "对旁人很在意",
-  "在商店或电影院等人多的地方感到不自在",
-  "感到任何事情都很困难",
-  "一阵阵恐惧或惊恐",
-  "感到在公共场合吃东西很不舒服",
-  "经常与人争论",
-  "单独一人时神经很紧张",
-  "别人对您的成绩没有作出恰当的评价",
-  "即使和别人在一起也感到孤单",
-  "感到坐立不安、心神不定",
-  "感到自己没有什么价值",
-  "感到熟悉的东西变成陌生或不像是真的",
-  "大叫或摔东西",
-  "害怕会在公共场合昏倒",
-  "感到别人想占您的便宜",
-  "为一些有关性的想法而很苦恼",
-  "您认为应该因为自己的过错而受到惩罚",
-  "感到要赶快把事情做完",
-  "感到自己的身体有严重问题",
-  "从未感到和其他人很亲近",
-  "感到自己有罪",
-  "感到自己的脑子有毛病"
-];
+// ==================== 店铺配置（填入小红书商品短链即可一键跳转购买） ====================
+const VERSION = "fun";
+const SHOP_URL = ""; // 可选：填入您的小红书商品短链，例如 "https://xhslink.com/m/xxxxxx"
 
-const dimensions = [
-  { 
-    name: "躯体化", 
-    tag: "生理感知",
-    indices: [0, 3, 11, 26, 39, 41, 47, 48, 51, 52, 55, 57],
-    normMean: 1.37,
-    description: "反映身体客观检查无器质病变的主观不适（如胸闷、头痛、心慌、背部酸沉）。",
-    deepInsight: "【深度机制】：潜意识情绪压抑触发交感神经过度放电。建议每日坚持 15 分钟慢速腹式呼气（迷走神经激活），切断身体虚假警报。"
-  },
-  { 
-    name: "强迫症状", 
-    tag: "思维阻滞",
-    indices: [2, 8, 9, 27, 37, 44, 45, 50, 54, 64],
-    normMean: 1.62,
-    description: "明知无必要却无法摆脱的反复思绪、反复确认行为及注意力涣散。",
-    deepInsight: "【深度机制】：源于对“失控”的深度防御。建议使用“5秒物理切断法”，当死循环反刍时站起身洗手或换个环境，强行打破回路。"
-  },
-  { 
-    name: "人际敏感", 
-    tag: "社交防御",
-    indices: [5, 20, 33, 35, 36, 40, 60, 68, 72],
-    normMean: 1.65,
-    description: "在人际交往中过分在意外界眼光、易感委屈、自卑或不自在。",
-    deepInsight: "【深度机制】：假想聚光灯效应。请练习阿德勒“课题分离”：别人如何评价是别人的事，过好自己是自己的事，树立健康的个人心理边界。"
-  },
-  { 
-    name: "抑郁", 
-    tag: "情绪底色",
-    indices: [4, 13, 14, 19, 21, 25, 28, 29, 30, 31, 53, 70, 78],
-    normMean: 1.50,
-    description: "缺乏动力、对事物丧失兴致、悲观内耗与自我苛责。",
-    deepInsight: "【深度机制】：身心能量透支导致的保护性“低电量休眠”。无需逼自己振作，采用“微步激活法”，每天只做一件拉开窗帘的小事。"
-  },
-  { 
-    name: "焦虑", 
-    tag: "神经过敏",
-    indices: [1, 16, 22, 32, 38, 56, 71, 77, 79, 85],
-    normMean: 1.39,
-    description: "无缘由的莫名心慌、坐立难安、肌肉绷紧与对未来的过度预警。",
-    deepInsight: "【深度机制】：大脑杏仁核过度报警。请掌握“5-4-3-2-1感官着陆技术”，随时观察周围5种颜色，让神经系统快速降频。"
-  },
-  { 
-    name: "敌对", 
-    tag: "冲动压抑",
-    indices: [10, 23, 62, 66, 73, 80],
-    normMean: 1.48,
-    description: "容易烦躁被激怒、内心有摔东西冲动或难以遏制的反感。",
-    deepInsight: "【深度机制】：积压的委屈未能得到安全表达。准备白纸自由乱涂乱撕，或者通过高阻抗运动（快走、击打沙袋）安全宣泄。"
-  },
-  { 
-    name: "恐怖", 
-    tag: "空间回避",
-    indices: [12, 24, 46, 49, 69, 74, 81],
-    normMean: 1.23,
-    description: "对密闭车厢、空旷街区、人多聚集场合产生特定退缩与恐慌。",
-    deepInsight: "【深度机制】：条件反射式的惊恐回路。采用“渐进式阶梯暴露法”，允许自己随时撤退，逐步重建安全信任感。"
-  },
-  { 
-    name: "偏执", 
-    tag: "信任防御",
-    indices: [7, 17, 42, 67, 75, 82],
-    normMean: 1.43,
-    description: "对周围人抱有较强防备心，常觉他人不够友好或难以交心。",
-    deepInsight: "【深度机制】：创伤后过度防御。练习区分“事实”与“内心假设”，不盲目把别人的无心之举解读为针对自己。"
-  },
-  { 
-    name: "精神病性", 
-    tag: "自我疏离",
-    indices: [6, 15, 34, 61, 76, 83, 84, 86, 87, 89],
-    normMean: 1.29,
-    description: "思维飘忽、感觉周遭世界不真实或有强烈的精神孤独漂浮感。",
-    deepInsight: "【深度机制】：心理防御中的“解离反应”。多接触有明确质感的大自然与泥土植物，洗热水澡恢复身体触觉感知。"
-  },
-  { 
-    name: "其他(饮食睡眠)", 
-    tag: "节律基石",
-    indices: [18, 43, 58, 59, 63, 65, 88],
-    normMean: 1.45,
-    description: "食欲紊乱、失眠早醒、多梦不深等身心节律紊乱表现。",
-    deepInsight: "【深度机制】：自主神经生物钟紊乱。睡前 45 分钟离开所有短视频，固定早晨同一时间晒太阳 10 分钟重置节律。"
-  }
-];
+const STORAGE_ANSWERS_KEY = `scl90_answers_${VERSION}`;
+const STORAGE_AUTH_KEY = `scl90_auth_session_${VERSION}`;
+const STORAGE_HISTORY_KEY = `scl90_history_${VERSION}`;
+const STORAGE_UUID_KEY = "scl90_device_uuid_v2";
 
-// ==================== 状态管理 ====================
+const dimensions = [{"name": "躯体化", "tag": "生理应激", "indices": [0, 3, 11, 26, 39, 41, 47, 48, 51, 52, 55, 57], "normMean": 1.37, "summary": "反映主观的身体不适感，包括心血管、胃肠道、呼吸系统不适，以及头痛、背痛、肌肉酸痛与四肢发麻等躯体表现。", "traits": {"normal": "身体感知平稳舒适，自主神经调节功能良好，日常疲劳在正常睡眠与休息后能顺畅恢复。", "mild": "近期偶有轻微头晕、肩颈发紧、胸口发闷或肠胃不适，多在压力增大或睡眠不足时浮现。", "moderate": "频繁感到胸闷心慌、头晕乏力、喉咙异物感或四肢发麻酸沉，体检常无器质性异常，开始影响日常精力。", "severe": "身体长期处于高度应激警报状态，明显的心悸、呼吸不畅、胃肠紊乱或广泛性酸痛反复发作，带来显著痛苦。"}, "advice": "掌握【腹式迷走神经呼吸法】（吸气4秒使腹部隆起，缓慢呼气6~8秒，每日睡前练习10分钟）；配合温水泡脚或热敷肩颈，温和切断交感神经的过度放电警报。若持续剧烈不适建议先排查基础体检。"}, {"name": "强迫症状", "tag": "思维反刍", "indices": [2, 8, 9, 27, 37, 44, 45, 50, 54, 64], "normMean": 1.62, "summary": "主要指明知没有必要，但又无法摆脱的无意义想法、字句盘旋、反复检查确认及注意力涣散记忆力下降。", "traits": {"normal": "思维收放自如，做事干脆有条理，极少陷入无意义的反复纠结或强迫性确认。", "mild": "压力下偶有反复回想白天对话、出门多确认一次门锁，或短时间走神忘事。", "moderate": "大脑难以按下暂停键，睡前常不受控地反刍细节，做事追求绝对稳妥而反复核对，伴随明显脑雾与注意力下降。", "severe": "被顽固的侵入性思绪或反复检查仪式死死缠住，明知没必要却停不下来，精神能量被剧烈空转消耗。"}, "advice": "练习【5秒物理阻断技术】：当发现大脑陷入死循环反刍时，立即起身用冷水洗手、起身走动或大声读出眼前3件物品名称；允许“80分即交付”，用手机备忘录替代脑内反复记忆。"}, {"name": "人际关系敏感", "tag": "社交防御", "indices": [5, 20, 33, 35, 36, 40, 60, 68, 72], "normMean": 1.65, "summary": "指人际交往中的不自在感与自卑感，过分在意他人评价与眼神，容易感到委屈、不被理解或自我否定。", "traits": {"normal": "自我边界清晰稳定，在社交场合自然从容，既能温和共情他人，也不轻易被外界眼光左右。", "mild": "在陌生场合或权威人物面前略感拘谨，偶因他人无心的一句话在心里暗自介意。", "moderate": "对他人语气和眼神高度敏感，容易产生自卑、怕添麻烦或觉得不被理解，社交后常感到极度耗电。", "severe": "深陷强烈的假想聚光灯效应与自我贬低，极易在关系中受伤破防，产生明显的社交恐惧与回避倾向。"}, "advice": "实践阿德勒【课题分离练习】：在心里默念“别人怎么看我是他的课题，我如何自处是我的课题”；每天记录1件自己做得不错的小事，逐步把评价坐标系从外界收回到自己身上。"}, {"name": "抑郁", "tag": "情绪动力", "indices": [4, 13, 14, 19, 21, 25, 28, 29, 30, 31, 53, 70, 78], "normMean": 1.5, "summary": "反映心境低落、精力减退、对原本喜爱的事物丧失兴趣、孤独苦闷、自责无价值感及悲观预期。", "traits": {"normal": "情绪底色温和明亮，对生活保有好奇与期待，遇到挫折能通过自我调节重新积蓄动力。", "mild": "近期偶感提不起劲、疲倦乏味或莫名低落，独处时略感孤单空虚，休息后可缓慢平复。", "moderate": "持续感到心累、快感缺失，连日常小事都觉得费力沉重，容易落泪或自我苛责，对未来感到迷茫灰暗。", "severe": "身心仿佛进入“低电量深度休眠”，强烈的苦闷、无助、孤独与自我否定交织，严重影响日常生活动力。"}, "advice": "停止强迫自己“立刻振作”，接纳暂时的低电量保护；采用【微步行为激活法】，每天只设定一个极微小动作（如拉开窗帘晒太阳10分钟、下楼买杯热饮），让身体先于情绪缓慢复苏。若困扰严重请务必寻求专业心理支持。"}, {"name": "焦虑", "tag": "神经紧绷", "indices": [1, 16, 22, 32, 38, 56, 71, 77, 79, 85], "normMean": 1.39, "summary": "反映烦躁坐立不安、神经过敏、莫名心慌害怕，以及伴随的心跳加快、发抖等植物神经紧绷症状。", "traits": {"normal": "内心安稳笃定，面对突发状况能保持理性平顺，神经系统松弛有度。", "mild": "待办事项较多时容易心急紧绷，偶有莫名心神不宁，事情落地后即可放松。", "moderate": "经常感到焦虑和担忧，难以真正放松；伴随心跳加快、肌肉紧绷、手心出汗或坐立难安。", "severe": "大脑杏仁核处于持续拉响警报状态，无缘由的强烈恐慌、惊悸感频繁袭来，身心弦绷至极限。"}, "advice": "学习并练习【4-7-8呼吸法】（吸气4秒，屏息7秒，缓慢呼气8秒，循环4次）与【5-4-3-2-1感官着陆法】（说出眼前5样物体、触摸4种材质、听3种声音），将失控的灾难化思绪拉回安全的当下。"}, {"name": "敌对", "tag": "烦躁宣泄", "indices": [10, 23, 62, 66, 73, 80], "normMean": 1.48, "summary": "主要从思维、情感及行为三方面反映厌烦、容易烦恼激动、争论冲动以及摔东西等不可抑制的脾气爆发。", "traits": {"normal": "情绪容纳度高，遇事平和理性，能通过健康渠道化解不满与摩擦。", "mild": "疲惫或受阻时容易烦躁不耐烦，心里有小火苗但能自觉克制。", "moderate": "情绪燃点明显降低，容易因琐事被激怒、想与人争辩或产生摔东西的冲动，事后又常感疲惫懊恼。", "severe": "胸口常像堵着一团无名火，极易失控发脾气或产生强烈的破坏冲动，其实是长期过度压抑委屈后的反弹。"}, "advice": "愤怒往往是“心理边界被侵犯”或“过度透支”的信号。愤怒上头时执行【生理暂停60秒】离开现场喝口冰水；日常通过快走、慢跑、撕废纸或书写情绪日记进行安全物理泄压。"}, {"name": "恐怖", "tag": "场所回避", "indices": [12, 24, 46, 49, 69, 74, 81], "normMean": 1.23, "summary": "反映对出门旅行、空旷场地、拥挤人群、密闭公共交通工具或单独相处时的紧张与回避体验。", "traits": {"normal": "出行与独处均自在踏实，对各类公共空间与社交环境适应良好。", "mild": "在极度拥挤闷热的地铁商场或夜间独处时偶有局促感，戴上耳机即可安稳过渡。", "moderate": "对人多密闭场所、公共交通或独自出门有明显排斥与心慌，常倾向于刻意回避。", "severe": "置身特定场所时易触发强烈恐慌、腿软或担心当众晕倒，导致日常活动半径大幅收缩。"}, "advice": "随身准备“安全感急救包”（耳机、舒缓白噪音、薄荷糖、温水）；采用温和的【阶梯脱敏法】，不强迫硬闯，先在熟悉安全的时段短途出行，给每一次小迈步正向肯定。"}, {"name": "偏执", "tag": "防御警觉", "indices": [7, 17, 42, 67, 75, 82], "normMean": 1.43, "summary": "主要指猜疑、不信任感、觉得努力未被公正评价、防备他人占便宜或感觉被议论针对。", "traits": {"normal": "待人坦诚通透，既具备基本的成年人防备意识，也能与他人建立稳固信任。", "mild": "习惯凡事靠自己把关，偶觉付出未被看见，对不熟的人保持礼貌距离。", "moderate": "防备心较重，容易觉得周围人不可靠、偏心或针对自己，在关系中常感孤立与委屈。", "severe": "长期处于高度戒备与受害防御状态，很难相信任何人的善意，内心长期紧绷疲惫。"}, "advice": "练习【事实与假设分离记录】：遇到令你起疑的事，拿纸分两列写下“客观发生的事实”与“我大脑推测的意图”，你会发现80%的恶意都只是疲惫大脑的过度自我保护。"}, {"name": "精神病性", "tag": "疏离解离", "indices": [6, 15, 34, 61, 76, 83, 84, 86, 87, 89], "normMean": 1.29, "summary": "在普通人群中主要反映人群中的深刻精神孤单感、思维飘忽、现实不真实感（解离感）及对身心健康的过度疑虑。", "traits": {"normal": "自我内在稳定连贯，现实连接感强，与身边人保有真切的情感共鸣。", "mild": "极度劳累时偶有短暂发呆放空，或在热闹聚会中感到片刻抽离与孤单。", "moderate": "常感到“即使在人群中也像隔着一层玻璃”，偶有熟悉环境变陌生的恍惚感，或过度担忧身体出了大问题。", "severe": "存在明显的现实抽离感、思维被干扰感或强烈的精神孤立感，建议高度重视并寻求专业评估支持。"}, "advice": "通过【重返身体感官练习】增强现实锚定：洗一次温暖的热水澡、赤脚踩在地板上感受支撑感、接触真实的自然绿植或宠物，减少深夜独自沉浸在封闭网络信息流中。"}, {"name": "睡眠与饮食", "tag": "生理节律", "indices": [18, 43, 58, 59, 63, 65, 88], "normMean": 1.45, "summary": "反映入睡困难、浅眠多梦、凌晨早醒，以及食欲不振或压力性暴饮暴食等基础生命节律指标。", "traits": {"normal": "睡眠深沉规律，胃口正常，身体昼夜修复机制运转良好。", "mild": "换季或压力期偶有入睡变慢、做梦增多，或胃口随心情小幅波动。", "moderate": "存在明显的入睡困难、半夜易醒早醒，醒后仍觉乏力，或常靠情绪性进食缓解压力。", "severe": "睡眠节律与胃肠功能严重紊乱，彻夜难眠、凌晨心慌早醒或厌食暴食交替，急需优先修复生理地基。"}, "advice": "重建【昼夜节律三锚点】：① 早晨起床后晒自然光10分钟重置褪黑素生物钟；② 下午14点后停止摄入咖啡与浓茶；③ 睡前45分钟开启勿扰模式，用白噪音或渐进式肌肉放松（从脚趾到面部依次收紧5秒再松开）诱导自然入眠。"}];
+
+// 非线性计分权重校准：
+// pro（专业临床版）严格采用医院标准 1, 2, 3, 4, 5 分；
+// fun（牛马沉浸版）采用科学校准权重 [1.0, 1.25, 2.25, 3.50, 5.00]，确保选第1、2项稳居绿色健康低分区，梯度真实合理！
+const OPTION_WEIGHTS = VERSION === "pro"
+  ? [0, 1.0, 2.0, 3.0, 4.0, 5.0]
+  : [0, 1.0, 1.25, 2.25, 3.50, 5.00];
+
+let questionsData = [];
 let currentQuestionIndex = 0;
-let answers = new Array(questions.length).fill(0);
+let answers = new Array(90).fill(0);
 let radarChartInstance = null;
-let isUnlocked = false;
 
-const STORAGE_KEY = "scl90_monument_answers";
-const UNLOCK_KEY = "scl90_is_unlocked";
-
-function verifyCardCode(code) {
-  if (!code) return false;
-  const clean = code.trim().toUpperCase();
-  const match = clean.match(/^SCL-(\d{4})-(\d{4})-([0-9A-F]{2})$/);
-  if (!match) return false;
-  const x = parseInt(match[1], 10);
-  const y = parseInt(match[2], 10);
-  const check = (x * 31 + y * 17 + 89) % 256;
-  const expected = check.toString(16).padStart(2, '0').toUpperCase();
-  return match[3] === expected;
-}
-
-function unlockVipAccess() {
-  isUnlocked = true;
-  localStorage.setItem(UNLOCK_KEY, "true");
-  document.getElementById("vip-status-tag").classList.add("active");
-  
-  // 展现真实交付包卡片
-  const pkgCard = document.getElementById("delivery-package-card");
-  if (pkgCard) pkgCard.classList.add("active");
-
-  const lockBlur = document.getElementById("lock-blur-content");
-  if (lockBlur) lockBlur.classList.add("unlocked");
-  const lockCta = document.getElementById("lock-overlay-cta");
-  if (lockCta) lockCta.classList.add("hidden");
-
-  // 展开所有维度的深度解读
-  document.querySelectorAll(".factor-deep-insight").forEach(el => el.classList.add("show"));
-}
-
-// ==================== 初始化与事件绑定 ====================
-document.addEventListener("DOMContentLoaded", () => {
-  const urlParams = new URLSearchParams(window.location.search);
-  const urlCode = urlParams.get("code") || urlParams.get("key");
-  if (urlCode && verifyCardCode(urlCode)) {
-    unlockVipAccess();
-  } else if (localStorage.getItem(UNLOCK_KEY) === "true") {
-    unlockVipAccess();
+// ==================== 设备硬件指纹计算（防同行倒卖 + 同手机换浏览器智能识别） ====================
+function simpleHash(str) {
+  let h1 = 0xdeadbeef ^ str.length, h2 = 0x41c6ce57 ^ str.length;
+  for (let i = 0, ch; i < str.length; i++) {
+    ch = str.charCodeAt(i);
+    h1 = Math.imul(h1 ^ ch, 2654435761);
+    h2 = Math.imul(h2 ^ ch, 1597334677);
   }
+  h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+  h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+  return (h2 >>> 0).toString(16).padStart(8, '0') + (h1 >>> 0).toString(16).padStart(8, '0');
+}
 
-  const saved = localStorage.getItem(STORAGE_KEY);
-  if (saved) {
+function getDeviceIdentity() {
+  const scr = [Math.min(screen.width, screen.height), Math.max(screen.width, screen.height)].join("x");
+  const hwSig = [
+    navigator.platform || "plat",
+    scr,
+    window.devicePixelRatio || 1,
+    navigator.hardwareConcurrency || 0
+  ].join("|");
+
+  let localId = localStorage.getItem(STORAGE_UUID_KEY);
+  if (!localId) {
+    let canvasSig = "";
     try {
-      const parsed = JSON.parse(saved);
-      if (Array.isArray(parsed) && parsed.length === questions.length) {
-        answers = parsed;
-      }
+      const c = document.createElement("canvas");
+      const ctx = c.getContext("2d");
+      ctx.font = "14px Arial";
+      ctx.fillText("SCL90_FP_2026", 2, 12);
+      canvasSig = c.toDataURL().slice(-32);
     } catch (e) {}
+    localId = simpleHash(hwSig + "|" + navigator.userAgent + "|" + canvasSig + "|" + Date.now() + "|" + Math.random());
+    localStorage.setItem(STORAGE_UUID_KEY, localId);
   }
+  return { fp: localId, hwSig: simpleHash(hwSig) };
+}
 
-  document.getElementById("btn-start").addEventListener("click", () => {
-    switchScreen("screen-test");
-    const firstUnanswered = answers.findIndex(a => a === 0);
-    currentQuestionIndex = firstUnanswered !== -1 ? firstUnanswered : 0;
-    renderCurrentQuestion();
-  });
-
-  const optionButtons = document.querySelectorAll(".option-btn");
-  optionButtons.forEach(btn => {
-    btn.addEventListener("click", () => {
-      const val = parseInt(btn.getAttribute("data-value"));
-      handleSelectOption(val);
-    });
-  });
-
-  document.getElementById("btn-prev-q").addEventListener("click", () => {
-    if (currentQuestionIndex > 0) {
-      currentQuestionIndex--;
-      renderCurrentQuestion();
+function getSavedSession() {
+  try {
+    const raw = localStorage.getItem(STORAGE_AUTH_KEY);
+    if (!raw) return null;
+    const obj = JSON.parse(raw);
+    if (obj && obj.token && obj.expiresAt && obj.expiresAt * 1000 > Date.now()) {
+      return obj;
     }
-  });
+  } catch (e) {}
+  return null;
+}
 
-  document.getElementById("btn-open-grid").addEventListener("click", openGridModal);
-  document.getElementById("btn-close-grid").addEventListener("click", closeGridModal);
-  document.getElementById("grid-modal").addEventListener("click", (e) => {
-    if (e.target.id === "grid-modal") closeGridModal();
+async function loadQuestionsWithToken(token) {
+  if (questionsData.length === 90) return true;
+  const resp = await fetch(`/api/questions?version=${VERSION}`, {
+    headers: { "Authorization": `Bearer ${token}` }
   });
+  if (!resp.ok) return false;
+  const data = await resp.json();
+  if (data && data.success && Array.isArray(data.questions) && data.questions.length === 90) {
+    questionsData = data.questions;
+    return true;
+  }
+  return false;
+}
 
-  document.getElementById("btn-restart").addEventListener("click", () => {
-    if (confirm("确定要清空当前进度重新自测吗？")) {
-      answers = new Array(questions.length).fill(0);
-      localStorage.removeItem(STORAGE_KEY);
-      currentQuestionIndex = 0;
-      switchScreen("screen-welcome");
-    }
-  });
-
-  document.getElementById("btn-unlock-report").addEventListener("click", () => {
-    document.getElementById("key-modal").classList.add("active");
-    document.getElementById("key-error-msg").textContent = "";
-    document.getElementById("key-input-field").value = "";
-    document.getElementById("key-input-field").focus();
-  });
-
-  document.getElementById("btn-cancel-key").addEventListener("click", () => {
-    document.getElementById("key-modal").classList.remove("active");
-  });
-
-  document.getElementById("btn-submit-key").addEventListener("click", () => {
-    const inputVal = document.getElementById("key-input-field").value.trim();
-    if (verifyCardCode(inputVal)) {
-      unlockVipAccess();
-      document.getElementById("key-modal").classList.remove("active");
-      alert("✨ 恭喜激活成功！已为您完整解锁深度身心自愈报告，可随时阅读或下载专属自愈白皮书。");
+async function startOrRequireAuth() {
+  const session = getSavedSession();
+  if (session) {
+    const ok = await loadQuestionsWithToken(session.token);
+    if (ok) {
+      document.getElementById("vip-status-tag").classList.add("active");
+      enterAssessmentScreen();
+      return;
     } else {
-      document.getElementById("key-error-msg").textContent = "卡密格式有误或校验未通过，请检查后重新输入。";
+      localStorage.removeItem(STORAGE_AUTH_KEY);
     }
-  });
+  }
+  document.getElementById("auth-err-msg").textContent = "";
+  document.getElementById("auth-gate-modal").classList.add("active");
+}
 
-  // 海报生成与弹窗控制 (彻底解决滑动穿透与无法退出问题)
-  document.getElementById("btn-generate-poster").addEventListener("click", generateReportPoster);
-  
-  function closePosterModal() {
-    document.getElementById("poster-modal").classList.remove("active");
-    document.body.style.overflow = ""; // 恢复背景页面滚动
+async function submitAuthCode() {
+  const inputEl = document.getElementById("auth-code-input");
+  const errEl = document.getElementById("auth-err-msg");
+  const btn = document.getElementById("btn-submit-auth");
+  const code = inputEl.value.trim();
+  if (!code) {
+    errEl.textContent = "请输入您的 6 位专属授权码或 P 开头订单编号";
+    return;
   }
 
-  document.getElementById("btn-close-poster").addEventListener("click", closePosterModal);
-  document.getElementById("btn-close-poster-x").addEventListener("click", closePosterModal);
-  document.getElementById("poster-modal").addEventListener("click", (e) => {
-    if (e.target.id === "poster-modal") closePosterModal();
-  });
-});
+  const { fp, hwSig } = getDeviceIdentity();
+  btn.disabled = true;
+  const oldHtml = btn.innerHTML;
+  btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> 正在核验专属授权...`;
+  errEl.textContent = "";
+
+  try {
+    const resp = await fetch("/api/auth/verify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ code, version: VERSION, fp, hwSig })
+    });
+    const res = await resp.json();
+    if (!res.success) {
+      errEl.textContent = res.message || "授权码验证未通过，请核对后重试";
+      btn.disabled = false;
+      btn.innerHTML = oldHtml;
+      return;
+    }
+
+    localStorage.setItem(STORAGE_AUTH_KEY, JSON.stringify({
+      token: res.token,
+      code: res.code,
+      expiresAt: res.expiresAt
+    }));
+
+    const loaded = await loadQuestionsWithToken(res.token);
+    btn.disabled = false;
+    btn.innerHTML = oldHtml;
+
+    if (!loaded) {
+      errEl.textContent = "题库加载异常，请刷新页面重试";
+      return;
+    }
+
+    document.getElementById("vip-status-tag").classList.add("active");
+    document.getElementById("auth-gate-modal").classList.remove("active");
+    enterAssessmentScreen();
+  } catch (err) {
+    btn.disabled = false;
+    btn.innerHTML = oldHtml;
+    errEl.textContent = "网络连接波动，请检查网络或切换手机自带浏览器重试";
+  }
+}
+
+function enterAssessmentScreen() {
+  switchScreen("screen-test");
+  const firstUnanswered = answers.findIndex(a => a === 0);
+  currentQuestionIndex = firstUnanswered !== -1 ? firstUnanswered : 0;
+  renderCurrentQuestion();
+}
 
 function switchScreen(screenId) {
   document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
@@ -1802,15 +1447,17 @@ function switchScreen(screenId) {
 }
 
 function getStageInfo(qNum) {
-  if (qNum <= 18) {
-    return { name: "STAGE 01 · 晨起打卡与微澜", icon: "fa-mug-hot", quote: "虽然每天自嘲是牛马，但也别忘了你是有血有肉的人类。" };
-  } else if (qNum <= 36) {
-    return { name: "STAGE 02 · 穿行职场水之回廊", icon: "fa-briefcase", quote: "身体的每一次酸痛和叹气，都是它在拼命替你硬扛生活的暴击。" };
-  } else if (qNum <= 54) {
-    return { name: "STAGE 03 · 攀登周会与内耗阶梯", icon: "fa-stairs", quote: "进度条已经过半，承认自己偶尔想‘摆烂’，其实是本能的自我保护。" };
-  } else if (qNum <= 72) {
-    return { name: "STAGE 04 · 独处深夜的星光庭院", icon: "fa-moon", quote: "下班后的世界才是真正属于你的，卸下坚强，这里绝对安全。" };
+  if (VERSION === "pro") {
+    if (qNum <= 18) return { name: "第一阶段 · 近期躯体与神经感知 (1/5)", icon: "fa-heart-pulse", quote: "请回想最近一周的实际感受，按第一直觉选择即可。" };
+    if (qNum <= 36) return { name: "第二阶段 · 情绪状态与生活动力 (2/5)", icon: "fa-leaf", quote: "诚实面对当下的感受，是自我关照的第一步。" };
+    if (qNum <= 54) return { name: "第三阶段 · 思维习惯与人际体验 (3/5)", icon: "fa-compass", quote: "已完成过半题目，保持平缓呼吸继续作答。" };
+    if (qNum <= 72) return { name: "第四阶段 · 睡眠节律与内在安全感 (4/5)", icon: "fa-moon", quote: "每一份真实的情绪信号，都值得被温柔看见。" };
+    return { name: "第五阶段 · 深度综合评估收尾 (5/5)", icon: "fa-clipboard-check", quote: "即将完成全部 90 项评估，正在为您准备多维分析报告。" };
   } else {
+    if (qNum <= 18) return { name: "STAGE 01 · 晨起打卡与微澜", icon: "fa-mug-hot", quote: "虽然每天自嘲是牛马，但也别忘了你是有血有肉的人类。" };
+    if (qNum <= 36) return { name: "STAGE 02 · 穿行职场水之回廊", icon: "fa-briefcase", quote: "身体的每一次酸痛和叹气，都是它在拼命替你硬扛生活的暴击。" };
+    if (qNum <= 54) return { name: "STAGE 03 · 攀登周会与内耗阶梯", icon: "fa-stairs", quote: "进度条已经过半，承认自己偶尔想‘摆烂’，其实是本能的自我保护。" };
+    if (qNum <= 72) return { name: "STAGE 04 · 独处深夜的星光庭院", icon: "fa-moon", quote: "下班后的世界才是真正属于你的，卸下坚强，这里绝对安全。" };
     return { name: "STAGE 05 · 终抵自愈与重启殿堂", icon: "fa-seedling", quote: "马上通关了，测完给那个在生活里咬牙撑到现在的自己点个赞。" };
   }
 }
@@ -1820,24 +1467,12 @@ function renderCurrentQuestion() {
   document.getElementById("curr-q-num").textContent = qNum;
   document.getElementById("q-pill-index").textContent = `QUESTION ${qNum < 10 ? '0' + qNum : qNum}`;
 
-  // Get question data (2.0 情境题库)
-  const allQ20 = (typeof questions2_0 !== 'undefined' && questions2_0) || (typeof window !== 'undefined' && window.questions2_0);
-  const qData = (allQ20 && allQ20[currentQuestionIndex]) ? allQ20[currentQuestionIndex] : null;
-
-  // Title
-  document.getElementById("q-text-dom").textContent = qData ? qData.title : questions[currentQuestionIndex];
-
-  // Stage chapter
   const stageInfo = getStageInfo(qNum);
-  const stageBanner = document.getElementById("stage-chapter-pill");
-  if (stageBanner) {
-    stageBanner.innerHTML = `<i class="fa-solid ${stageInfo.icon}"></i> ${stageInfo.name}`;
-  }
+  document.getElementById("stage-chapter-pill").innerHTML = `<i class="fa-solid ${stageInfo.icon}"></i> ${stageInfo.name}`;
+  document.getElementById("companion-quote-text").innerHTML = `<i class="fa-solid fa-sparkles"></i> <span>${stageInfo.quote}</span>`;
 
-  // Dimension tag
-  let dimName = "情绪感知";
-  let dimTag = "心理自评";
-  for (let dim of dimensions) {
+  let dimName = "综合评估", dimTag = "状态感知";
+  for (const dim of dimensions) {
     if (dim.indices.includes(currentQuestionIndex)) {
       dimName = dim.name;
       dimTag = dim.tag;
@@ -1846,68 +1481,61 @@ function renderCurrentQuestion() {
   }
   document.getElementById("current-factor-tag").textContent = `${dimName} · ${dimTag}`;
   document.getElementById("q-pill-category").textContent = dimTag;
+  document.getElementById("stair-progress-fill").style.width = `${Math.round((qNum / 90) * 100)}%`;
 
-  const progressPercent = Math.round((qNum / questions.length) * 100);
-  document.getElementById("stair-progress-fill").style.width = `${progressPercent}%`;
-
-  // Companion quote
-  const quoteDom = document.getElementById("companion-quote-text");
-  if (quoteDom) {
-    quoteDom.innerHTML = `<i class="fa-solid fa-sparkles"></i> <span>${stageInfo.quote}</span>`;
-  }
-
-  // Render 5 scenario option cards
   const container = document.getElementById("options-container");
   container.innerHTML = "";
   const currentAnswer = answers[currentQuestionIndex];
+  const item = questionsData[currentQuestionIndex];
 
-  const toneConfig = [
-    { name: "松弛吐槽 · 精神状态领先", cls: "tone-A", badgeCls: "opt-badge-A" },
-    { name: "轻微疲惫 · 正常生理调节", cls: "tone-B", badgeCls: "opt-badge-B" },
-    { name: "扎心内耗 · 表面假笑硬撑", cls: "tone-C", badgeCls: "opt-badge-C" },
-    { name: "严重超频 · 身体频繁报警", cls: "tone-D", badgeCls: "opt-badge-D" },
-    { name: "极限告急 · 急需自愈解药", cls: "tone-E", badgeCls: "opt-badge-E" }
-  ];
-
-  if (qData && qData.options) {
-    qData.options.forEach((opt, idx) => {
-      const isSel = currentAnswer === opt.val;
-      const tone = toneConfig[idx] || toneConfig[0];
+  if (VERSION === "pro") {
+    const qText = typeof item === "string" ? item : (item?.title || "");
+    document.getElementById("q-text-dom").textContent = `${qNum}. ${qText}`;
+    const proOpts = [
+      { label: "A", val: 1, title: "从无", desc: "最近一周完全没有该症状或体验", cls: "tone-A", bCls: "opt-badge-A" },
+      { label: "B", val: 2, title: "很轻", desc: "偶有轻微感觉，不影响正常生活与工作", cls: "tone-B", bCls: "opt-badge-B" },
+      { label: "C", val: 3, title: "中度", desc: "症状确实存在，带来一定困扰但尚可应对", cls: "tone-C", bCls: "opt-badge-C" },
+      { label: "D", val: 4, title: "偏重", desc: "频繁出现且程度较重，已明显影响日常状态", cls: "tone-D", bCls: "opt-badge-D" },
+      { label: "E", val: 5, title: "严重", desc: "症状非常剧烈且持续，带来显著痛苦与妨碍", cls: "tone-E", bCls: "opt-badge-E" }
+    ];
+    proOpts.forEach(o => {
       const card = document.createElement("div");
-      card.className = `option-card-20 ${isSel ? 'selected' : ''}`;
-      card.setAttribute("data-value", opt.val);
-      card.onclick = () => handleSelectOption(opt.val);
+      card.className = `option-card-20 ${currentAnswer === o.val ? 'selected' : ''}`;
+      card.onclick = () => handleSelectOption(o.val);
       card.innerHTML = `
-        <div class="opt-badge-pill ${tone.badgeCls}">${opt.label}</div>
+        <div class="opt-badge-pill ${o.bCls}">${o.label}</div>
         <div class="opt-content-wrap">
-          <div class="opt-tone-tag ${tone.cls}">【${tone.name}】</div>
-          <div class="opt-narrative-text">${opt.text}</div>
+          <span class="opt-tone-tag ${o.cls}" style="font-size:0.88rem;">${o.title}</span>
+          <div class="opt-narrative-text" style="font-size:0.8rem; color:var(--text-muted);">${o.desc}</div>
         </div>
         <div class="opt-check-bubble"><i class="fa-solid fa-check"></i></div>
       `;
       container.appendChild(card);
     });
   } else {
-    // Fallback if questions2_0 not loaded
-    const standardLabels = ["从无", "很轻", "中度", "偏重", "严重"];
-    for (let i = 1; i <= 5; i++) {
-      const isSel = currentAnswer === i;
-      const tone = toneConfig[i - 1];
-      const label = ["A", "B", "C", "D", "E"][i - 1];
+    document.getElementById("q-text-dom").textContent = item ? item.title : "";
+    const toneConfig = [
+      { name: "松弛吐槽 · 精神状态领先", cls: "tone-A", bCls: "opt-badge-A" },
+      { name: "轻微疲惫 · 正常生理调节", cls: "tone-B", bCls: "opt-badge-B" },
+      { name: "扎心内耗 · 表面假笑硬撑", cls: "tone-C", bCls: "opt-badge-C" },
+      { name: "严重超频 · 身体频繁报警", cls: "tone-D", bCls: "opt-badge-D" },
+      { name: "极限告急 · 急需自愈解药", cls: "tone-E", bCls: "opt-badge-E" }
+    ];
+    (item?.options || []).forEach((opt, idx) => {
+      const t = toneConfig[idx] || toneConfig[0];
       const card = document.createElement("div");
-      card.className = `option-card-20 ${isSel ? 'selected' : ''}`;
-      card.setAttribute("data-value", i);
-      card.onclick = () => handleSelectOption(i);
+      card.className = `option-card-20 ${currentAnswer === opt.val ? 'selected' : ''}`;
+      card.onclick = () => handleSelectOption(opt.val);
       card.innerHTML = `
-        <div class="opt-badge-pill ${tone.badgeCls}">${label}</div>
+        <div class="opt-badge-pill ${t.bCls}">${opt.label}</div>
         <div class="opt-content-wrap">
-          <div class="opt-tone-tag ${tone.cls}">【${tone.name}】</div>
-          <div class="opt-narrative-text">${standardLabels[i - 1]}</div>
+          <span class="opt-tone-tag ${t.cls}">【${t.name}】</span>
+          <div class="opt-narrative-text">${opt.text}</div>
         </div>
         <div class="opt-check-bubble"><i class="fa-solid fa-check"></i></div>
       `;
       container.appendChild(card);
-    }
+    });
   }
 
   document.getElementById("btn-prev-q").style.visibility = currentQuestionIndex === 0 ? "hidden" : "visible";
@@ -1915,45 +1543,244 @@ function renderCurrentQuestion() {
 
 function handleSelectOption(val) {
   answers[currentQuestionIndex] = val;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(answers));
+  localStorage.setItem(STORAGE_ANSWERS_KEY, JSON.stringify(answers));
 
-  document.querySelectorAll(".option-card-20").forEach(card => {
-    card.classList.toggle("selected", parseInt(card.getAttribute("data-value")) === val);
-  });
+  const cards = document.querySelectorAll(".option-card-20");
+  cards.forEach((c, i) => c.classList.toggle("selected", i + 1 === val));
 
-  const card = document.getElementById("q-card-element");
-  card.style.transform = "scale(0.985)";
-  card.style.opacity = "0.75";
+  const qCard = document.getElementById("q-card-element");
+  qCard.style.transform = "scale(0.985)";
+  qCard.style.opacity = "0.75";
 
   setTimeout(() => {
-    card.style.transform = "scale(1)";
-    card.style.opacity = "1";
-    if (currentQuestionIndex < questions.length - 1) {
+    qCard.style.transform = "scale(1)";
+    qCard.style.opacity = "1";
+    if (currentQuestionIndex < 89) {
       currentQuestionIndex++;
       renderCurrentQuestion();
       window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
-      finishAssessment();
+      finishAssessment(true);
     }
-  }, 220);
+  }, 210);
 }
 
+function formatNow() {
+  const d = new Date();
+  const pad = n => String(n).padStart(2, "0");
+  return `${d.getFullYear()}年${pad(d.getMonth() + 1)}月${pad(d.getDate())}日 ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
 
+function finishAssessment(saveRecord = false, customTime = null) {
+  switchScreen("screen-report");
+  const ts = customTime || formatNow();
+  calculateAndRenderReport(ts, saveRecord);
+}
+
+function calculateAndRenderReport(timestampStr, saveRecord) {
+  const weightedScores = answers.map(ans => OPTION_WEIGHTS[ans || 1]);
+  const rawSum = weightedScores.reduce((a, b) => a + b, 0);
+  const totalScore = Math.round(rawSum);
+  const totalAverage = (rawSum / 90).toFixed(2);
+
+  // 阳性项目判定：临床版 ans >= 2；牛马场景版 B为正常微疲(1.25)，选 C/D/E (ans >= 3) 计为显著阳性耗电项
+  const posThreshold = VERSION === "pro" ? 2 : 3;
+  const posScores = weightedScores.filter((_, idx) => (answers[idx] || 1) >= posThreshold);
+  const positiveItems = posScores.length;
+  const positiveAvg = positiveItems > 0
+    ? (posScores.reduce((a, b) => a + b, 0) / positiveItems).toFixed(2)
+    : "0.00";
+
+  let levelText = "", badgeClass = "badge-normal", insightText = "";
+
+  if (VERSION === "pro") {
+    if (totalScore > 300 || parseFloat(totalAverage) >= 3.0) {
+      levelText = "重度 · 心理困扰突出";
+      badgeClass = "badge-severe";
+      insightText = `总分 ${totalScore} 分，近期整体心理压力与情绪困扰较为突出。这并非您不够坚强，很大程度是身心在长期高压负荷下发出的保护性预警信号。请重点关注下方标红/标橙维度的调适建议，必要时积极寻求线下专业心理支持。`;
+    } else if (totalScore > 200 || parseFloat(totalAverage) >= 2.5) {
+      levelText = "中度 · 情绪负荷较明显";
+      badgeClass = "badge-moderate";
+      insightText = `总分 ${totalScore} 分，近期存在较为明显的情绪内耗或躯体紧绷反应。建议结合下方各维度的具体改善动作（如呼吸放松与睡眠节律调整），及时为身心减负。`;
+    } else if (totalScore > 160 || positiveItems >= 43) {
+      levelText = "轻度 · 存在一定压力波动";
+      badgeClass = "badge-mild";
+      insightText = `总分 ${totalScore} 分，整体处于轻度压力波动范围。在快节奏生活下出现阶段性疲惫十分常见，适度休息与自我关照即可良好平复。`;
+    } else {
+      levelText = "正常 · 心理健康状态良好";
+      badgeClass = "badge-normal";
+      insightText = `总分 ${totalScore} 分，您的整体心理健康状况处于正常良好水平！情绪调节能力与内在韧性较稳固，请继续保持规律作息与自我觉察。`;
+    }
+  } else {
+    if (totalScore > 280 || parseFloat(totalAverage) >= 3.0) {
+      levelText = "电量告急 · 亟需深度断电自愈";
+      badgeClass = "badge-severe";
+      insightText = `总分 ${totalScore} 分。你的身心电量已经严重见底！这不是你矫情或脆弱，而是你的机体替你硬扛了太多职场、人际与生活的隐形暴击。今晚放下对齐、微信和自责，先照着下方处方让自己彻底断电喘口气。`;
+    } else if (totalScore > 200 || parseFloat(totalAverage) >= 2.4) {
+      levelText = "超频待机 · 隐性内耗明显";
+      badgeClass = "badge-moderate";
+      insightText = `总分 ${totalScore} 分。当前处于“表面情绪稳定、后台疯狂耗电”的超频状态，部分维度的警报灯已经亮起。请重点查看下方偏高维度的回血动作，给下班后的自己筑起防线。`;
+    } else if (totalScore > 160) {
+      levelText = "轻度损耗 · 局部微疲状态";
+      badgeClass = "badge-mild";
+      insightText = `总分 ${totalScore} 分。存在轻度的日常搬砖耗电与小情绪积压，整体底盘依然稳健。今晚吃顿好的、睡个饱觉就能逐步满血回春！`;
+    } else {
+      levelText = "身心平衡 · 精神状态遥遥领先";
+      badgeClass = "badge-normal";
+      insightText = `总分 ${totalScore} 分。牛马内耗指数极低！你的精神状态稳健通透，自带高段位钝感力与自我修复机制，请继续保持这股让人羡慕的松弛感！`;
+    }
+  }
+
+  document.getElementById("rep-timestamp").textContent = `测评完成时间：${timestampStr}`;
+  document.getElementById("rep-total-score").textContent = totalScore;
+  document.getElementById("rep-level-text").textContent = levelText;
+  document.getElementById("rep-level-badge").className = `level-pill-badge ${badgeClass}`;
+  document.getElementById("rep-warm-insight").textContent = insightText;
+  document.getElementById("rep-avg-score").textContent = totalAverage;
+  document.getElementById("rep-positive-items").textContent = `${positiveItems} 项`;
+  document.getElementById("rep-positive-avg").textContent = positiveAvg;
+
+  const factorResults = dimensions.map(dim => {
+    const dimWeighted = dim.indices.map(idx => OPTION_WEIGHTS[answers[idx] || 1]);
+    const rawDimSum = Math.round(dimWeighted.reduce((a, b) => a + b, 0));
+    const avg = parseFloat((dimWeighted.reduce((a, b) => a + b, 0) / dim.indices.length).toFixed(2));
+
+    let sevKey = "normal", status = "正常", statusClass = "badge-normal", dotColor = "#38A169";
+    if (avg >= 3.0) {
+      sevKey = "severe"; status = "重度"; statusClass = "badge-severe"; dotColor = "#E53E3E";
+    } else if (avg >= 2.5) {
+      sevKey = "moderate"; status = "中度"; statusClass = "badge-moderate"; dotColor = "#DD6B20";
+    } else if (avg >= 2.0) {
+      sevKey = "mild"; status = "轻度"; statusClass = "badge-mild"; dotColor = "#D69E2E";
+    }
+
+    return {
+      name: dim.name,
+      tag: dim.tag,
+      rawSum,
+      dimSum: rawDimSum,
+      avg,
+      sevKey,
+      status,
+      statusClass,
+      dotColor,
+      summary: dim.summary,
+      traitText: dim.traits[sevKey],
+      adviceText: dim.advice,
+      normMean: dim.normMean
+    };
+  });
+
+  renderSummaryTable(factorResults);
+  renderFactorsList(factorResults);
+  renderMonumentRadarChart(factorResults);
+
+  if (saveRecord) {
+    saveHistoryRecord({ timestamp: timestampStr, totalScore, levelText, badgeClass, answers: [...answers] });
+  }
+}
+
+function renderSummaryTable(factors) {
+  const tbody = document.getElementById("factor-table-body");
+  tbody.innerHTML = factors.map(f => `
+    <tr>
+      <td>${f.name}</td>
+      <td>${f.dimSum}</td>
+      <td style="color:${f.dotColor}; font-weight:800;">${f.avg.toFixed(2)}</td>
+      <td><span class="tbl-pill ${f.statusClass}">${f.status}</span></td>
+    </tr>
+  `).join("");
+}
+
+function renderFactorsList(factors) {
+  const container = document.getElementById("factors-list-dom");
+  container.innerHTML = factors.map(f => `
+    <div class="factor-item-card" style="border-top: 3px solid ${f.dotColor};">
+      <div class="factor-header-line">
+        <div class="factor-name">
+          <span class="factor-dot" style="background:${f.dotColor}"></span>
+          <span>${f.name}</span>
+          <span style="font-size:0.74rem; color:var(--text-light); font-weight:500;">(${f.tag})</span>
+        </div>
+        <span class="factor-score-pill ${f.statusClass}">${f.avg.toFixed(2)}分 · ${f.status}</span>
+      </div>
+      <div style="font-size:0.78rem; color:var(--text-muted); line-height:1.5;">${f.summary}</div>
+      <div class="factor-sub-box">
+        <div class="factor-sub-title"><span class="badge-icon-blue">特</span> <span>当前状态表现</span></div>
+        <div>${f.traitText}</div>
+      </div>
+      <div class="factor-sub-box" style="background:#F0FDF4;">
+        <div class="factor-sub-title"><span class="badge-icon-green">建</span> <span>日常调适与自愈建议</span></div>
+        <div>${f.adviceText}</div>
+      </div>
+    </div>
+  `).join("");
+}
+
+function renderMonumentRadarChart(factors) {
+  const chartDom = document.getElementById("radar-chart-dom");
+  if (!chartDom || typeof echarts === "undefined") return;
+  if (radarChartInstance) radarChartInstance.dispose();
+  radarChartInstance = echarts.init(chartDom);
+
+  radarChartInstance.setOption({
+    backgroundColor: "transparent",
+    legend: {
+      bottom: 0,
+      data: ["您的得分", "参考常模"],
+      textStyle: { color: "#6E7582", fontSize: 11 }
+    },
+    radar: {
+      indicator: factors.map(f => ({ name: f.name, max: 5 })),
+      radius: "62%",
+      splitNumber: 4,
+      axisName: { color: "#2D3139", fontSize: 11, fontWeight: "bold" },
+      splitArea: {
+        areaStyle: {
+          color: ["rgba(244,217,220,0.22)", "rgba(203,227,213,0.22)", "rgba(198,216,235,0.22)", "rgba(252,230,210,0.22)"]
+        }
+      }
+    },
+    series: [{
+      type: "radar",
+      data: [
+        {
+          value: factors.map(f => f.avg),
+          name: "您的得分",
+          symbol: "circle",
+          symbolSize: 5,
+          lineStyle: { width: 2.5, color: "#7B73E8" },
+          areaStyle: { color: "rgba(85, 104, 201, 0.28)" },
+          itemStyle: { color: "#7B73E8" }
+        },
+        {
+          value: factors.map(f => f.normMean),
+          name: "参考常模",
+          symbol: "none",
+          lineStyle: { width: 1.5, type: "dashed", color: "#9AA1AE" },
+          itemStyle: { color: "#9AA1AE" }
+        }
+      ]
+    }]
+  });
+}
+
+// ==================== 题目网格 & 历史记录 & 海报 ====================
 function openGridModal() {
   const container = document.getElementById("indices-grid-dom");
   container.innerHTML = "";
-  for (let i = 0; i < questions.length; i++) {
+  for (let i = 0; i < 90; i++) {
     const pill = document.createElement("div");
     pill.className = "index-pill";
     pill.textContent = i + 1;
     if (answers[i] > 0) pill.classList.add("answered");
     if (i === currentQuestionIndex) pill.classList.add("active");
-    pill.addEventListener("click", () => {
+    pill.onclick = () => {
       currentQuestionIndex = i;
       renderCurrentQuestion();
       closeGridModal();
       window.scrollTo({ top: 0, behavior: "smooth" });
-    });
+    };
     container.appendChild(pill);
   }
   document.getElementById("grid-modal").classList.add("active");
@@ -1965,219 +1792,141 @@ function closeGridModal() {
   document.body.style.overflow = "";
 }
 
-function finishAssessment() {
-  switchScreen("screen-report");
-  calculateAndRenderReport();
+function saveHistoryRecord(rec) {
+  try {
+    const list = JSON.parse(localStorage.getItem(STORAGE_HISTORY_KEY) || "[]");
+    list.unshift(rec);
+    localStorage.setItem(STORAGE_HISTORY_KEY, JSON.stringify(list.slice(0, 15)));
+  } catch (e) {}
 }
 
-function calculateAndRenderReport() {
-  const totalScore = answers.reduce((a, b) => a + (b || 1), 0);
-  const totalAverage = (totalScore / questions.length).toFixed(2);
-  
-  const positiveItems = answers.filter(score => score >= 2).length;
-  const positiveSum = answers.filter(score => score >= 2).reduce((a, b) => a + b, 0);
-  const positiveAvg = positiveItems > 0 ? (positiveSum / positiveItems).toFixed(2) : "0.00";
+function openHistoryModal() {
+  const container = document.getElementById("history-list-dom");
+  let list = [];
+  try { list = JSON.parse(localStorage.getItem(STORAGE_HISTORY_KEY) || "[]"); } catch (e) {}
 
-  let levelText = "身心平衡 · 精神状态领先";
-  let badgeClass = "badge-normal";
-  let insightText = `总分 ${totalScore} 分。牛马指数极低！你的精神状态遥遥领先，身心电量充足，自愈与钝感力满分，请继续保持这股神仙般的松弛感！`;
-
-  if (totalScore >= 250 || totalAverage >= 3.0) {
-    levelText = "电量告急 · 亟需深度自愈";
-    badgeClass = "badge-severe";
-    insightText = `总分 ${totalScore} 分。你的身心电量已经严重告急！这不是你不够坚强或脆弱，而是你的机体替你硬扛了太多职场与生活的隐形暴击。今晚放下对齐、微信和内耗，允许自己彻底断电休息。`;
-  } else if (totalScore >= 200 || totalAverage >= 2.5) {
-    levelText = "超频待机 · 负荷明显预警";
-    badgeClass = "badge-moderate";
-    insightText = `总分 ${totalScore} 分。当前处于超频待机状态，日常工伤虽在咬牙硬撑，但在部分维度上机体已在频繁拉警报。记得给自己的下班时间设好坚固的心理防线。`;
-  } else if (totalScore >= 160 || positiveItems >= 43) {
-    levelText = "轻度损耗 · 处于微疲状态";
-    badgeClass = "badge-mild";
-    insightText = `总分 ${totalScore} 分。存在轻度的搬砖电量损耗与情绪波动。属于当代打工生活的常见微疲信号，今晚吃顿好的、睡个好觉即可逐步满血复活。`;
-  }
-
-  document.getElementById("rep-total-score").textContent = totalScore;
-  document.getElementById("rep-level-text").textContent = levelText;
-  document.getElementById("rep-level-badge").className = `level-pill-badge ${badgeClass}`;
-  document.getElementById("rep-warm-insight").textContent = insightText;
-  document.getElementById("rep-avg-score").textContent = totalAverage;
-  document.getElementById("rep-positive-items").textContent = `${positiveItems} 项`;
-  document.getElementById("rep-positive-avg").textContent = positiveAvg;
-
-  const factorResults = dimensions.map(dim => {
-    const scores = dim.indices.map(idx => answers[idx] || 1);
-    const sum = scores.reduce((a, b) => a + b, 0);
-    const avg = parseFloat((sum / dim.indices.length).toFixed(2));
-    
-    let status = "正常";
-    let statusClass = "badge-normal";
-    let dotColor = "#48BB78";
-    if (avg >= 3.0) {
-      status = "偏重";
-      statusClass = "badge-severe";
-      dotColor = "#F56565";
-    } else if (avg >= 2.5) {
-      status = "中度";
-      statusClass = "badge-moderate";
-      dotColor = "#ED8936";
-    } else if (avg >= 2.0) {
-      status = "轻度";
-      statusClass = "badge-mild";
-      dotColor = "#ECC94B";
-    }
-
-    return {
-      name: dim.name,
-      tag: dim.tag,
-      avg: avg,
-      status: status,
-      statusClass: statusClass,
-      dotColor: dotColor,
-      desc: dim.description,
-      deepInsight: dim.deepInsight,
-      normMean: dim.normMean
-    };
-  });
-
-  renderFactorsList(factorResults);
-  renderMonumentRadarChart(factorResults);
-}
-
-function renderFactorsList(factors) {
-  const container = document.getElementById("factors-list-dom");
-  container.innerHTML = "";
-
-  factors.forEach(f => {
-    const card = document.createElement("div");
-    card.className = "factor-item-card";
-    card.innerHTML = `
-      <div class="factor-header-line">
-        <div class="factor-name">
-          <span class="factor-dot" style="background:${f.dotColor}"></span>
-          <span>${f.name}</span>
-          <span style="font-size:0.75rem; color:var(--text-light); font-weight:normal;">(${f.tag})</span>
+  if (!list.length) {
+    container.innerHTML = `<div style="text-align:center; color:var(--text-light); padding:32px 0; font-size:0.86rem;">暂无本机历史测评记录，完成一次测评后将自动保存在此处</div>`;
+  } else {
+    container.innerHTML = list.map((item, idx) => `
+      <div class="history-item-row" data-hidx="${idx}">
+        <div>
+          <div style="font-weight:800; font-size:0.92rem;">总分 ${item.totalScore} 分 · ${item.levelText}</div>
+          <div style="font-size:0.75rem; color:var(--text-light); margin-top:2px;">${item.timestamp}</div>
         </div>
-        <span class="factor-score-pill ${f.statusClass}">${f.status} ${f.avg}</span>
+        <span style="color:var(--primary-color); font-size:0.8rem; font-weight:700;">查看报告 <i class="fa-solid fa-chevron-right"></i></span>
       </div>
-      <div class="factor-desc">${f.desc}</div>
-      <div class="factor-deep-insight ${isUnlocked ? 'show' : ''}">${f.deepInsight}</div>
-    `;
-    container.appendChild(card);
-  });
-}
-
-function renderMonumentRadarChart(factors) {
-  const chartDom = document.getElementById("radar-chart-dom");
-  if (!chartDom) return;
-
-  if (radarChartInstance) {
-    radarChartInstance.dispose();
-  }
-  radarChartInstance = echarts.init(chartDom);
-
-  const indicators = factors.map(f => ({
-    name: f.name,
-    max: 5
-  }));
-  const userValues = factors.map(f => f.avg);
-  const normValues = factors.map(f => f.normMean);
-
-  const option = {
-    backgroundColor: 'transparent',
-    tooltip: { trigger: 'item' },
-    legend: {
-      bottom: 0,
-      data: ['您的得分', '常模均值'],
-      textStyle: { color: '#808695', fontSize: 12 }
-    },
-    radar: {
-      indicator: indicators,
-      radius: '62%',
-      splitNumber: 4,
-      axisName: {
-        color: '#2D3139',
-        fontSize: 11,
-        fontWeight: 'bold'
-      },
-      splitArea: {
-        areaStyle: {
-          color: [
-            'rgba(244, 217, 220, 0.25)', 
-            'rgba(203, 227, 213, 0.25)', 
-            'rgba(198, 216, 235, 0.25)', 
-            'rgba(252, 230, 210, 0.25)'
-          ]
+    `).join("");
+    container.querySelectorAll(".history-item-row").forEach(row => {
+      row.onclick = () => {
+        const item = list[parseInt(row.getAttribute("data-hidx"), 10)];
+        if (item && Array.isArray(item.answers) && item.answers.length === 90) {
+          answers = [...item.answers];
+          document.getElementById("history-modal").classList.remove("active");
+          document.body.style.overflow = "";
+          finishAssessment(false, item.timestamp);
         }
-      },
-      splitLine: {
-        lineStyle: { color: 'rgba(0, 0, 0, 0.06)' }
-      },
-      axisLine: {
-        lineStyle: { color: 'rgba(0, 0, 0, 0.08)' }
-      }
-    },
-    series: [
-      {
-        type: 'radar',
-        data: [
-          {
-            value: userValues,
-            name: '您的得分',
-            symbol: 'circle',
-            symbolSize: 4,
-            lineStyle: { width: 2.5, color: '#7B73E8' },
-            areaStyle: {
-              color: 'rgba(123, 115, 232, 0.35)'
-            },
-            itemStyle: { color: '#7B73E8' }
-          },
-          {
-            value: normValues,
-            name: '常模均值',
-            symbol: 'none',
-            lineStyle: { width: 1.5, type: 'dashed', color: '#A5ABB6' },
-            itemStyle: { color: '#A5ABB6' }
-          }
-        ]
-      }
-    ]
-  };
-
-  radarChartInstance.setOption(option);
-  window.addEventListener('resize', () => radarChartInstance.resize());
+      };
+    });
+  }
+  document.getElementById("history-modal").classList.add("active");
+  document.body.style.overflow = "hidden";
 }
 
 function generateReportPoster() {
   const target = document.getElementById("report-canvas-target");
-  if (!target) return;
-
-  if (typeof html2canvas === "undefined") {
-    alert("海报渲染组件加载中，请稍候重试");
+  if (!target || typeof html2canvas === "undefined") {
+    alert("请直接使用手机系统截屏保存报告");
     return;
   }
-
   const btn = document.getElementById("btn-generate-poster");
-  const originText = btn.innerHTML;
-  btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> 正在生成艺术打卡图...`;
-
-  html2canvas(target, {
-    scale: 2,
-    useCORS: true,
-    backgroundColor: "#FAF8F5"
-  }).then(canvas => {
-    btn.innerHTML = originText;
-    const imgData = canvas.toDataURL("image/png");
-    const container = document.getElementById("poster-img-container");
-    container.innerHTML = `<img src="${imgData}" alt="测试结果海报" />`;
-    
-    // 打开弹窗并彻底锁定 body 滚动，解决滑动穿透
+  const old = btn.innerHTML;
+  btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> 正在生成高清完整报告长图...`;
+  html2canvas(target, { scale: 2, useCORS: true, backgroundColor: "#FAF8F5" }).then(canvas => {
+    btn.innerHTML = old;
+    document.getElementById("poster-img-container").innerHTML = `<img src="${canvas.toDataURL("image/png")}" alt="测评报告长图" />`;
     document.getElementById("poster-modal").classList.add("active");
     document.body.style.overflow = "hidden";
-  }).catch(err => {
-    btn.innerHTML = originText;
-    alert("生成海报遇到异常，请直接使用手机系统截屏保存。");
+  }).catch(() => {
+    btn.innerHTML = old;
+    alert("生成长图遇到限制，请直接使用手机截屏保存！");
   });
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  // 恢复未完成答题进度
+  try {
+    const savedAns = JSON.parse(localStorage.getItem(STORAGE_ANSWERS_KEY) || "null");
+    if (Array.isArray(savedAns) && savedAns.length === 90) answers = savedAns;
+  } catch (e) {}
+
+  if (getSavedSession()) {
+    document.getElementById("vip-status-tag").classList.add("active");
+  }
+
+  // 支持链接附带 ?code= 自动填入弹窗
+  const urlCode = new URLSearchParams(window.location.search).get("code");
+  if (urlCode) {
+    document.getElementById("auth-code-input").value = urlCode.trim();
+  }
+
+  document.getElementById("btn-start").onclick = startOrRequireAuth;
+  document.getElementById("btn-submit-auth").onclick = submitAuthCode;
+  document.getElementById("auth-code-input").addEventListener("keypress", e => {
+    if (e.key === "Enter") submitAuthCode();
+  });
+  document.getElementById("btn-close-auth").onclick = () => {
+    document.getElementById("auth-gate-modal").classList.remove("active");
+  };
+  document.getElementById("btn-how-to-get-code").onclick = () => {
+    if (SHOP_URL) {
+      window.open(SHOP_URL, "_blank");
+    } else {
+      alert("【授权码获取指引】\n\n1. 已下单用户：请打开小红书客服聊天窗查看自动发送的 6 位授权码，或直接在订单详情页复制【P开头的订单编号】粘贴即可激活！\n\n2. 未下单用户：请返回小红书原笔记左下角或评论区置顶链接拍下，系统 24 小时自动秒发授权码。");
+    }
+  };
+
+  document.getElementById("btn-prev-q").onclick = () => {
+    if (currentQuestionIndex > 0) {
+      currentQuestionIndex--;
+      renderCurrentQuestion();
+    }
+  };
+  document.getElementById("btn-open-grid").onclick = openGridModal;
+  document.getElementById("btn-close-grid").onclick = closeGridModal;
+  document.getElementById("grid-modal").onclick = e => { if (e.target.id === "grid-modal") closeGridModal(); };
+
+  document.getElementById("btn-open-history").onclick = openHistoryModal;
+  document.getElementById("btn-close-history").onclick = () => {
+    document.getElementById("history-modal").classList.remove("active");
+    document.body.style.overflow = "";
+  };
+  document.getElementById("history-modal").onclick = e => {
+    if (e.target.id === "history-modal") {
+      document.getElementById("history-modal").classList.remove("active");
+      document.body.style.overflow = "";
+    }
+  };
+
+  document.getElementById("btn-restart").onclick = () => {
+    if (confirm("确定要清空当前作答进度并重新开始吗？")) {
+      answers = new Array(90).fill(0);
+      localStorage.removeItem(STORAGE_ANSWERS_KEY);
+      currentQuestionIndex = 0;
+      startOrRequireAuth();
+    }
+  };
+
+  document.getElementById("btn-generate-poster").onclick = generateReportPoster;
+  document.getElementById("btn-close-poster").onclick = () => {
+    document.getElementById("poster-modal").classList.remove("active");
+    document.body.style.overflow = "";
+  };
+
+  window.addEventListener("resize", () => {
+    if (radarChartInstance) radarChartInstance.resize();
+  });
+});
 </script>
 </body>
 </html>
