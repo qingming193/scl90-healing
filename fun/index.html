@@ -3,35 +3,56 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <title>SCL-90 · 牛马身心沉浸自测版</title>
+  <title>MOOD LAB · 情绪特调实验室 · SCL-90 牛马沉浸自测版</title>
   <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
     :root {
-      --bg-warm: #FAF8F5;
-      --bg-card: rgba(255, 255, 255, 0.92);
-      --sand-stone: #EFE9E0;
-      --pastel-rose: #F4D9DC;
-      --pastel-mint: #CBE3D5;
-      --pastel-blue: #C6D8EB;
-      --pastel-peach: #FCE6D2;
-      --primary-color: #7B73E8;
-      --primary-soft: #F0EEFC;
-      --primary-hover: #6960D8;
-      --text-dark: #2D3139;
-      --text-muted: #6E7582;
-      --text-light: #9AA1AE;
-      --border-soft: rgba(0, 0, 0, 0.06);
-      --radius-xl: 22px;
-      --radius-lg: 16px;
-      --radius-pill: 999px;
-      --shadow-soft: 0 12px 34px rgba(100, 95, 130, 0.08);
-      --shadow-sm: 0 4px 14px rgba(100, 95, 130, 0.05);
-      --color-normal: #38A169;
-      --color-mild: #D69E2E;
-      --color-moderate: #DD6B20;
-      --color-severe: #E53E3E;
+      --bg-ambient: #131915;
+      --glow-top: rgba(143, 168, 147, 0.22);
+      --glow-bottom: rgba(191, 209, 181, 0.08);
+      --accent-liquid-1: #8FA893;
+      --accent-liquid-2: #BFD1B5;
+      --glass-bg: rgba(255, 255, 255, 0.048);
+      --glass-bg-hover: rgba(255, 255, 255, 0.08);
+      --glass-border: rgba(255, 255, 255, 0.10);
+      --glass-highlight: rgba(255, 255, 255, 0.12);
+      --ivory: #F5F4F0;
+      --ivory-text: #141618;
+      --text-main: #F3F2EE;
+      --text-muted: rgba(243, 242, 238, 0.64);
+      --text-dim: rgba(243, 242, 238, 0.42);
+      --serif: "Noto Serif SC", "Songti SC", "STSong", "SimSun", Georgia, serif;
+      --sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      --color-normal: #7AB893;
+      --color-mild: #E5A93C;
+      --color-moderate: #F0937B;
+      --color-severe: #E26D6D;
+    }
+
+    body.mood-calm {
+      --bg-ambient: #131915;
+      --glow-top: rgba(143, 168, 147, 0.24);
+      --glow-bottom: rgba(122, 184, 147, 0.09);
+      --accent-liquid-1: #8FA893;
+      --accent-liquid-2: #BFD1B5;
+    }
+
+    body.mood-warm {
+      --bg-ambient: #1C1610;
+      --glow-top: rgba(229, 169, 60, 0.22);
+      --glow-bottom: rgba(240, 147, 123, 0.10);
+      --accent-liquid-1: #E5A93C;
+      --accent-liquid-2: #F0937B;
+    }
+
+    body.mood-deep {
+      --bg-ambient: #101521;
+      --glow-top: rgba(74, 98, 148, 0.28);
+      --glow-bottom: rgba(109, 94, 88, 0.14);
+      --accent-liquid-1: #3C5382;
+      --accent-liquid-2: #8E756B;
     }
 
     * {
@@ -39,751 +60,943 @@
       margin: 0;
       padding: 0;
       -webkit-tap-highlight-color: transparent;
-      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
     }
 
     html, body {
       width: 100%;
       max-width: 100%;
       overflow-x: hidden;
-      background: var(--bg-warm);
-      color: var(--text-dark);
       min-height: 100vh;
+      background-color: var(--bg-ambient);
+      color: var(--text-main);
+      font-family: var(--sans);
     }
 
     body {
       display: flex;
       justify-content: center;
       align-items: flex-start;
+      position: relative;
+      transition: background-color 1.2s ease;
       background-image:
-        radial-gradient(at 10% 10%, rgba(244, 217, 220, 0.35) 0px, transparent 50%),
-        radial-gradient(at 90% 20%, rgba(203, 227, 213, 0.35) 0px, transparent 50%),
-        radial-gradient(at 50% 85%, rgba(198, 216, 235, 0.35) 0px, transparent 50%);
+        radial-gradient(circle at 50% 12%, var(--glow-top) 0%, transparent 56%),
+        radial-gradient(circle at 80% 88%, var(--glow-bottom) 0%, transparent 50%);
       background-attachment: fixed;
     }
 
-    .monument-bg-ornaments {
+    /* 全屏模拟胶片微粒遮罩 */
+    .film-grain-overlay {
       position: fixed;
       inset: 0;
       pointer-events: none;
-      z-index: 0;
-      overflow: hidden;
-    }
-    .monument-bg-ornaments .geo-arch {
-      position: absolute;
-      top: -40px;
-      right: -30px;
-      width: 180px;
-      height: 240px;
-      border: 2px solid rgba(123, 115, 232, 0.08);
-      border-radius: 90px 90px 0 0;
-      transform: rotate(15deg);
-    }
-    .monument-bg-ornaments .geo-cube {
-      position: absolute;
-      bottom: 80px;
-      left: -20px;
-      width: 100px;
-      height: 100px;
-      background: linear-gradient(135deg, rgba(230, 247, 242, 0.45) 0%, rgba(254, 243, 199, 0.25) 100%);
-      transform: rotate(45deg);
-      border-radius: 18px;
+      z-index: 9999;
+      opacity: 0.055;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     }
 
     .app-viewport {
       width: 100%;
-      max-width: 480px;
+      max-width: 460px;
       min-height: 100vh;
       position: relative;
       z-index: 1;
       display: flex;
       flex-direction: column;
-      padding: 14px 16px 32px;
+      padding: 14px 18px 34px;
       margin: 0 auto;
     }
 
-    .top-editorial-bar {
+    /* 顶部极简实验室导航 */
+    .lab-top-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 8px;
-      padding: 8px 0 14px;
-      font-size: 0.76rem;
-      font-weight: 600;
-      color: var(--text-muted);
-      border-bottom: 1px dashed rgba(0, 0, 0, 0.08);
-      margin-bottom: 16px;
+      padding: 6px 0 14px;
+      margin-bottom: 10px;
     }
 
-    .editorial-badge {
+    .lab-brand {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
-      background: var(--sand-stone);
-      padding: 4px 10px;
-      border-radius: var(--radius-pill);
-      color: #5E584F;
+      gap: 8px;
+      font-size: 11px;
       font-weight: 700;
+      letter-spacing: 2.2px;
+      text-transform: uppercase;
+      color: var(--text-main);
     }
 
-    .top-right-Controls {
+    .lab-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-liquid-2);
+      box-shadow: 0 0 10px var(--accent-liquid-1);
+      animation: pulseGlow 2.8s ease-in-out infinite;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.65; transform: scale(0.95); }
+      50% { opacity: 1; transform: scale(1.25); }
+    }
+
+    .top-actions-right {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
     }
 
     .vip-active-tag {
       display: none;
       align-items: center;
       gap: 4px;
-      background: #E6F4EA;
-      color: #276749;
       padding: 4px 9px;
-      border-radius: var(--radius-pill);
-      font-size: 0.71rem;
-      font-weight: 700;
+      border-radius: 999px;
+      background: rgba(122, 184, 147, 0.14);
+      border: 1px solid rgba(122, 184, 147, 0.35);
+      color: #A7DFBE;
+      font-size: 11px;
+      font-weight: 600;
     }
     .vip-active-tag.active {
       display: inline-flex;
     }
 
-    .history-trigger-btn {
-      border: 1px solid rgba(0,0,0,0.08);
-      background: rgba(255,255,255,0.85);
-      color: var(--text-dark);
-      padding: 4px 10px;
-      border-radius: var(--radius-pill);
-      font-size: 0.73rem;
+    .icon-circle-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      color: var(--text-main);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      cursor: pointer;
+      backdrop-filter: blur(12px);
+      transition: background 0.2s ease;
+    }
+    .icon-circle-btn:active {
+      background: var(--glass-bg-hover);
+    }
+
+    /* 屏幕切换 */
+    .screen {
+      display: none;
+      flex-direction: column;
+      width: 100%;
+      animation: fadeSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .screen.active {
+      display: flex;
+    }
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 通用烟熏磨砂玻璃卡片 */
+    .glass-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      box-shadow: inset 0 1px 0 var(--glass-highlight), 0 16px 40px rgba(0, 0, 0, 0.32);
+      border-radius: 20px;
+    }
+
+    /* 主象牙白发光 CTA */
+    .btn-ivory {
+      width: 100%;
+      height: 52px;
+      border-radius: 14px;
+      background: var(--ivory);
+      color: var(--ivory-text);
+      font-size: 0.96rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 8px 28px rgba(245, 244, 240, 0.14);
+      transition: transform 0.18s ease, opacity 0.18s ease;
+    }
+    .btn-ivory:active {
+      transform: scale(0.985);
+      opacity: 0.92;
+    }
+
+    .btn-glass {
+      height: 44px;
+      padding: 0 16px;
+      border-radius: 13px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      color: var(--text-main);
+      font-size: 0.85rem;
       font-weight: 600;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      justify-content: center;
+      gap: 6px;
+      backdrop-filter: blur(12px);
+    }
+    .btn-glass:active {
+      background: var(--glass-bg-hover);
     }
 
-    .monument-hero {
-      width: 100%;
-      height: 170px;
+    /* ==================== 幕 0：迎宾调酒台 ==================== */
+    .hero-vessel-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 6px 0 14px;
+      position: relative;
+    }
+
+    .vessel-halo {
+      position: relative;
+      width: 158px;
+      height: 158px;
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 8px;
-    }
-    .hero-svg {
-      width: 100%;
-      max-height: 170px;
-    }
-
-    .screen {
-      display: none;
-      animation: fadeIn 0.3s ease forwards;
-    }
-    .screen.active {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
+      box-shadow: 0 0 60px var(--glow-top), inset 0 0 24px rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: radial-gradient(circle at 35% 28%, rgba(255,255,255,0.10), rgba(255,255,255,0.015) 70%);
+      overflow: hidden;
+      animation: breatheVessel 5s ease-in-out infinite;
     }
 
-    .welcome-header {
+    @keyframes breatheVessel {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 50px var(--glow-top), inset 0 0 22px rgba(255,255,255,0.08); }
+      50% { transform: scale(1.025); box-shadow: 0 0 75px var(--glow-top), inset 0 0 28px rgba(255,255,255,0.12); }
+    }
+
+    .welcome-titles {
       text-align: center;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
     }
-    .stage-chapter-banner {
+
+    .kicker-pill {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: linear-gradient(135deg, rgba(85, 104, 201, 0.09) 0%, rgba(248, 177, 149, 0.14) 100%);
-      border: 1px solid rgba(85, 104, 201, 0.18);
       padding: 4px 12px;
-      border-radius: var(--radius-pill);
-      font-size: 0.74rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      font-size: 11px;
+      letter-spacing: 1px;
+      color: var(--accent-liquid-2);
+      margin-bottom: 10px;
+    }
+
+    .welcome-titles h1 {
+      font-family: var(--serif);
+      font-size: 1.55rem;
       font-weight: 700;
-      color: var(--primary-color);
-      margin-bottom: 6px;
+      letter-spacing: 0.5px;
+      color: var(--ivory);
+      line-height: 1.35;
     }
-    .welcome-header h1 {
-      font-size: 1.52rem;
-      font-weight: 800;
-      color: var(--text-dark);
-      line-height: 1.3;
-      margin-top: 4px;
-    }
-    .welcome-header p {
-      font-size: 0.88rem;
+
+    .welcome-titles p {
+      font-size: 0.85rem;
       color: var(--text-muted);
       margin-top: 6px;
       line-height: 1.5;
     }
 
-    .meta-cards-grid {
+    .meta-trio-dark {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-bottom: 18px;
+      gap: 9px;
+      margin-bottom: 14px;
     }
-    .meta-card {
-      background: var(--bg-card);
-      border-radius: var(--radius-lg);
-      padding: 12px 8px;
+    .meta-cell {
+      padding: 11px 6px;
       text-align: center;
-      box-shadow: var(--shadow-sm);
-      border: 1px solid var(--border-soft);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid rgba(255, 255, 255, 0.07);
     }
-    .meta-card i {
-      font-size: 1.15rem;
-      color: var(--primary-color);
-      margin-bottom: 5px;
+    .meta-cell i {
+      font-size: 0.95rem;
+      color: var(--accent-liquid-2);
+      margin-bottom: 4px;
     }
-    .meta-title {
-      font-size: 0.72rem;
-      color: var(--text-muted);
+    .meta-cell .m-label {
+      font-size: 10px;
+      color: var(--text-dim);
       margin-bottom: 2px;
     }
-    .meta-val {
-      font-size: 0.85rem;
+    .meta-cell .m-val {
+      font-size: 0.82rem;
       font-weight: 700;
-      color: var(--text-dark);
+      color: var(--ivory);
     }
 
-    .intro-notice-box {
-      background: rgba(255, 255, 255, 0.78);
-      backdrop-filter: blur(8px);
-      border-radius: var(--radius-lg);
+    .monologue-card {
       padding: 15px 16px;
-      border: 1px dashed rgba(123, 115, 232, 0.32);
-      margin-bottom: 20px;
-      font-size: 0.85rem;
-      color: #525866;
+      margin-bottom: 18px;
+      font-size: 0.84rem;
+      line-height: 1.72;
+      color: rgba(243, 242, 238, 0.82);
     }
-
-    .btn-main {
-      width: 100%;
-      height: 52px;
-      border-radius: var(--radius-pill);
-      background: linear-gradient(135deg, var(--primary-color) 0%, #8E85F3 100%);
-      color: #FFFFFF;
-      font-size: 1rem;
-      font-weight: 700;
-      border: none;
-      cursor: pointer;
-      box-shadow: 0 10px 24px rgba(85, 104, 201, 0.28);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: all 0.2s ease;
+    .monologue-card p {
+      margin-bottom: 7px;
     }
-    .btn-main:active {
-      transform: scale(0.985);
-    }
-
-    .btn-secondary {
-      height: 42px;
-      padding: 0 16px;
-      border-radius: var(--radius-pill);
-      background: rgba(255, 255, 255, 0.9);
-      border: 1px solid rgba(0, 0, 0, 0.08);
-      color: var(--text-dark);
-      font-size: 0.86rem;
+    .monologue-card p:last-child {
+      margin-bottom: 0;
+      color: var(--accent-liquid-2);
       font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      cursor: pointer;
     }
 
-    .compliance-foot {
-      margin-top: 16px;
+    .compliance-note {
+      margin-top: 14px;
       text-align: center;
-      font-size: 0.73rem;
-      color: var(--text-light);
+      font-size: 11px;
+      color: var(--text-dim);
       line-height: 1.5;
     }
 
-    /* ========= 答题页 ========= */
-    .expiry-urgency-bar {
-      background: #FFFBEB;
-      border: 1px solid #FDE68A;
-      color: #B45309;
-      font-size: 0.74rem;
-      font-weight: 600;
-      padding: 6px 12px;
-      border-radius: 10px;
-      margin-bottom: 12px;
+    /* ==================== 幕 1：调酒主界面 (实时情绪萃取) ==================== */
+    .mixer-stage-wrap {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      gap: 6px;
+      margin-bottom: 12px;
     }
 
-    .stair-progress-wrapper {
-      margin-bottom: 14px;
-    }
-    .stair-header-row {
+    .mixer-top-meta {
+      width: 100%;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 6px;
-      font-size: 0.8rem;
-      font-weight: 700;
-    }
-    .stair-tag {
-      color: var(--primary-color);
-    }
-    .stair-count {
+      font-size: 11px;
+      letter-spacing: 1px;
       color: var(--text-muted);
+      margin-bottom: 8px;
     }
+
+    .mixer-orb-container {
+      position: relative;
+      width: 132px;
+      height: 132px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255, 255, 255, 0.22);
+      box-shadow:
+        0 0 42px var(--glow-top),
+        inset 0 2px 10px rgba(255, 255, 255, 0.16),
+        inset 0 -8px 18px rgba(0, 0, 0, 0.45);
+      background: radial-gradient(circle at 30% 25%, rgba(255,255,255,0.12), rgba(0,0,0,0.25) 75%);
+      overflow: hidden;
+      transition: transform 0.6s ease;
+    }
+    /* 玻璃高光弧线 */
+    .mixer-orb-container::after {
+      content: "";
+      position: absolute;
+      top: 10px;
+      left: 18px;
+      width: 36px;
+      height: 16px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.22);
+      transform: rotate(-28deg);
+      filter: blur(2px);
+      pointer-events: none;
+    }
+
+    #mixer-canvas {
+      width: 132px;
+      height: 132px;
+      display: block;
+    }
+
+    .mixer-status-italic {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      margin-top: 10px;
+      letter-spacing: 0.5px;
+      min-height: 20px;
+      text-align: center;
+      animation: breatheText 3s ease-in-out infinite;
+    }
+    @keyframes breatheText {
+      0%, 100% { opacity: 0.58; }
+      50% { opacity: 0.96; }
+    }
+
+    /* (B) 双向情绪值可视化条：负向 <- 0 -> 正向 */
+    .mood-axis-wrap {
+      width: 100%;
+      margin: 8px 0 12px;
+    }
+    .mood-axis-track {
+      position: relative;
+      height: 3px;
+      background: linear-gradient(90deg, rgba(143, 168, 147, 0.45), rgba(229, 169, 60, 0.45), rgba(226, 109, 109, 0.55));
+      border-radius: 999px;
+      margin: 6px 0;
+    }
+    .mood-axis-center-tick {
+      position: absolute;
+      left: 50%;
+      top: -3px;
+      width: 1px;
+      height: 9px;
+      background: rgba(255, 255, 255, 0.25);
+    }
+    .mood-axis-dot {
+      position: absolute;
+      top: 50%;
+      left: 25%;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--ivory);
+      box-shadow: 0 0 12px rgba(245, 244, 240, 0.9);
+      transform: translate(-50%, -50%);
+      transition: left 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .mood-axis-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      color: var(--text-dim);
+      letter-spacing: 0.5px;
+    }
+
+    /* 进度微条 */
     .stair-bar-bg {
       width: 100%;
-      height: 8px;
-      background: rgba(0, 0, 0, 0.06);
-      border-radius: var(--radius-pill);
+      height: 3px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
       overflow: hidden;
-      margin-bottom: 8px;
+      margin-bottom: 12px;
     }
     .stair-bar-fill {
       height: 100%;
       width: 1%;
-      background: linear-gradient(90deg, var(--primary-color), #F8B195);
-      border-radius: var(--radius-pill);
+      background: linear-gradient(90deg, var(--accent-liquid-1), var(--accent-liquid-2));
       transition: width 0.25s ease;
     }
-    .companion-quote {
-      font-size: 0.76rem;
-      color: var(--text-muted);
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .companion-quote i {
-      color: #F59E0B;
-    }
 
-    .question-card {
-      background: var(--bg-card);
-      border-radius: var(--radius-xl);
-      padding: 20px 18px 18px;
-      box-shadow: var(--shadow-soft);
-      border: 1px solid rgba(255, 255, 255, 0.9);
-      margin-bottom: 14px;
-      text-align: center;
-      position: relative;
+    /* 题目玻璃卡片 */
+    .q-glass-card {
+      padding: 16px 16px 15px;
+      margin-bottom: 11px;
       transition: transform 0.2s ease, opacity 0.2s ease;
     }
-    .q-card-top-meta {
+    .q-card-meta {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
+      font-size: 11px;
+      color: var(--text-dim);
+      letter-spacing: 1px;
     }
-    .question-num-pill {
-      font-size: 0.72rem;
-      color: var(--text-light);
-      font-weight: 800;
-      letter-spacing: 0.8px;
+    .q-dim-tag {
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--accent-liquid-2);
+      font-size: 10px;
     }
-    .question-category-pill {
-      font-size: 0.72rem;
-      background: var(--sand-stone);
-      color: #6C665D;
-      padding: 2px 9px;
-      border-radius: var(--radius-pill);
+    .q-title-text {
+      font-family: var(--serif);
+      font-size: 1.04rem;
       font-weight: 600;
-    }
-    .question-text {
-      font-size: 1.12rem;
-      font-weight: 700;
-      color: var(--text-dark);
       line-height: 1.5;
+      color: var(--ivory);
     }
 
-    .options-group-20 {
+    /* 5 级烟熏玻璃选项卡片 */
+    .options-group-lab {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      margin-bottom: 18px;
+      gap: 8px;
+      margin-bottom: 14px;
     }
-    .option-card-20 {
+    .opt-glass-card {
       width: 100%;
-      padding: 12px 14px;
-      border-radius: 15px;
-      background: rgba(255, 255, 255, 0.94);
-      border: 1.5px solid rgba(226, 232, 240, 0.9);
-      box-shadow: 0 3px 10px rgba(93, 83, 201, 0.04);
+      padding: 10px 13px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.038);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       display: flex;
       align-items: center;
-      gap: 11px;
+      gap: 10px;
       cursor: pointer;
       text-align: left;
       transition: all 0.18s ease;
     }
-    .option-card-20:active {
+    .opt-glass-card:active {
       transform: scale(0.99);
+      background: rgba(255, 255, 255, 0.08);
     }
-    .option-card-20.selected {
-      background: linear-gradient(135deg, #FAF8FF 0%, var(--primary-soft) 100%);
-      border-color: var(--primary-color);
-      box-shadow: 0 6px 18px rgba(85, 104, 201, 0.18);
+    .opt-glass-card.selected {
+      background: rgba(255, 255, 255, 0.11);
+      border-color: var(--accent-liquid-2);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.06);
     }
-    .opt-badge-pill {
-      width: 30px;
-      height: 30px;
-      border-radius: 9px;
+
+    .opt-letter {
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: 12px;
       font-weight: 800;
-      font-size: 0.9rem;
       flex-shrink: 0;
     }
-    .opt-badge-A { background: #E6F7F2; color: #1E7E68; border: 1px solid #B8EAD9; }
-    .opt-badge-B { background: #EBF4FF; color: #2B6CB0; border: 1px solid #BEE3F8; }
-    .opt-badge-C { background: #FEF3C7; color: #D97706; border: 1px solid #FDE68A; }
-    .opt-badge-D { background: #FFEDD5; color: #EA580C; border: 1px solid #FDBA74; }
-    .opt-badge-E { background: #FEE2E2; color: #DC2626; border: 1px solid #FECACA; }
+    .opt-A { background: rgba(122, 184, 147, 0.18); color: #A7DFBE; border: 1px solid rgba(122, 184, 147, 0.35); }
+    .opt-B { background: rgba(147, 197, 253, 0.15); color: #B8D8FA; border: 1px solid rgba(147, 197, 253, 0.30); }
+    .opt-C { background: rgba(229, 169, 60, 0.18); color: #F4CC7F; border: 1px solid rgba(229, 169, 60, 0.35); }
+    .opt-D { background: rgba(240, 147, 123, 0.18); color: #F9B7A5; border: 1px solid rgba(240, 147, 123, 0.35); }
+    .opt-E { background: rgba(226, 109, 109, 0.20); color: #F6A2A2; border: 1px solid rgba(226, 109, 109, 0.38); }
 
-    .opt-content-wrap {
+    .opt-body {
       flex: 1;
     }
-    .opt-tone-tag {
-      font-size: 0.72rem;
+    .opt-tag-mini {
+      font-size: 10px;
       font-weight: 700;
       margin-bottom: 2px;
-      display: block;
+      opacity: 0.86;
     }
-    .tone-A { color: #1E7E68; }
-    .tone-B { color: #2B6CB0; }
-    .tone-C { color: #D97706; }
-    .tone-D { color: #EA580C; }
-    .tone-E { color: #DC2626; }
-
-    .opt-narrative-text {
-      font-size: 0.89rem;
-      line-height: 1.52;
-      color: var(--text-dark);
-      font-weight: 500;
+    .opt-text-desc {
+      font-size: 0.84rem;
+      line-height: 1.46;
+      color: rgba(243, 242, 238, 0.88);
     }
-    .opt-check-bubble {
-      width: 20px;
-      height: 20px;
+    .opt-dot-check {
+      width: 18px;
+      height: 18px;
       border-radius: 50%;
-      border: 1.5px solid #CBD5E0;
+      border: 1.5px solid rgba(255, 255, 255, 0.24);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.65rem;
+      font-size: 9px;
       color: transparent;
       flex-shrink: 0;
     }
-    .option-card-20.selected .opt-check-bubble {
-      background: var(--primary-color);
-      border-color: var(--primary-color);
-      color: #FFFFFF;
+    .opt-glass-card.selected .opt-dot-check {
+      background: var(--ivory);
+      border-color: var(--ivory);
+      color: var(--ivory-text);
     }
 
-    .nav-actions {
+    .nav-actions-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 10px;
     }
 
-    /* ========= 结果报告页 ========= */
-    .summary-hero-card {
-      background: var(--bg-card);
-      border-radius: var(--radius-xl);
-      padding: 24px 18px 20px;
-      box-shadow: var(--shadow-soft);
-      border: 1px solid rgba(255, 255, 255, 0.95);
+    /* ==================== 幕 1.5：仪式调制过渡 ==================== */
+    .ritual-screen {
+      min-height: 76vh;
+      justify-content: center;
+      align-items: center;
       text-align: center;
-      margin-bottom: 16px;
+      gap: 24px;
+    }
+    .ritual-orb-large {
+      width: 196px;
+      height: 196px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255, 255, 255, 0.28);
+      box-shadow: 0 0 80px var(--glow-top), inset 0 0 28px rgba(255,255,255,0.16);
+      overflow: hidden;
+      position: relative;
+      animation: breatheVessel 2.2s ease-in-out infinite;
+    }
+    .ritual-en {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--ivory);
+      letter-spacing: 0.8px;
+    }
+    .ritual-zh {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    /* ==================== 幕 2：② 情绪特调展示页 ==================== */
+    .mixology-nav-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .mixology-kicker-center {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2.2px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    /* 核心特调酒单艺术卡 (复刻视频 00:10 & 00:22) */
+    .blend-hero-card {
+      padding: 24px 18px 20px;
+      text-align: center;
+      margin-bottom: 14px;
       position: relative;
       overflow: hidden;
     }
-    .report-title-label {
-      font-size: 0.82rem;
-      font-weight: 800;
-      color: var(--primary-color);
-      letter-spacing: 1px;
+    .blend-eyebrow {
+      font-size: 10px;
+      letter-spacing: 2.4px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      margin-bottom: 8px;
     }
-    .report-time-sub {
-      font-size: 0.73rem;
-      color: var(--text-light);
-      margin-top: 3px;
-      margin-bottom: 10px;
-    }
-    .score-huge {
-      font-size: 3.3rem;
-      font-weight: 900;
-      line-height: 1.05;
-      color: var(--text-dark);
-    }
-    .score-max-sub {
-      font-size: 0.78rem;
-      color: var(--text-light);
-      margin-bottom: 10px;
-    }
-    .level-pill-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 18px;
-      border-radius: var(--radius-pill);
-      font-size: 0.88rem;
-      font-weight: 800;
-      color: #FFFFFF;
-      margin-bottom: 14px;
-    }
-    .badge-normal { background: var(--color-normal); }
-    .badge-mild { background: var(--color-mild); }
-    .badge-moderate { background: var(--color-moderate); }
-    .badge-severe { background: var(--color-severe); }
-
-    .warm-insight-text {
-      background: #F8FAFC;
-      border-radius: 14px;
-      padding: 13px 14px;
-      font-size: 0.85rem;
-      line-height: 1.65;
-      color: #475569;
-      text-align: left;
-    }
-
-    .stat-trio {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-    .stat-box {
-      background: var(--bg-card);
-      border-radius: 16px;
-      padding: 12px 8px;
-      text-align: center;
-      box-shadow: var(--shadow-sm);
-    }
-    .stat-label {
-      font-size: 0.73rem;
-      color: var(--text-muted);
+    .blend-name-zh {
+      font-family: var(--serif);
+      font-size: 1.48rem;
+      font-weight: 700;
+      color: var(--ivory);
+      line-height: 1.3;
       margin-bottom: 4px;
     }
-    .stat-num {
-      font-size: 1.08rem;
-      font-weight: 800;
-      color: var(--text-dark);
+    .blend-name-en {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      margin-bottom: 18px;
     }
 
-    .chart-card, .table-card {
-      background: var(--bg-card);
-      border-radius: var(--radius-xl);
-      padding: 18px 14px;
-      box-shadow: var(--shadow-soft);
-      margin-bottom: 16px;
+    /* U 型水晶调酒杯插画容器 */
+    .tumbler-display-box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 4px 0 18px;
+      position: relative;
     }
-    .card-sec-title {
-      font-size: 0.96rem;
-      font-weight: 800;
-      color: var(--text-dark);
+    .tumbler-svg {
+      width: 126px;
+      height: 148px;
+      filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.45));
+    }
+
+    /* 【你的情绪配方卡】 */
+    .recipe-inner-card {
+      background: rgba(255, 255, 255, 0.045);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      padding: 14px 14px 13px;
+      text-align: left;
+      margin-bottom: 14px;
+    }
+    .recipe-row-base {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 0.84rem;
+    }
+    .recipe-row-base .r-k {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+    }
+    .recipe-row-base .r-v {
+      color: var(--ivory);
+      font-weight: 700;
+      font-family: var(--serif);
+    }
+
+    .notes-trio-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      padding: 11px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      text-align: center;
+    }
+    .note-col .n-en {
+      font-size: 10px;
+      color: var(--text-dim);
+      letter-spacing: 0.5px;
+      margin-bottom: 3px;
+    }
+    .note-col .n-zh {
+      font-size: 0.78rem;
+      color: var(--ivory);
+      font-weight: 600;
+      line-height: 1.35;
+    }
+
+    .conc-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-top: 10px;
+      font-size: 0.76rem;
+    }
+    .conc-bar-bg {
+      flex: 1;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.09);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .conc-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-liquid-1), var(--accent-liquid-2));
+      border-radius: 999px;
+    }
+    .body-feel-pill {
+      margin-top: 9px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.74rem;
+      color: var(--text-muted);
+    }
+
+    .blend-poetic-quote {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 0.84rem;
+      color: rgba(243, 242, 238, 0.78);
+      line-height: 1.55;
+      padding: 0 6px;
+    }
+
+    .blend-cta-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .btn-share-square {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      color: var(--ivory);
+      font-size: 1rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* 下滑深度报告区 */
+    .deep-divider-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 6px 0 14px;
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+    }
+    .deep-divider-title::before,
+    .deep-divider-title::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.10);
+    }
+
+    .report-section-card {
+      padding: 18px 15px;
+      margin-bottom: 14px;
+    }
+    .sec-head-serif {
+      font-family: var(--serif);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--ivory);
       text-align: center;
       margin-bottom: 10px;
     }
-    #radar-chart-dom {
-      width: 100%;
-      height: 290px;
+
+    .stat-trio-dark {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .stat-dark-box {
+      padding: 11px 6px;
+      text-align: center;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .stat-dark-box .sl {
+      font-size: 11px;
+      color: var(--text-dim);
+      margin-bottom: 4px;
+    }
+    .stat-dark-box .sn {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--ivory);
     }
 
-    /* 对标爆款同款：评估标准图例 + 10维度总表 */
-    .std-legend-box {
-      background: #F8FAFC;
-      border-radius: 12px;
-      padding: 10px 10px;
+    #radar-chart-dom {
+      width: 100%;
+      height: 285px;
+    }
+
+    .std-legend-dark {
+      background: rgba(0, 0, 0, 0.22);
+      border-radius: 11px;
+      padding: 9px 10px;
       margin-bottom: 12px;
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 6px 10px;
-      font-size: 0.75rem;
-      color: #475569;
+      font-size: 11px;
+      color: var(--text-muted);
     }
     .std-legend-item {
       display: flex;
       align-items: center;
       gap: 6px;
-      font-weight: 600;
     }
     .std-dot {
-      width: 9px;
-      height: 9px;
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
       flex-shrink: 0;
     }
 
-    .factor-summary-table {
+    .factor-table-dark {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.84rem;
+      font-size: 0.82rem;
     }
-    .factor-summary-table th {
-      background: #F1F5F9;
-      color: #475569;
-      font-weight: 700;
-      padding: 9px 6px;
+    .factor-table-dark th {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-muted);
+      font-weight: 600;
+      padding: 8px 6px;
       text-align: center;
-      font-size: 0.78rem;
+      font-size: 0.76rem;
     }
-    .factor-summary-table th:first-child,
-    .factor-summary-table td:first-child {
+    .factor-table-dark th:first-child,
+    .factor-table-dark td:first-child {
       text-align: left;
       padding-left: 10px;
     }
-    .factor-summary-table td {
-      padding: 10px 6px;
+    .factor-table-dark td {
+      padding: 9px 6px;
       text-align: center;
-      border-bottom: 1px solid #F1F5F9;
-      font-weight: 600;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      color: var(--text-main);
     }
-    .tbl-pill {
+    .tbl-pill-dark {
       display: inline-block;
-      padding: 2px 10px;
-      border-radius: var(--radius-pill);
-      color: #fff;
-      font-size: 0.74rem;
+      padding: 2px 9px;
+      border-radius: 999px;
+      font-size: 11px;
       font-weight: 700;
+      color: #111418;
     }
 
-    /* 10大因子特征与改善建议详细卡 */
-    .factor-item-card {
-      background: var(--bg-card);
-      border-radius: 18px;
-      padding: 16px 15px;
-      box-shadow: var(--shadow-sm);
-      margin-bottom: 12px;
-      border: 1px solid rgba(0,0,0,0.04);
+    .factor-detail-dark {
+      padding: 15px 14px;
+      margin-bottom: 11px;
     }
-    .factor-header-line {
+    .fd-head {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 8px;
+      margin-bottom: 7px;
     }
-    .factor-name {
-      font-size: 0.96rem;
-      font-weight: 800;
+    .fd-name {
+      font-weight: 700;
+      font-size: 0.94rem;
       display: flex;
       align-items: center;
       gap: 7px;
     }
-    .factor-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-    }
-    .factor-score-pill {
-      padding: 3px 10px;
-      border-radius: var(--radius-pill);
-      color: #fff;
-      font-size: 0.75rem;
-      font-weight: 700;
-    }
-    .factor-sub-box {
-      background: #F8FAFC;
+    .fd-sub-box {
+      background: rgba(0, 0, 0, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.05);
       border-radius: 12px;
-      padding: 10px 12px;
+      padding: 9px 11px;
       margin-top: 8px;
-      font-size: 0.82rem;
-      line-height: 1.6;
-      color: #334155;
+      font-size: 0.8rem;
+      line-height: 1.58;
+      color: rgba(243, 242, 238, 0.85);
     }
-    .factor-sub-title {
+    .fd-sub-title {
+      font-size: 0.76rem;
+      font-weight: 700;
+      margin-bottom: 3px;
       display: flex;
       align-items: center;
       gap: 6px;
-      font-weight: 700;
-      margin-bottom: 4px;
-      font-size: 0.8rem;
-    }
-    .badge-icon-blue {
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      background: #3B82F6;
-      color: #fff;
-      font-size: 0.68rem;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .badge-icon-green {
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      background: #10B981;
-      color: #fff;
-      font-size: 0.68rem;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
     }
 
-    /* 白皮书交付卡 */
-    .delivery-package-card {
-      background: linear-gradient(135deg, #FFFFFF 0%, var(--primary-soft) 100%);
-      border: 1.5px solid var(--primary-color);
-      border-radius: var(--radius-xl);
+    /* 白皮书交付玻璃卡 */
+    .whitepaper-glass-card {
       padding: 18px 16px;
-      margin: 16px 0;
-      box-shadow: 0 10px 26px rgba(85, 104, 201, 0.14);
+      margin: 14px 0 16px;
+      border: 1px solid rgba(229, 169, 60, 0.32);
+      background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(229, 169, 60, 0.08) 100%);
     }
-    .delivery-header {
+    .wp-actions {
       display: flex;
-      align-items: center;
       gap: 10px;
-      margin-bottom: 12px;
+      margin-top: 12px;
     }
-    .delivery-header i {
-      font-size: 1.35rem;
-      color: var(--primary-color);
-    }
-    .delivery-header h3 {
-      font-size: 1rem;
-      font-weight: 800;
-    }
-    .deliverable-item {
-      background: #FFFFFF;
-      padding: 14px;
-      border-radius: 14px;
-      border: 1px solid rgba(0,0,0,0.05);
-    }
-    .btn-deliverable-action {
-      padding: 8px 12px;
-      background: var(--primary-color);
-      color: #FFFFFF;
-      font-size: 0.8rem;
-      font-weight: 700;
-      border-radius: var(--radius-pill);
+    .wp-btn {
+      flex: 1;
+      height: 40px;
+      border-radius: 11px;
       text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 700;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 5px;
+      gap: 6px;
+    }
+    .wp-btn-read {
+      background: var(--ivory);
+      color: var(--ivory-text);
+    }
+    .wp-btn-dl {
+      background: rgba(255, 255, 255, 0.10);
+      border: 1px solid rgba(255, 255, 255, 0.20);
+      color: var(--ivory);
     }
 
-    .report-actions {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 8px;
-    }
-
-    /* ========= 弹窗系统（授权码 / 题目清单 / 历史记录 / 海报） ========= */
+    /* ==================== 弹窗与酒单抽屉 ==================== */
     .modal-backdrop {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.52);
-      backdrop-filter: blur(6px);
+      background: rgba(8, 10, 14, 0.76);
+      backdrop-filter: blur(10px);
       z-index: 1000;
       align-items: center;
       justify-content: center;
@@ -792,46 +1005,36 @@
     .modal-backdrop.active {
       display: flex;
     }
-    .auth-box {
+    .auth-dark-box {
       width: 100%;
       max-width: 380px;
-      background: #FFFFFF;
+      background: #1A1F26;
+      border: 1px solid rgba(255, 255, 255, 0.14);
       border-radius: 22px;
       padding: 24px 20px 20px;
       text-align: center;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.22);
       position: relative;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.6);
     }
-    .auth-close-x {
-      position: absolute;
-      top: 14px;
-      right: 16px;
-      border: none;
-      background: #F1F5F9;
-      width: 28px;
-      height: 28px;
+    .dark-close-x {
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.06);
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
-      font-size: 0.9rem;
-      color: #64748B;
+      color: var(--text-muted);
       cursor: pointer;
-    }
-    .auth-key-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 16px;
-      background: var(--primary-soft);
-      color: var(--primary-color);
-      font-size: 1.3rem;
-      display: flex;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      margin: 0 auto 12px;
     }
-    .auth-input {
+    .auth-dark-input {
       width: 100%;
       height: 48px;
-      border-radius: 14px;
-      border: 1.5px solid #CBD5E1;
+      border-radius: 13px;
+      border: 1.5px solid rgba(255, 255, 255, 0.16);
+      background: rgba(0, 0, 0, 0.35);
+      color: var(--ivory);
       padding: 0 14px;
       font-size: 1rem;
       font-weight: 700;
@@ -840,20 +1043,20 @@
       margin-top: 12px;
       outline: none;
     }
-    .auth-input:focus {
-      border-color: var(--primary-color);
+    .auth-dark-input:focus {
+      border-color: var(--accent-liquid-2);
     }
     .auth-err-msg {
       min-height: 20px;
       font-size: 0.78rem;
-      color: #DC2626;
+      color: #F6A2A2;
       margin: 8px 0;
-      line-height: 1.4;
     }
     .auth-urgency-tip {
-      background: #FFFBEB;
-      color: #B45309;
-      font-size: 0.74rem;
+      background: rgba(229, 169, 60, 0.12);
+      border: 1px solid rgba(229, 169, 60, 0.25);
+      color: #F4CC7F;
+      font-size: 0.73rem;
       padding: 8px 10px;
       border-radius: 10px;
       margin-bottom: 12px;
@@ -863,20 +1066,19 @@
       margin-top: 12px;
       background: none;
       border: none;
-      color: var(--primary-color);
+      color: var(--accent-liquid-2);
       font-size: 0.8rem;
-      font-weight: 700;
+      font-weight: 600;
       cursor: pointer;
       text-decoration: underline;
     }
 
-    /* 底部抽屉弹窗（题目网格 & 历史记录） */
     .drawer-backdrop {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.45);
-      backdrop-filter: blur(4px);
+      background: rgba(8, 10, 14, 0.72);
+      backdrop-filter: blur(8px);
       z-index: 1000;
       align-items: flex-end;
       justify-content: center;
@@ -884,27 +1086,29 @@
     .drawer-backdrop.active {
       display: flex;
     }
-    .drawer-sheet {
+    .drawer-dark-sheet {
       width: 100%;
-      max-width: 480px;
-      max-height: 76vh;
-      background: #FFFFFF;
+      max-width: 460px;
+      max-height: 78vh;
+      background: #171B21;
+      border-top: 1px solid rgba(255, 255, 255, 0.14);
       border-radius: 22px 22px 0 0;
       padding: 18px 16px 26px;
       display: flex;
       flex-direction: column;
     }
-    .drawer-title-bar {
+    .drawer-head {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding-bottom: 12px;
-      border-bottom: 1px solid #F1F5F9;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       margin-bottom: 12px;
     }
-    .drawer-title-bar h3 {
-      font-size: 0.98rem;
-      font-weight: 800;
+    .drawer-head h3 {
+      font-family: var(--serif);
+      font-size: 1rem;
+      color: var(--ivory);
     }
     .question-indices-grid {
       display: grid;
@@ -916,8 +1120,9 @@
     .index-pill {
       height: 36px;
       border-radius: 10px;
-      background: #F1F5F9;
-      color: #64748B;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-muted);
       font-size: 0.82rem;
       font-weight: 700;
       display: flex;
@@ -926,32 +1131,55 @@
       cursor: pointer;
     }
     .index-pill.answered {
-      background: var(--primary-soft);
-      color: var(--primary-color);
+      background: rgba(143, 168, 147, 0.22);
+      border-color: rgba(143, 168, 147, 0.45);
+      color: var(--ivory);
     }
     .index-pill.active {
-      background: var(--primary-color);
-      color: #FFFFFF;
+      background: var(--ivory);
+      color: var(--ivory-text);
     }
 
-    .history-item-row {
-      background: #F8FAFC;
-      border-radius: 12px;
-      padding: 12px 14px;
-      margin-bottom: 8px;
+    /* ③ 酒单历史记录卡 */
+    .cellar-card {
+      background: rgba(255, 255, 255, 0.045);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 15px;
+      padding: 12px 13px;
+      margin-bottom: 10px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      gap: 12px;
       cursor: pointer;
-      border: 1px solid #E2E8F0;
+      transition: background 0.18s ease;
+    }
+    .cellar-card:active {
+      background: rgba(255, 255, 255, 0.09);
+    }
+    .cellar-mini-cup {
+      width: 34px;
+      height: 42px;
+      border-radius: 4px 4px 16px 16px;
+      border: 1.5px solid rgba(255, 255, 255, 0.35);
+      overflow: hidden;
+      position: relative;
+      flex-shrink: 0;
+      background: rgba(255, 255, 255, 0.04);
+    }
+    .cellar-mini-liquid {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 62%;
     }
 
-    /* 海报弹窗 */
+    /* 导出海报预览弹窗 */
     .poster-modal {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.78);
+      background: rgba(0, 0, 0, 0.85);
       z-index: 1100;
       align-items: center;
       justify-content: center;
@@ -960,342 +1188,559 @@
     .poster-modal.active {
       display: flex;
     }
-    .poster-wrapper-outer {
+    .poster-box-dark {
       width: 100%;
       max-width: 400px;
       max-height: 90vh;
-      background: #FFFFFF;
+      background: #1A1E24;
+      border: 1px solid rgba(255, 255, 255, 0.14);
       border-radius: 20px;
       padding: 14px;
       display: flex;
       flex-direction: column;
-      position: relative;
     }
-    .poster-scroll-box {
+    .poster-scroll {
       overflow-y: auto;
       flex: 1;
       border-radius: 12px;
     }
-    .poster-scroll-box img {
+    .poster-scroll img {
       width: 100%;
       display: block;
       border-radius: 10px;
     }
-    .poster-hint {
-      text-align: center;
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      padding: 10px 0 6px;
-      font-weight: 600;
-    }
   </style>
 </head>
-<body>
-  <div class="monument-bg-ornaments">
-    <div class="geo-arch"></div>
-    <div class="geo-cube"></div>
-  </div>
+<body class="mood-calm">
+  <div class="film-grain-overlay"></div>
 
   <div class="app-viewport">
-    <header class="top-editorial-bar">
-      <span class="editorial-badge"><i class="fa-solid fa-mug-hot"></i> 情绪工伤自救室</span>
-      <div class="top-right-Controls">
-        <span class="vip-active-tag" id="vip-status-tag"><i class="fa-solid fa-circle-check"></i> 已激活</span>
-        <button class="history-trigger-btn" id="btn-open-history"><i class="fa-solid fa-clock-rotate-left"></i> 测评记录</button>
+    <!-- 顶部实验室导航 -->
+    <header class="lab-top-bar">
+      <div class="lab-brand">
+        <span class="lab-dot"></span>
+        <span>MOOD LAB · 情绪实验室</span>
+      </div>
+      <div class="top-actions-right">
+        <span class="vip-active-tag" id="vip-status-tag"><i class="fa-solid fa-circle-check"></i> 已酿制权限</span>
+        <button class="icon-circle-btn" id="btn-open-history" title="私人情绪酒单"><i class="fa-solid fa-clock-rotate-left"></i></button>
       </div>
     </header>
 
-    <!-- ================= 屏幕 1: 欢迎首页 ================= -->
+    <!-- ==================== 幕 0：迎宾调酒台 ==================== -->
     <section id="screen-welcome" class="screen active">
-      <div class="monument-hero">
-        <svg class="hero-svg" viewBox="0 0 360 190" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="30" y="135" width="300" height="38" rx="12" fill="#EFE9E0"/>
-          <path d="M 60 135 L 60 48 A 25 25 0 0 1 110 48 L 110 135 Z" fill="#F4D9DC"/>
-          <path d="M 72 135 L 72 62 A 13 13 0 0 1 98 62 L 98 135 Z" fill="#FAF8F5"/>
-          <ellipse cx="85" cy="135" rx="20" ry="6" fill="#E2C4C8" opacity="0.4"/>
-          <polygon points="130,135 160,120 180,130 150,145" fill="#CBE3D5"/>
-          <polygon points="150,120 180,105 200,115 170,130" fill="#B7D9C3"/>
-          <polygon points="170,105 200,90 220,100 190,115" fill="#A8D1B6"/>
-          <polygon points="190,90 220,75 240,85 210,100" fill="#98C8A8"/>
-          <polygon points="220,65 270,40 310,60 260,85" fill="#C6D8EB"/>
-          <polygon points="220,65 260,85 260,135 220,115" fill="#AEC8E0"/>
-          <polygon points="260,85 310,60 310,110 260,135" fill="#95B9D8"/>
-          <path d="M 235 90 L 235 70 A 10 10 0 0 1 255 70 L 255 100 Z" fill="#FFF8E7"/>
-          <circle cx="178" cy="93" r="3.5" fill="#4A455A"/>
-          <path d="M 175 97 L 181 97 L 183 108 L 173 108 Z" fill="#5F5973"/>
-        </svg>
+      <div class="hero-vessel-wrap">
+        <div class="vessel-halo">
+          <canvas id="welcome-canvas" width="316" height="316" style="width:158px;height:158px;display:block;"></canvas>
+        </div>
       </div>
 
-      <div class="welcome-header">
-        <div class="stage-chapter-banner"><i class="fa-solid fa-bolt"></i> SCL-90 · 牛马身心沉浸自测版</div>
-        <h1>心之几何 · 牛马身心健康扫描</h1>
+      <div class="welcome-titles">
+        <div class="kicker-pill"><i class="fa-solid fa-wine-glass"></i> SCL-90 · 牛马身心特调实验室</div>
+        <h1>今夜，为你调制一杯<br/>看得见的情绪特调</h1>
         <p>测测最近这些莫名的疲惫与焦虑，究竟是谁带给你的</p>
       </div>
 
-      <div class="meta-cards-grid">
-        
-      <div class="meta-card">
-        <i class="fa-solid fa-briefcase"></i>
-        <div class="meta-title">打工切片</div>
-        <div class="meta-val">90 场日常</div>
-      </div>
-      <div class="meta-card">
-        <i class="fa-solid fa-heart-pulse"></i>
-        <div class="meta-title">情绪工伤</div>
-        <div class="meta-val">10 维状态</div>
-      </div>
-      <div class="meta-card">
-        <i class="fa-solid fa-user-shield"></i>
-        <div class="meta-title">无痕自查</div>
-        <div class="meta-val">老板看不到</div>
-      </div>
+      <div class="meta-trio-dark">
+        <div class="meta-cell">
+          <i class="fa-solid fa-briefcase"></i>
+          <div class="m-label">生活切片</div>
+          <div class="m-val">90 场日常</div>
+        </div>
+        <div class="meta-cell">
+          <i class="fa-solid fa-flask"></i>
+          <div class="m-label">风味基酒</div>
+          <div class="m-val">10 维萃取</div>
+        </div>
+        <div class="meta-cell">
+          <i class="fa-solid fa-user-shield"></i>
+          <div class="m-label">无痕自查</div>
+          <div class="m-val">老板看不到</div>
+        </div>
       </div>
 
-      
-    <div class="intro-notice-box" style="text-align: left; line-height: 1.75;">
-      <p style="margin-bottom: 8px;">好像也没有遇到什么天塌下来的大事，但最近就是莫名觉得好累、有点快撑不住了。</p>
-      <p style="margin-bottom: 8px;">白天还能正常回消息、假装情绪稳定，可一到下班回到出租屋，或者深夜关了灯，心里就像突然空了一块，对什么都提不起劲。</p>
-      <p style="margin-bottom: 8px;">我甚至说不清，到底是工作、人际、感情，还是那个总在自我苛责的自己，在一点点抽干我……</p>
-      <p style="margin-bottom: 0; color: var(--primary-color); font-weight: 600;">别急着责怪自己矫情，带着这个疑问往下选，找出真正压垮你的那根弦。</p>
-    </div>
+      <div class="glass-card monologue-card">
+        <p>好像也没有遇到什么天塌下来的大事，但最近就是莫名觉得好累、有点快撑不住了。</p>
+        <p>白天还能正常回消息、假装情绪稳定，可一到下班回到出租屋，或者深夜关了灯，心里就像突然空了一块，对什么都提不起劲。</p>
+        <p>我甚至说不清，到底是工作、人际、感情，还是那个总在自我苛责的自己，在一点点抽干我……</p>
+        <p>别急着责怪自己矫情，点开那杯情绪调酒仪，看看是什么压垮了你。</p>
+      </div>
 
-      <button id="btn-start" class="btn-main">
-        <span>带着疑问开始 · 看看我到底怎么了</span>
-        <i class="fa-solid fa-arrow-right"></i>
+      <button id="btn-start" class="btn-ivory">
+        <span>✨ 开始调制你的特调情绪饮品</span>
       </button>
 
-      <div class="compliance-foot">
-        温馨提示：本测评工具仅供个人情绪与心理状态自我觉察参考，不作为医疗诊断依据；若长期遭受严重身心痛苦，请及时寻求线下专业医生帮助。
+      <div class="compliance-note">
+        温馨提示：本系统基于 SCL-90 维度构建趣味化自我觉察，仅供情绪记录与减压参考，不作为医疗诊断依据；若长期身心剧痛，请及时寻求线下医生帮助。
       </div>
     </section>
 
-    <!-- ================= 屏幕 2: 答题流程 ================= -->
+    <!-- ==================== 幕 1：① 调酒主界面 (90题实时萃取) ==================== -->
     <section id="screen-test" class="screen">
-      <div class="expiry-urgency-bar">
-        <i class="fa-regular fa-clock"></i>
-        <span>专属授权已绑定本机 · 今日 24:00 失效，测完请及时截图保存</span>
+      <div class="mixer-stage-wrap">
+        <div class="mixer-top-meta">
+          <span id="stage-chapter-pill">STAGE 01 · 捕获当下微澜</span>
+          <span>萃取度 <strong id="curr-q-num" style="color:var(--ivory);">1</strong> / 90</span>
+        </div>
+
+        <!-- (A) 动态调酒玻璃仪 -->
+        <div class="mixer-orb-container">
+          <canvas id="mixer-canvas" width="264" height="264"></canvas>
+        </div>
+        <div class="mixer-status-italic" id="mixer-live-hint">捕捉你的当下味道中…</div>
+
+        <!-- (B) 情绪值可视化条：负向 <- 0 -> 正向 -->
+        <div class="mood-axis-wrap">
+          <div class="mood-axis-track">
+            <div class="mood-axis-center-tick"></div>
+            <div class="mood-axis-dot" id="mood-axis-dot"></div>
+          </div>
+          <div class="mood-axis-labels">
+            <span>清冽松弛</span>
+            <span>0 · 平衡点</span>
+            <span>浓郁超载</span>
+          </div>
+        </div>
       </div>
 
-      <div class="stair-progress-wrapper">
-        <div class="stair-header-row">
-          <span class="stair-tag" id="current-factor-tag">状态评估</span>
-          <span class="stair-count"><span id="curr-q-num">1</span> / 90</span>
-        </div>
-        <div class="stair-bar-bg">
-          <div class="stair-bar-fill" id="stair-progress-fill"></div>
-        </div>
-        <div class="companion-quote" id="companion-quote-text">
-          <i class="fa-solid fa-sparkles"></i>
-          <span>请凭第一直觉作答，无需反复纠结...</span>
-        </div>
+      <div class="stair-bar-bg">
+        <div class="stair-bar-fill" id="stair-progress-fill"></div>
       </div>
 
-      <div class="question-card" id="q-card-element">
-        <div class="stage-chapter-banner" id="stage-chapter-pill"><i class="fa-solid fa-compass"></i> STAGE 01</div>
-        <div class="q-card-top-meta">
-          <span class="question-num-pill" id="q-pill-index">QUESTION 01</span>
-          <span class="question-category-pill" id="q-pill-category">心理评估</span>
+      <!-- 场景题卡 -->
+      <div class="glass-card q-glass-card" id="q-card-element">
+        <div class="q-card-meta">
+          <span id="q-pill-index">DROP 01</span>
+          <span class="q-dim-tag" id="q-pill-category">情绪萃取</span>
         </div>
-        <div class="question-text" id="q-text-dom">正在加载专属题库...</div>
+        <div class="q-title-text" id="q-text-dom">正在加载情绪配方题库...</div>
       </div>
 
-      <div class="options-group-20" id="options-container"></div>
+      <!-- 5 级烟熏玻璃选项卡片 -->
+      <div class="options-group-lab" id="options-container"></div>
 
-      <div class="nav-actions">
-        <button id="btn-prev-q" class="btn-secondary">
+      <div class="nav-actions-row">
+        <button id="btn-prev-q" class="btn-glass">
           <i class="fa-solid fa-chevron-left"></i>
-          <span>上一题</span>
+          <span>上一味</span>
         </button>
-        <button id="btn-open-grid" class="btn-secondary">
+        <button id="btn-open-grid" class="btn-glass">
           <i class="fa-solid fa-grip"></i>
-          <span>题目清单</span>
+          <span>配方清单 (90)</span>
         </button>
       </div>
     </section>
 
-    <!-- ================= 屏幕 3: 结果报告页 ================= -->
+    <!-- ==================== 幕 1.5：调制仪式过渡屏 ==================== -->
+    <section id="screen-ritual" class="screen ritual-screen">
+      <div class="ritual-orb-large">
+        <canvas id="ritual-canvas" width="392" height="392" style="width:196px;height:196px;display:block;"></canvas>
+      </div>
+      <div>
+        <div class="ritual-en" id="ritual-en-text">Analyzing...</div>
+        <div class="ritual-zh" id="ritual-zh-text">捕捉你的当下味道中…</div>
+      </div>
+    </section>
+
+    <!-- ==================== 幕 2：② 情绪特调展示界面 (结果页) ==================== -->
     <section id="screen-report" class="screen">
+      <div class="mixology-nav-head">
+        <button class="icon-circle-btn" id="btn-back-welcome" title="回到吧台"><i class="fa-solid fa-arrow-left"></i></button>
+        <span class="mixology-kicker-center">MOOD MIXOLOGY</span>
+        <button class="icon-circle-btn" id="btn-save-blend-top" title="保存特调签"><i class="fa-solid fa-download"></i></button>
+      </div>
+
+      <!-- 核心特调酒单分享卡 -->
+      <div class="glass-card blend-hero-card" id="cocktail-share-card">
+        <div class="blend-eyebrow">YOUR EXCLUSIVE BLEND</div>
+        <div class="blend-name-zh" id="blend-title-zh">沉入海底的那句叹息</div>
+        <div class="blend-name-en" id="blend-title-en">Midnight Echo Reserve</div>
+
+        <div class="tumbler-display-box" id="tumbler-svg-slot"></div>
+
+        <div class="recipe-inner-card">
+          <div class="recipe-row-base">
+            <span class="r-k">基酒 Base</span>
+            <span class="r-v" id="recipe-base-spirit">深色朗姆</span>
+          </div>
+          <div class="notes-trio-grid">
+            <div class="note-col">
+              <div class="n-en">Top · 前调</div>
+              <div class="n-zh" id="recipe-top-note">--</div>
+            </div>
+            <div class="note-col">
+              <div class="n-en">Mid · 中调</div>
+              <div class="n-zh" id="recipe-mid-note">--</div>
+            </div>
+            <div class="note-col">
+              <div class="n-en">Base · 尾调</div>
+              <div class="n-zh" id="recipe-base-note">--</div>
+            </div>
+          </div>
+          <div class="conc-row">
+            <span style="color:var(--text-muted); flex-shrink:0;">浓度</span>
+            <div class="conc-bar-bg">
+              <div class="conc-bar-fill" id="recipe-conc-fill" style="width: 50%;"></div>
+            </div>
+            <span style="color:var(--ivory); font-weight:700;" id="recipe-conc-val">0.50</span>
+          </div>
+          <div class="body-feel-pill">
+            <span id="recipe-body-feel">体感｜Tight · 紧绷微焦</span>
+            <span id="recipe-score-chip">总分 180</span>
+          </div>
+        </div>
+
+        <div class="blend-poetic-quote" id="blend-poetic-quote">
+          “一杯微醺的特调，回应你此刻隐秘的呼吸与重量。”
+        </div>
+      </div>
+
+      <div class="blend-cta-row">
+        <button id="btn-restart" class="btn-ivory" style="flex:1;">
+          <i class="fa-solid fa-rotate-right"></i>
+          <span>再调一杯</span>
+        </button>
+        <button id="btn-save-blend-card" class="btn-share-square" title="保存特调海报">
+          <i class="fa-solid fa-share-nodes"></i>
+        </button>
+      </div>
+
+      <!-- 下滑深度解析与白皮书交付区 -->
+      <div class="deep-divider-title">深度十维成分拆解与解酒处方</div>
+
       <div id="report-canvas-target">
-        <div class="summary-hero-card">
-          <div class="report-title-label">SCL-90 · 牛马身心负荷总评</div>
-          <div class="report-time-sub" id="rep-timestamp">测评完成时间：--</div>
-          <div class="score-huge" id="rep-total-score">--</div>
-          <div class="score-max-sub">满分 450 分</div>
-          <div>
-            <span class="level-pill-badge badge-normal" id="rep-level-badge">
-              <span id="rep-level-text">正常</span>
-            </span>
+        <div class="glass-card report-section-card">
+          <div class="sec-head-serif" id="rep-insight-title">情绪成分总体解析</div>
+          <div style="text-align:center; font-size:0.74rem; color:var(--text-dim); margin-bottom:12px;" id="rep-timestamp">调制时间：--</div>
+          <div class="stat-trio-dark">
+            <div class="stat-dark-box">
+              <div class="sl">加权总分</div>
+              <div class="sn" id="rep-total-score">--</div>
+            </div>
+            <div class="stat-dark-box">
+              <div class="sl">均分浓度</div>
+              <div class="sn" id="rep-avg-score">--</div>
+            </div>
+            <div class="stat-dark-box">
+              <div class="sl">高亮痛点项</div>
+              <div class="sn" id="rep-positive-items">--</div>
+            </div>
           </div>
-          <div class="warm-insight-text" id="rep-warm-insight"></div>
+          <div style="font-size:0.84rem; line-height:1.68; color:rgba(243,242,238,0.85); background:rgba(0,0,0,0.22); padding:12px 13px; border-radius:12px;" id="rep-warm-insight"></div>
         </div>
 
-        <div class="stat-trio">
-          <div class="stat-box">
-            <div class="stat-label">总均分</div>
-            <div class="stat-num" id="rep-avg-score">--</div>
-          </div>
-          <div class="stat-box">
-            <div class="stat-label">阳性项目数</div>
-            <div class="stat-num" id="rep-positive-items">--</div>
-          </div>
-          <div class="stat-box">
-            <div class="stat-label">阳性症状均分</div>
-            <div class="stat-num" id="rep-positive-avg">--</div>
-          </div>
-        </div>
-
-        <!-- 十维切面雷达图 -->
-        <div class="chart-card">
-          <div class="card-sec-title">十维情绪与心理状态切面图谱</div>
+        <div class="glass-card report-section-card">
+          <div class="sec-head-serif">十维风味切面雷达图</div>
           <div id="radar-chart-dom"></div>
         </div>
 
-        <!-- 对标高好评同款：10大因子得分红黄绿对照总览表 -->
-        <div class="table-card">
-          <div class="card-sec-title">因子维度得分详情总表</div>
-          <div class="std-legend-box">
-            <div class="std-legend-item"><span class="std-dot" style="background:#38A169"></span> 正常 (&lt; 2.0)</div>
-            <div class="std-legend-item"><span class="std-dot" style="background:#D69E2E"></span> 轻度 (2.0-2.49)</div>
-            <div class="std-legend-item"><span class="std-dot" style="background:#DD6B20"></span> 中度 (2.5-2.99)</div>
-            <div class="std-legend-item"><span class="std-dot" style="background:#E53E3E"></span> 重度 (≥ 3.0)</div>
+        <div class="glass-card report-section-card">
+          <div class="sec-head-serif">因子维度浓度详情总表</div>
+          <div class="std-legend-dark">
+            <div class="std-legend-item"><span class="std-dot" style="background:var(--color-normal)"></span> 清冽 (&lt; 2.0)</div>
+            <div class="std-legend-item"><span class="std-dot" style="background:var(--color-mild)"></span> 轻酿 (2.0-2.49)</div>
+            <div class="std-legend-item"><span class="std-dot" style="background:var(--color-moderate)"></span> 浓烈 (2.5-2.99)</div>
+            <div class="std-legend-item"><span class="std-dot" style="background:var(--color-severe)"></span> 高压 (≥ 3.0)</div>
           </div>
-          <table class="factor-summary-table">
+          <table class="factor-table-dark">
             <thead>
               <tr>
                 <th>维度</th>
                 <th>原始分</th>
                 <th>均分</th>
-                <th>水平</th>
+                <th>浓度状态</th>
               </tr>
             </thead>
             <tbody id="factor-table-body"></tbody>
           </table>
         </div>
 
-        <!-- 10大维度逐项特征表现与改善建议 -->
-        <div class="factors-container" id="factors-list-dom"></div>
+        <div id="factors-list-dom"></div>
       </div>
 
-      <!-- 专属自愈白皮书交付中心 -->
-      <div class="delivery-package-card">
-        <div class="delivery-header">
-          <i class="fa-solid fa-book-bookmark"></i>
+      <!-- 单一高价值白皮书交付卡片 -->
+      <div class="glass-card whitepaper-glass-card">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <i class="fa-solid fa-book-bookmark" style="font-size:1.3rem; color:var(--accent-liquid-2);"></i>
           <div>
-            <h3>专属自愈白皮书已随报告解锁</h3>
-            <p style="font-size:0.75rem; color:var(--text-muted);">已为您匹配十维度《SCL-90身心自愈白皮书》</p>
+            <div style="font-family:var(--serif); font-size:0.98rem; font-weight:700; color:var(--ivory);">📘《SCL-90身心自愈白皮书》</div>
+            <div style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">十维度深度机制解析 · 情绪降频与自愈实操全书</div>
           </div>
         </div>
-        <div class="deliverable-item">
-          <h4 style="font-size: 0.94rem; margin-bottom: 4px;">📘《SCL-90身心自愈白皮书》</h4>
-          <p style="font-size: 0.76rem; color: var(--text-muted); margin-bottom: 12px;">十维度深度机制解析 · 情绪降频与身心自愈全本实操指南</p>
-          <div style="display: flex; gap: 10px; width: 100%;">
-            <a href="/资料交付/book.html" class="btn-deliverable-action" target="_blank" style="flex: 1;">
-              <span>在线阅读</span> <i class="fa-solid fa-arrow-up-right-from-square"></i>
-            </a>
-            <a href="/资料交付/SCL90_Healing_Guide.pdf" download="SCL90身心自愈白皮书.pdf" class="btn-deliverable-action" style="flex: 1; background: #4C51BF;" download>
-              <span>下载 PDF 电子书</span> <i class="fa-solid fa-file-pdf"></i>
-            </a>
-          </div>
+        <div class="wp-actions">
+          <a href="/资料交付/book.html" target="_blank" class="wp-btn wp-btn-read">
+            <span>在线阅读</span> <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          </a>
+          <a href="/资料交付/SCL90_Healing_Guide.pdf" download="SCL90身心自愈白皮书.pdf" class="wp-btn wp-btn-dl" download>
+            <span>下载 PDF 电子书</span> <i class="fa-solid fa-file-pdf"></i>
+          </a>
         </div>
       </div>
 
-      <div class="report-actions">
-        <button id="btn-generate-poster" class="btn-main">
-          <i class="fa-regular fa-image"></i>
-          <span>一键生成报告长图 · 保存至手机相册</span>
-        </button>
-        <button id="btn-restart" class="btn-secondary" style="justify-content: center; width: 100%;">
-          <i class="fa-solid fa-arrow-rotate-left"></i>
-          <span>重新测评</span>
-        </button>
-      </div>
+      <button id="btn-generate-poster" class="btn-glass" style="width:100%; height:48px; margin-bottom:10px;">
+        <i class="fa-regular fa-image"></i>
+        <span>生成完整深度长图报告（含十维总表）</span>
+      </button>
 
-      <div class="compliance-foot">
-        免责声明：本报告结果基于受测者主观自评生成，仅供个人心理状态自我认知与日常情绪调适参考，不具备临床医学诊断效力。请及时长按保存长图或截屏留存结果。
+      <div class="compliance-note">
+        免责声明：本报告结果仅供参考与自我觉察，不具备临床医疗诊断效力；当前授权今天 24:00 自动失效，请务必长按保存特调签或截屏留存。
       </div>
     </section>
   </div>
 
   <!-- ================= 首屏前置授权码激活弹窗 ================= -->
   <div class="modal-backdrop" id="auth-gate-modal">
-    <div class="auth-box">
-      <button class="auth-close-x" id="btn-close-auth"><i class="fa-solid fa-xmark"></i></button>
-      <div class="auth-key-icon"><i class="fa-solid fa-key"></i></div>
-      <h3 style="font-size: 1.12rem; font-weight: 800; margin-bottom: 4px;">输入专属授权码开启测评</h3>
-      <p style="font-size: 0.79rem; color: var(--text-muted); line-height: 1.5;">
-        请输入小红书客服发送的 <strong>6位授权码</strong><br/>（或直接粘贴本单 <strong>P开头订单编号</strong>）
+    <div class="auth-dark-box">
+      <button class="dark-close-x" style="position:absolute;top:14px;right:14px;" id="btn-close-auth"><i class="fa-solid fa-xmark"></i></button>
+      <div style="width:46px;height:46px;border-radius:14px;background:rgba(255,255,255,0.08);color:var(--ivory);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:1.15rem;">
+        <i class="fa-solid fa-key"></i>
+      </div>
+      <h3 style="font-family:var(--serif); font-size:1.12rem; color:var(--ivory); margin-bottom:6px;">核验专属调酒入场券</h3>
+      <p style="font-size:0.78rem; color:var(--text-muted); line-height:1.5;">
+        请输入小红书客服发送的 <strong style="color:var(--ivory);">6位授权码</strong><br/>（或直接粘贴本单 <strong style="color:var(--ivory);">P开头订单编号</strong>）
       </p>
-      <input type="text" id="auth-code-input" class="auth-input" placeholder="输入6位授权码 / P开头订单号" maxlength="24" autocomplete="off" />
+      <input type="text" id="auth-code-input" class="auth-dark-input" placeholder="输入6位授权码 / P开头订单号" maxlength="24" autocomplete="off" />
       <div class="auth-err-msg" id="auth-err-msg"></div>
       <div class="auth-urgency-tip">
-        ⏳ 一单一码仅限绑定当前手机设备使用，当天 24:00 自动失效，测完请及时截图保存报告。
+        ⏳ 一单一码仅限绑定当前手机设备使用，当天 24:00 自动失效，调制完成后请及时保存特调卡片。
       </div>
-      <button id="btn-submit-auth" class="btn-main" style="height: 46px; font-size: 0.95rem;">
-        <span>验证授权码 · 立即开始</span>
+      <button id="btn-submit-auth" class="btn-ivory" style="height:46px; font-size:0.92rem;">
+        <span>开启玻璃调酒仪 · 立即进入</span>
       </button>
-      <button id="btn-how-to-get-code" class="get-code-link-btn">📕 还没有授权码？查看获取方式</button>
+      <button id="btn-how-to-get-code" class="get-code-link-btn">📕 还没有入场券？查看获取方式</button>
     </div>
   </div>
 
-  <!-- ================= 90题导航抽屉 ================= -->
+  <!-- ================= 90题清单抽屉 ================= -->
   <div class="drawer-backdrop" id="grid-modal">
-    <div class="drawer-sheet">
-      <div class="drawer-title-bar">
-        <h3>答题进度清单 (90题)</h3>
-        <button class="auth-close-x" style="position:static;" id="btn-close-grid"><i class="fa-solid fa-xmark"></i></button>
+    <div class="drawer-dark-sheet">
+      <div class="drawer-head">
+        <h3>配方萃取进度 (90题)</h3>
+        <button class="dark-close-x" id="btn-close-grid"><i class="fa-solid fa-xmark"></i></button>
       </div>
       <div class="question-indices-grid" id="indices-grid-dom"></div>
     </div>
   </div>
 
-  <!-- ================= 历史测评记录抽屉 ================= -->
+  <!-- ================= ③ 私人情绪酒单界面 (Mood Cellar 历史页) ================= -->
   <div class="drawer-backdrop" id="history-modal">
-    <div class="drawer-sheet">
-      <div class="drawer-title-bar">
-        <h3>本机历史测评记录</h3>
-        <button class="auth-close-x" style="position:static;" id="btn-close-history"><i class="fa-solid fa-xmark"></i></button>
+    <div class="drawer-dark-sheet">
+      <div class="drawer-head">
+        <h3>私人情绪酒单 · MOOD CELLAR</h3>
+        <button class="dark-close-x" id="btn-close-history"><i class="fa-solid fa-xmark"></i></button>
       </div>
       <div id="history-list-dom" style="overflow-y:auto; flex:1;"></div>
     </div>
   </div>
 
-  <!-- ================= 海报保存预览弹窗 ================= -->
+  <!-- ================= 图片长按保存预览弹窗 ================= -->
   <div class="poster-modal" id="poster-modal">
-    <div class="poster-wrapper-outer">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-        <span style="font-size:0.85rem; font-weight:800;">长按下方图片保存完整报告</span>
-        <button class="auth-close-x" style="position:static;" id="btn-close-poster"><i class="fa-solid fa-xmark"></i></button>
+    <div class="poster-box-dark">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <span style="font-family:var(--serif); font-size:0.88rem; color:var(--ivory);">长按下方图片保存特调卡片</span>
+        <button class="dark-close-x" id="btn-close-poster"><i class="fa-solid fa-xmark"></i></button>
       </div>
-      <div class="poster-scroll-box" id="poster-img-container"></div>
-      <div class="poster-hint"><i class="fa-regular fa-hand-pointer"></i> 请长按上方报告长图选择“保存到相册”</div>
+      <div class="poster-scroll" id="poster-img-container"></div>
+      <div style="text-align:center; font-size:0.75rem; color:var(--text-muted); padding:10px 0 4px;">
+        <i class="fa-regular fa-hand-pointer"></i> 长按图片即可保存到相册，随时发小红书打卡
+      </div>
     </div>
   </div>
 
 <script>
-// ==================== 店铺配置（填入小红书商品短链即可一键跳转购买） ====================
+// ==================== 核心配置与加密授权逻辑 ====================
 const VERSION = "fun";
-const SHOP_URL = ""; // 可选：填入您的小红书商品短链，例如 "https://xhslink.com/m/xxxxxx"
+const SHOP_URL = "";
 
-const STORAGE_ANSWERS_KEY = `scl90_answers_${VERSION}`;
-const STORAGE_AUTH_KEY = `scl90_auth_session_${VERSION}`;
-const STORAGE_HISTORY_KEY = `scl90_history_${VERSION}`;
+const STORAGE_ANSWERS_KEY = "scl90_answers_fun";
+const STORAGE_AUTH_KEY = "scl90_auth_session_fun";
+const STORAGE_HISTORY_KEY = "scl90_history_fun";
 const STORAGE_UUID_KEY = "scl90_device_uuid_v2";
+
+// 科学非线性计分权重：A(1.0) & B(1.25) 为健康松弛低分；C(2.25) / D(3.50) / E(5.00) 精准识别高压耗电
+const OPTION_WEIGHTS = [0, 1.0, 1.25, 2.25, 3.50, 5.00];
 
 const dimensions = [{"name": "躯体化", "tag": "生理应激", "indices": [0, 3, 11, 26, 39, 41, 47, 48, 51, 52, 55, 57], "normMean": 1.37, "summary": "反映主观的身体不适感，包括心血管、胃肠道、呼吸系统不适，以及头痛、背痛、肌肉酸痛与四肢发麻等躯体表现。", "traits": {"normal": "身体感知平稳舒适，自主神经调节功能良好，日常疲劳在正常睡眠与休息后能顺畅恢复。", "mild": "近期偶有轻微头晕、肩颈发紧、胸口发闷或肠胃不适，多在压力增大或睡眠不足时浮现。", "moderate": "频繁感到胸闷心慌、头晕乏力、喉咙异物感或四肢发麻酸沉，体检常无器质性异常，开始影响日常精力。", "severe": "身体长期处于高度应激警报状态，明显的心悸、呼吸不畅、胃肠紊乱或广泛性酸痛反复发作，带来显著痛苦。"}, "advice": "掌握【腹式迷走神经呼吸法】（吸气4秒使腹部隆起，缓慢呼气6~8秒，每日睡前练习10分钟）；配合温水泡脚或热敷肩颈，温和切断交感神经的过度放电警报。若持续剧烈不适建议先排查基础体检。"}, {"name": "强迫症状", "tag": "思维反刍", "indices": [2, 8, 9, 27, 37, 44, 45, 50, 54, 64], "normMean": 1.62, "summary": "主要指明知没有必要，但又无法摆脱的无意义想法、字句盘旋、反复检查确认及注意力涣散记忆力下降。", "traits": {"normal": "思维收放自如，做事干脆有条理，极少陷入无意义的反复纠结或强迫性确认。", "mild": "压力下偶有反复回想白天对话、出门多确认一次门锁，或短时间走神忘事。", "moderate": "大脑难以按下暂停键，睡前常不受控地反刍细节，做事追求绝对稳妥而反复核对，伴随明显脑雾与注意力下降。", "severe": "被顽固的侵入性思绪或反复检查仪式死死缠住，明知没必要却停不下来，精神能量被剧烈空转消耗。"}, "advice": "练习【5秒物理阻断技术】：当发现大脑陷入死循环反刍时，立即起身用冷水洗手、起身走动或大声读出眼前3件物品名称；允许“80分即交付”，用手机备忘录替代脑内反复记忆。"}, {"name": "人际关系敏感", "tag": "社交防御", "indices": [5, 20, 33, 35, 36, 40, 60, 68, 72], "normMean": 1.65, "summary": "指人际交往中的不自在感与自卑感，过分在意他人评价与眼神，容易感到委屈、不被理解或自我否定。", "traits": {"normal": "自我边界清晰稳定，在社交场合自然从容，既能温和共情他人，也不轻易被外界眼光左右。", "mild": "在陌生场合或权威人物面前略感拘谨，偶因他人无心的一句话在心里暗自介意。", "moderate": "对他人语气和眼神高度敏感，容易产生自卑、怕添麻烦或觉得不被理解，社交后常感到极度耗电。", "severe": "深陷强烈的假想聚光灯效应与自我贬低，极易在关系中受伤破防，产生明显的社交恐惧与回避倾向。"}, "advice": "实践阿德勒【课题分离练习】：在心里默念“别人怎么看我是他的课题，我如何自处是我的课题”；每天记录1件自己做得不错的小事，逐步把评价坐标系从外界收回到自己身上。"}, {"name": "抑郁", "tag": "情绪动力", "indices": [4, 13, 14, 19, 21, 25, 28, 29, 30, 31, 53, 70, 78], "normMean": 1.5, "summary": "反映心境低落、精力减退、对原本喜爱的事物丧失兴趣、孤独苦闷、自责无价值感及悲观预期。", "traits": {"normal": "情绪底色温和明亮，对生活保有好奇与期待，遇到挫折能通过自我调节重新积蓄动力。", "mild": "近期偶感提不起劲、疲倦乏味或莫名低落，独处时略感孤单空虚，休息后可缓慢平复。", "moderate": "持续感到心累、快感缺失，连日常小事都觉得费力沉重，容易落泪或自我苛责，对未来感到迷茫灰暗。", "severe": "身心仿佛进入“低电量深度休眠”，强烈的苦闷、无助、孤独与自我否定交织，严重影响日常生活动力。"}, "advice": "停止强迫自己“立刻振作”，接纳暂时的低电量保护；采用【微步行为激活法】，每天只设定一个极微小动作（如拉开窗帘晒太阳10分钟、下楼买杯热饮），让身体先于情绪缓慢复苏。若困扰严重请务必寻求专业心理支持。"}, {"name": "焦虑", "tag": "神经紧绷", "indices": [1, 16, 22, 32, 38, 56, 71, 77, 79, 85], "normMean": 1.39, "summary": "反映烦躁坐立不安、神经过敏、莫名心慌害怕，以及伴随的心跳加快、发抖等植物神经紧绷症状。", "traits": {"normal": "内心安稳笃定，面对突发状况能保持理性平顺，神经系统松弛有度。", "mild": "待办事项较多时容易心急紧绷，偶有莫名心神不宁，事情落地后即可放松。", "moderate": "经常感到焦虑和担忧，难以真正放松；伴随心跳加快、肌肉紧绷、手心出汗或坐立难安。", "severe": "大脑杏仁核处于持续拉响警报状态，无缘由的强烈恐慌、惊悸感频繁袭来，身心弦绷至极限。"}, "advice": "学习并练习【4-7-8呼吸法】（吸气4秒，屏息7秒，缓慢呼气8秒，循环4次）与【5-4-3-2-1感官着陆法】（说出眼前5样物体、触摸4种材质、听3种声音），将失控的灾难化思绪拉回安全的当下。"}, {"name": "敌对", "tag": "烦躁宣泄", "indices": [10, 23, 62, 66, 73, 80], "normMean": 1.48, "summary": "主要从思维、情感及行为三方面反映厌烦、容易烦恼激动、争论冲动以及摔东西等不可抑制的脾气爆发。", "traits": {"normal": "情绪容纳度高，遇事平和理性，能通过健康渠道化解不满与摩擦。", "mild": "疲惫或受阻时容易烦躁不耐烦，心里有小火苗但能自觉克制。", "moderate": "情绪燃点明显降低，容易因琐事被激怒、想与人争辩或产生摔东西的冲动，事后又常感疲惫懊恼。", "severe": "胸口常像堵着一团无名火，极易失控发脾气或产生强烈的破坏冲动，其实是长期过度压抑委屈后的反弹。"}, "advice": "愤怒往往是“心理边界被侵犯”或“过度透支”的信号。愤怒上头时执行【生理暂停60秒】离开现场喝口冰水；日常通过快走、慢跑、撕废纸或书写情绪日记进行安全物理泄压。"}, {"name": "恐怖", "tag": "场所回避", "indices": [12, 24, 46, 49, 69, 74, 81], "normMean": 1.23, "summary": "反映对出门旅行、空旷场地、拥挤人群、密闭公共交通工具或单独相处时的紧张与回避体验。", "traits": {"normal": "出行与独处均自在踏实，对各类公共空间与社交环境适应良好。", "mild": "在极度拥挤闷热的地铁商场或夜间独处时偶有局促感，戴上耳机即可安稳过渡。", "moderate": "对人多密闭场所、公共交通或独自出门有明显排斥与心慌，常倾向于刻意回避。", "severe": "置身特定场所时易触发强烈恐慌、腿软或担心当众晕倒，导致日常活动半径大幅收缩。"}, "advice": "随身准备“安全感急救包”（耳机、舒缓白噪音、薄荷糖、温水）；采用温和的【阶梯脱敏法】，不强迫硬闯，先在熟悉安全的时段短途出行，给每一次小迈步正向肯定。"}, {"name": "偏执", "tag": "防御警觉", "indices": [7, 17, 42, 67, 75, 82], "normMean": 1.43, "summary": "主要指猜疑、不信任感、觉得努力未被公正评价、防备他人占便宜或感觉被议论针对。", "traits": {"normal": "待人坦诚通透，既具备基本的成年人防备意识，也能与他人建立稳固信任。", "mild": "习惯凡事靠自己把关，偶觉付出未被看见，对不熟的人保持礼貌距离。", "moderate": "防备心较重，容易觉得周围人不可靠、偏心或针对自己，在关系中常感孤立与委屈。", "severe": "长期处于高度戒备与受害防御状态，很难相信任何人的善意，内心长期紧绷疲惫。"}, "advice": "练习【事实与假设分离记录】：遇到令你起疑的事，拿纸分两列写下“客观发生的事实”与“我大脑推测的意图”，你会发现80%的恶意都只是疲惫大脑的过度自我保护。"}, {"name": "精神病性", "tag": "疏离解离", "indices": [6, 15, 34, 61, 76, 83, 84, 86, 87, 89], "normMean": 1.29, "summary": "在普通人群中主要反映人群中的深刻精神孤单感、思维飘忽、现实不真实感（解离感）及对身心健康的过度疑虑。", "traits": {"normal": "自我内在稳定连贯，现实连接感强，与身边人保有真切的情感共鸣。", "mild": "极度劳累时偶有短暂发呆放空，或在热闹聚会中感到片刻抽离与孤单。", "moderate": "常感到“即使在人群中也像隔着一层玻璃”，偶有熟悉环境变陌生的恍惚感，或过度担忧身体出了大问题。", "severe": "存在明显的现实抽离感、思维被干扰感或强烈的精神孤立感，建议高度重视并寻求专业评估支持。"}, "advice": "通过【重返身体感官练习】增强现实锚定：洗一次温暖的热水澡、赤脚踩在地板上感受支撑感、接触真实的自然绿植或宠物，减少深夜独自沉浸在封闭网络信息流中。"}, {"name": "睡眠与饮食", "tag": "生理节律", "indices": [18, 43, 58, 59, 63, 65, 88], "normMean": 1.45, "summary": "反映入睡困难、浅眠多梦、凌晨早醒，以及食欲不振或压力性暴饮暴食等基础生命节律指标。", "traits": {"normal": "睡眠深沉规律，胃口正常，身体昼夜修复机制运转良好。", "mild": "换季或压力期偶有入睡变慢、做梦增多，或胃口随心情小幅波动。", "moderate": "存在明显的入睡困难、半夜易醒早醒，醒后仍觉乏力，或常靠情绪性进食缓解压力。", "severe": "睡眠节律与胃肠功能严重紊乱，彻夜难眠、凌晨心慌早醒或厌食暴食交替，急需优先修复生理地基。"}, "advice": "重建【昼夜节律三锚点】：① 早晨起床后晒自然光10分钟重置褪黑素生物钟；② 下午14点后停止摄入咖啡与浓茶；③ 睡前45分钟开启勿扰模式，用白噪音或渐进式肌肉放松（从脚趾到面部依次收紧5秒再松开）诱导自然入眠。"}];
 
-// 非线性计分权重校准：
-// pro（专业临床版）严格采用医院标准 1, 2, 3, 4, 5 分；
-// fun（牛马沉浸版）采用科学校准权重 [1.0, 1.25, 2.25, 3.50, 5.00]，确保选第1、2项稳居绿色健康低分区，梯度真实合理！
-const OPTION_WEIGHTS = VERSION === "pro"
-  ? [0, 1.0, 2.0, 3.0, 4.0, 5.0]
-  : [0, 1.0, 1.25, 2.25, 3.50, 5.00];
+// 10大心理维度 -> 前中尾情绪香调映射表
+const FLAVOR_MAP = {
+  "躯体化": { top: "温热生姜 · 雪松", mid: "烤炙辛香", base: "沉稳岩兰草" },
+  "强迫症状": { top: "深烘乌龙 · 黑胡椒", mid: "炙烤苦可可", base: "微焦松烟" },
+  "人际关系敏感": { top: "海盐白桃 · 含羞草", mid: "清冷雾霭", base: "白麝香" },
+  "抑郁": { top: "冷露黑加仑", mid: "午夜黑巧 · 苦艾", base: "潮湿橡苔" },
+  "焦虑": { top: "冷榨柠檬皮 · 迷迭香", mid: "气泡青柠", base: "干枯鼠尾草" },
+  "敌对": { top: "现磨黑胡椒 · 血橙", mid: "烈焰肉桂", base: "烟熏焦糖" },
+  "恐怖": { top: "冷杉针叶 · 白茶", mid: "冰镇薄荷雾", base: "雪松幽谷" },
+  "偏执": { top: "杜松子 · 青涩柚皮", mid: "烟熏橡木桶", base: "黑琥珀" },
+  "精神病性": { top: "迷雾蓝睡莲", mid: "冷冽乳香", base: "寂静深海盐" },
+  "睡眠与饮食": { top: "晒干洋甘菊 · 佛手柑", mid: "烘焙大麦芽", base: "温热香草豆" }
+};
 
 let questionsData = [];
 let currentQuestionIndex = 0;
 let answers = new Array(90).fill(0);
 let radarChartInstance = null;
 
-// ==================== 设备硬件指纹计算（防同行倒卖 + 同手机换浏览器智能识别） ====================
+// ==================== Canvas 2D 动态调酒液体引擎 ====================
+class GlassFluidRenderer {
+  constructor(canvasId) {
+    this.canvas = document.getElementById(canvasId);
+    this.ctx = this.canvas ? this.canvas.getContext("2d") : null;
+    this.fillLevel = 0.38;
+    this.targetFill = 0.38;
+    this.waveAmp = 3.5;
+    this.impulseAmp = 0;
+    this.phase = 0;
+    this.colorTop = "#8FA893";
+    this.colorBottom = "#BFD1B5";
+    this.bubbles = Array.from({ length: 16 }, () => this.makeBubble());
+    this.rafId = null;
+    this.running = false;
+  }
+  makeBubble() {
+    return {
+      x: Math.random(),
+      y: Math.random(),
+      r: 1.1 + Math.random() * 2.2,
+      speed: 0.002 + Math.random() * 0.004,
+      alpha: 0.18 + Math.random() * 0.4
+    };
+  }
+  setTheme(level, cTop, cBot, impulse = 0) {
+    this.targetFill = Math.max(0.18, Math.min(0.86, level));
+    this.colorTop = cTop;
+    this.colorBottom = cBot;
+    if (impulse > 0) this.impulseAmp = Math.min(13, this.impulseAmp + impulse);
+  }
+  start() {
+    if (this.running || !this.ctx) return;
+    this.running = true;
+    const loop = () => {
+      if (!this.running) return;
+      this.drawFrame();
+      this.rafId = requestAnimationFrame(loop);
+    };
+    this.rafId = requestAnimationFrame(loop);
+  }
+  stop() {
+    this.running = false;
+    if (this.rafId) cancelAnimationFrame(this.rafId);
+  }
+  drawFrame() {
+    const ctx = this.ctx;
+    const w = this.canvas.width;
+    const h = this.canvas.height;
+    ctx.clearRect(0, 0, w, h);
+
+    this.fillLevel += (this.targetFill - this.fillLevel) * 0.06;
+    this.impulseAmp *= 0.94;
+    this.phase += 0.045;
+    const amp = (this.waveAmp + this.impulseAmp) * (w / 140);
+    const baseY = h * (1 - this.fillLevel);
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(w / 2, h / 2, w / 2 - 2, 0, Math.PI * 2);
+    ctx.clip();
+
+    // 后层波浪（暗层景深）
+    ctx.beginPath();
+    ctx.moveTo(0, h);
+    for (let x = 0; x <= w; x += 4) {
+      const y = baseY + Math.sin(x * 0.022 - this.phase * 0.85) * (amp * 0.85);
+      ctx.lineTo(x, y);
+    }
+    ctx.lineTo(w, h);
+    ctx.closePath();
+    ctx.fillStyle = "rgba(255, 255, 255, 0.10)";
+    ctx.fill();
+
+    // 主体渐变酒液
+    const grad = ctx.createLinearGradient(0, baseY - 12, 0, h);
+    grad.addColorStop(0, this.colorTop);
+    grad.addColorStop(1, this.colorBottom);
+    ctx.beginPath();
+    ctx.moveTo(0, h);
+    for (let x = 0; x <= w; x += 4) {
+      const y = baseY + Math.sin(x * 0.028 + this.phase) * amp;
+      ctx.lineTo(x, y);
+    }
+    ctx.lineTo(w, h);
+    ctx.closePath();
+    ctx.fillStyle = grad;
+    ctx.fill();
+
+    // 液面高光微线
+    ctx.beginPath();
+    for (let x = 0; x <= w; x += 4) {
+      const y = baseY + Math.sin(x * 0.028 + this.phase) * amp;
+      if (x === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.45)";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // 上浮气泡粒子
+    for (const b of this.bubbles) {
+      b.y -= b.speed * (1 + this.impulseAmp * 0.15);
+      if (b.y < 1 - this.fillLevel) {
+        b.y = 0.96;
+        b.x = 0.15 + Math.random() * 0.7;
+      }
+      const bx = b.x * w;
+      const by = b.y * h;
+      if (by > baseY + 6) {
+        ctx.beginPath();
+        ctx.arc(bx, by, b.r * (w / 140), 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${b.alpha})`;
+        ctx.fill();
+      }
+    }
+    ctx.restore();
+  }
+}
+
+const welcomeFluid = new GlassFluidRenderer("welcome-canvas");
+const mixerFluid = new GlassFluidRenderer("mixer-canvas");
+const ritualFluid = new GlassFluidRenderer("ritual-canvas");
+
+// 根据实时均分切换全屏氛围 & 液面色彩
+function updateAmbientMood(avgScore, progressRatio, impulse = 0) {
+  const body = document.body;
+  body.classList.remove("mood-calm", "mood-warm", "mood-deep");
+
+  let cTop = "#8FA893", cBot = "#526B58";
+  if (avgScore > 2.45) {
+    body.classList.add("mood-deep");
+    cTop = "#3C5382";
+    cBot = "#6D5E58";
+  } else if (avgScore >= 1.55) {
+    body.classList.add("mood-warm");
+    cTop = "#E5A93C";
+    cBot = "#C46D53";
+  } else {
+    body.classList.add("mood-calm");
+    cTop = "#8FA893";
+    cBot = "#4D6954";
+  }
+
+  mixerFluid.setTheme(0.22 + progressRatio * 0.62, cTop, cBot, impulse);
+
+  // 更新情绪价值双向刻度条（1.0 -> 10%, 5.0 -> 92%）
+  const pct = Math.max(8, Math.min(92, ((avgScore - 1) / 4) * 84 + 8));
+  const dot = document.getElementById("mood-axis-dot");
+  if (dot) dot.style.left = `${pct}%`;
+
+  const hintEl = document.getElementById("mixer-live-hint");
+  if (hintEl) {
+    if (avgScore > 2.45) hintEl.textContent = "Capturing your deep quiet weight… 正在萃取深沉的情绪基酒…";
+    else if (avgScore >= 1.55) hintEl.textContent = "Mixing subtle tension notes… 正在调和日常里的微紧绷层次…";
+    else hintEl.textContent = "Capturing your fresh breeze… 正在捕捉你的清冽松弛味道…";
+  }
+}
+
+// ==================== 设备指纹 & 授权接口（完全兼容 100 万码 & 订单号直验） ====================
 function simpleHash(str) {
   let h1 = 0xdeadbeef ^ str.length, h2 = 0x41c6ce57 ^ str.length;
   for (let i = 0, ch; i < str.length; i++) {
@@ -1310,13 +1755,7 @@ function simpleHash(str) {
 
 function getDeviceIdentity() {
   const scr = [Math.min(screen.width, screen.height), Math.max(screen.width, screen.height)].join("x");
-  const hwSig = [
-    navigator.platform || "plat",
-    scr,
-    window.devicePixelRatio || 1,
-    navigator.hardwareConcurrency || 0
-  ].join("|");
-
+  const hwSig = [navigator.platform || "plat", scr, window.devicePixelRatio || 1, navigator.hardwareConcurrency || 0].join("|");
   let localId = localStorage.getItem(STORAGE_UUID_KEY);
   if (!localId) {
     let canvasSig = "";
@@ -1324,7 +1763,7 @@ function getDeviceIdentity() {
       const c = document.createElement("canvas");
       const ctx = c.getContext("2d");
       ctx.font = "14px Arial";
-      ctx.fillText("SCL90_FP_2026", 2, 12);
+      ctx.fillText("SCL90_MOODLAB_2026", 2, 12);
       canvasSig = c.toDataURL().slice(-32);
     } catch (e) {}
     localId = simpleHash(hwSig + "|" + navigator.userAgent + "|" + canvasSig + "|" + Date.now() + "|" + Math.random());
@@ -1338,9 +1777,7 @@ function getSavedSession() {
     const raw = localStorage.getItem(STORAGE_AUTH_KEY);
     if (!raw) return null;
     const obj = JSON.parse(raw);
-    if (obj && obj.token && obj.expiresAt && obj.expiresAt * 1000 > Date.now()) {
-      return obj;
-    }
+    if (obj && obj.token && obj.expiresAt && obj.expiresAt * 1000 > Date.now()) return obj;
   } catch (e) {}
   return null;
 }
@@ -1388,7 +1825,7 @@ async function submitAuthCode() {
   const { fp, hwSig } = getDeviceIdentity();
   btn.disabled = true;
   const oldHtml = btn.innerHTML;
-  btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> 正在核验专属授权...`;
+  btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> 正在核验入场券...`;
   errEl.textContent = "";
 
   try {
@@ -1414,27 +1851,18 @@ async function submitAuthCode() {
     const loaded = await loadQuestionsWithToken(res.token);
     btn.disabled = false;
     btn.innerHTML = oldHtml;
-
     if (!loaded) {
       errEl.textContent = "题库加载异常，请刷新页面重试";
       return;
     }
-
     document.getElementById("vip-status-tag").classList.add("active");
     document.getElementById("auth-gate-modal").classList.remove("active");
     enterAssessmentScreen();
-  } catch (err) {
+  } catch (e) {
     btn.disabled = false;
     btn.innerHTML = oldHtml;
-    errEl.textContent = "网络连接波动，请检查网络或切换手机自带浏览器重试";
+    errEl.textContent = "网络波动，请检查网络或切换手机自带浏览器重试";
   }
-}
-
-function enterAssessmentScreen() {
-  switchScreen("screen-test");
-  const firstUnanswered = answers.findIndex(a => a === 0);
-  currentQuestionIndex = firstUnanswered !== -1 ? firstUnanswered : 0;
-  renderCurrentQuestion();
 }
 
 function switchScreen(screenId) {
@@ -1444,34 +1872,36 @@ function switchScreen(screenId) {
     target.classList.add("active");
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
+  welcomeFluid.stop();
+  mixerFluid.stop();
+  ritualFluid.stop();
+  if (screenId === "screen-welcome") welcomeFluid.start();
+  else if (screenId === "screen-test") mixerFluid.start();
+  else if (screenId === "screen-ritual") ritualFluid.start();
+}
+
+function enterAssessmentScreen() {
+  switchScreen("screen-test");
+  const firstUnanswered = answers.findIndex(a => a === 0);
+  currentQuestionIndex = firstUnanswered !== -1 ? firstUnanswered : 0;
+  renderCurrentQuestion();
 }
 
 function getStageInfo(qNum) {
-  if (VERSION === "pro") {
-    if (qNum <= 18) return { name: "第一阶段 · 近期躯体与神经感知 (1/5)", icon: "fa-heart-pulse", quote: "请回想最近一周的实际感受，按第一直觉选择即可。" };
-    if (qNum <= 36) return { name: "第二阶段 · 情绪状态与生活动力 (2/5)", icon: "fa-leaf", quote: "诚实面对当下的感受，是自我关照的第一步。" };
-    if (qNum <= 54) return { name: "第三阶段 · 思维习惯与人际体验 (3/5)", icon: "fa-compass", quote: "已完成过半题目，保持平缓呼吸继续作答。" };
-    if (qNum <= 72) return { name: "第四阶段 · 睡眠节律与内在安全感 (4/5)", icon: "fa-moon", quote: "每一份真实的情绪信号，都值得被温柔看见。" };
-    return { name: "第五阶段 · 深度综合评估收尾 (5/5)", icon: "fa-clipboard-check", quote: "即将完成全部 90 项评估，正在为您准备多维分析报告。" };
-  } else {
-    if (qNum <= 18) return { name: "STAGE 01 · 晨起打卡与微澜", icon: "fa-mug-hot", quote: "虽然每天自嘲是牛马，但也别忘了你是有血有肉的人类。" };
-    if (qNum <= 36) return { name: "STAGE 02 · 穿行职场水之回廊", icon: "fa-briefcase", quote: "身体的每一次酸痛和叹气，都是它在拼命替你硬扛生活的暴击。" };
-    if (qNum <= 54) return { name: "STAGE 03 · 攀登周会与内耗阶梯", icon: "fa-stairs", quote: "进度条已经过半，承认自己偶尔想‘摆烂’，其实是本能的自我保护。" };
-    if (qNum <= 72) return { name: "STAGE 04 · 独处深夜的星光庭院", icon: "fa-moon", quote: "下班后的世界才是真正属于你的，卸下坚强，这里绝对安全。" };
-    return { name: "STAGE 05 · 终抵自愈与重启殿堂", icon: "fa-seedling", quote: "马上通关了，测完给那个在生活里咬牙撑到现在的自己点个赞。" };
-  }
+  if (qNum <= 18) return "STAGE 01 · 晨起打卡与微澜";
+  if (qNum <= 36) return "STAGE 02 · 穿行职场水之回廊";
+  if (qNum <= 54) return "STAGE 03 · 攀登周会与内耗阶梯";
+  if (qNum <= 72) return "STAGE 04 · 独处深夜的星光庭院";
+  return "STAGE 05 · 终抵自愈与重启殿堂";
 }
 
 function renderCurrentQuestion() {
   const qNum = currentQuestionIndex + 1;
   document.getElementById("curr-q-num").textContent = qNum;
-  document.getElementById("q-pill-index").textContent = `QUESTION ${qNum < 10 ? '0' + qNum : qNum}`;
+  document.getElementById("q-pill-index").textContent = `DROP ${qNum < 10 ? '0' + qNum : qNum}`;
+  document.getElementById("stage-chapter-pill").textContent = getStageInfo(qNum);
 
-  const stageInfo = getStageInfo(qNum);
-  document.getElementById("stage-chapter-pill").innerHTML = `<i class="fa-solid ${stageInfo.icon}"></i> ${stageInfo.name}`;
-  document.getElementById("companion-quote-text").innerHTML = `<i class="fa-solid fa-sparkles"></i> <span>${stageInfo.quote}</span>`;
-
-  let dimName = "综合评估", dimTag = "状态感知";
+  let dimName = "综合感知", dimTag = "状态萃取";
   for (const dim of dimensions) {
     if (dim.indices.includes(currentQuestionIndex)) {
       dimName = dim.name;
@@ -1479,64 +1909,43 @@ function renderCurrentQuestion() {
       break;
     }
   }
-  document.getElementById("current-factor-tag").textContent = `${dimName} · ${dimTag}`;
-  document.getElementById("q-pill-category").textContent = dimTag;
+  document.getElementById("q-pill-category").textContent = `${dimName} · ${dimTag}`;
   document.getElementById("stair-progress-fill").style.width = `${Math.round((qNum / 90) * 100)}%`;
+
+  // 计算当前实时均分驱动玻璃调酒仪
+  const answeredIndices = answers.map((v, i) => v > 0 ? OPTION_WEIGHTS[v] : null).filter(x => x !== null);
+  const liveAvg = answeredIndices.length ? answeredIndices.reduce((a, b) => a + b, 0) / answeredIndices.length : 1.3;
+  updateAmbientMood(liveAvg, qNum / 90, 0);
+
+  const item = questionsData[currentQuestionIndex];
+  document.getElementById("q-text-dom").textContent = item ? `${qNum}. ${item.title}` : "";
 
   const container = document.getElementById("options-container");
   container.innerHTML = "";
   const currentAnswer = answers[currentQuestionIndex];
-  const item = questionsData[currentQuestionIndex];
+  const toneConfig = [
+    { name: "松弛吐槽 · 精神状态领先", badge: "opt-A", color: "#A7DFBE" },
+    { name: "轻微疲惫 · 正常生理调节", badge: "opt-B", color: "#B8D8FA" },
+    { name: "扎心内耗 · 表面假笑硬撑", badge: "opt-C", color: "#F4CC7F" },
+    { name: "严重超频 · 身体频繁报警", badge: "opt-D", color: "#F9B7A5" },
+    { name: "极限告急 · 急需自愈解药", badge: "opt-E", color: "#F6A2A2" }
+  ];
 
-  if (VERSION === "pro") {
-    const qText = typeof item === "string" ? item : (item?.title || "");
-    document.getElementById("q-text-dom").textContent = `${qNum}. ${qText}`;
-    const proOpts = [
-      { label: "A", val: 1, title: "从无", desc: "最近一周完全没有该症状或体验", cls: "tone-A", bCls: "opt-badge-A" },
-      { label: "B", val: 2, title: "很轻", desc: "偶有轻微感觉，不影响正常生活与工作", cls: "tone-B", bCls: "opt-badge-B" },
-      { label: "C", val: 3, title: "中度", desc: "症状确实存在，带来一定困扰但尚可应对", cls: "tone-C", bCls: "opt-badge-C" },
-      { label: "D", val: 4, title: "偏重", desc: "频繁出现且程度较重，已明显影响日常状态", cls: "tone-D", bCls: "opt-badge-D" },
-      { label: "E", val: 5, title: "严重", desc: "症状非常剧烈且持续，带来显著痛苦与妨碍", cls: "tone-E", bCls: "opt-badge-E" }
-    ];
-    proOpts.forEach(o => {
-      const card = document.createElement("div");
-      card.className = `option-card-20 ${currentAnswer === o.val ? 'selected' : ''}`;
-      card.onclick = () => handleSelectOption(o.val);
-      card.innerHTML = `
-        <div class="opt-badge-pill ${o.bCls}">${o.label}</div>
-        <div class="opt-content-wrap">
-          <span class="opt-tone-tag ${o.cls}" style="font-size:0.88rem;">${o.title}</span>
-          <div class="opt-narrative-text" style="font-size:0.8rem; color:var(--text-muted);">${o.desc}</div>
-        </div>
-        <div class="opt-check-bubble"><i class="fa-solid fa-check"></i></div>
-      `;
-      container.appendChild(card);
-    });
-  } else {
-    document.getElementById("q-text-dom").textContent = item ? item.title : "";
-    const toneConfig = [
-      { name: "松弛吐槽 · 精神状态领先", cls: "tone-A", bCls: "opt-badge-A" },
-      { name: "轻微疲惫 · 正常生理调节", cls: "tone-B", bCls: "opt-badge-B" },
-      { name: "扎心内耗 · 表面假笑硬撑", cls: "tone-C", bCls: "opt-badge-C" },
-      { name: "严重超频 · 身体频繁报警", cls: "tone-D", bCls: "opt-badge-D" },
-      { name: "极限告急 · 急需自愈解药", cls: "tone-E", bCls: "opt-badge-E" }
-    ];
-    (item?.options || []).forEach((opt, idx) => {
-      const t = toneConfig[idx] || toneConfig[0];
-      const card = document.createElement("div");
-      card.className = `option-card-20 ${currentAnswer === opt.val ? 'selected' : ''}`;
-      card.onclick = () => handleSelectOption(opt.val);
-      card.innerHTML = `
-        <div class="opt-badge-pill ${t.bCls}">${opt.label}</div>
-        <div class="opt-content-wrap">
-          <span class="opt-tone-tag ${t.cls}">【${t.name}】</span>
-          <div class="opt-narrative-text">${opt.text}</div>
-        </div>
-        <div class="opt-check-bubble"><i class="fa-solid fa-check"></i></div>
-      `;
-      container.appendChild(card);
-    });
-  }
+  (item?.options || []).forEach((opt, idx) => {
+    const t = toneConfig[idx] || toneConfig[0];
+    const card = document.createElement("div");
+    card.className = `opt-glass-card ${currentAnswer === opt.val ? 'selected' : ''}`;
+    card.onclick = () => handleSelectOption(opt.val);
+    card.innerHTML = `
+      <div class="opt-letter ${t.badge}">${opt.label}</div>
+      <div class="opt-body">
+        <div class="opt-tag-mini" style="color:${t.color};">${t.name}</div>
+        <div class="opt-text-desc">${opt.text}</div>
+      </div>
+      <div class="opt-dot-check"><i class="fa-solid fa-check"></i></div>
+    `;
+    container.appendChild(card);
+  });
 
   document.getElementById("btn-prev-q").style.visibility = currentQuestionIndex === 0 ? "hidden" : "visible";
 }
@@ -1545,8 +1954,12 @@ function handleSelectOption(val) {
   answers[currentQuestionIndex] = val;
   localStorage.setItem(STORAGE_ANSWERS_KEY, JSON.stringify(answers));
 
-  const cards = document.querySelectorAll(".option-card-20");
-  cards.forEach((c, i) => c.classList.toggle("selected", i + 1 === val));
+  document.querySelectorAll(".opt-glass-card").forEach((c, i) => c.classList.toggle("selected", i + 1 === val));
+
+  // 根据所选浓烈度激发玻璃液体波动冲击
+  const answeredWeights = answers.filter(v => v > 0).map(v => OPTION_WEIGHTS[v]);
+  const liveAvg = answeredWeights.length ? answeredWeights.reduce((a, b) => a + b, 0) / answeredWeights.length : 1.3;
+  updateAmbientMood(liveAvg, (currentQuestionIndex + 1) / 90, 2.2 + val * 1.4);
 
   const qCard = document.getElementById("q-card-element");
   qCard.style.transform = "scale(0.985)";
@@ -1560,9 +1973,161 @@ function handleSelectOption(val) {
       renderCurrentQuestion();
       window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
-      finishAssessment(true);
+      runMixingRitual();
     }
   }, 210);
+}
+
+// ==================== 幕 1.5：2.8秒调酒仪式过渡 ====================
+function runMixingRitual() {
+  switchScreen("screen-ritual");
+  const weights = answers.map(ans => OPTION_WEIGHTS[ans || 1]);
+  const finalAvg = weights.reduce((a, b) => a + b, 0) / 90;
+  let cTop = "#8FA893", cBot = "#526B58";
+  if (finalAvg > 2.45) { cTop = "#3C5382"; cBot = "#6D5E58"; }
+  else if (finalAvg >= 1.55) { cTop = "#E5A93C"; cBot = "#C46D53"; }
+  ritualFluid.setTheme(0.76, cTop, cBot, 8);
+
+  const steps = [
+    { en: "Analyzing...", zh: "捕捉你的当下味道中…" },
+    { en: "Extracting Emotions...", zh: "萃取十维情绪基酒…" },
+    { en: "Mixing Base...", zh: "调和前中尾调与耐受浓度…" },
+    { en: "Finalizing...", zh: "封存属于你的专属特调…" }
+  ];
+  const enEl = document.getElementById("ritual-en-text");
+  const zhEl = document.getElementById("ritual-zh-text");
+
+  steps.forEach((st, idx) => {
+    setTimeout(() => {
+      enEl.textContent = st.en;
+      zhEl.textContent = st.zh;
+      ritualFluid.setTheme(0.78, cTop, cBot, 4);
+    }, idx * 700);
+  });
+
+  setTimeout(() => {
+    finishAssessment(true);
+  }, 2800);
+}
+
+// ==================== 12 款专属情绪特调酒单映射引擎 ====================
+function buildCocktailProfile(totalScore, totalAvg, factorResults) {
+  const sorted = [...factorResults].sort((a, b) => b.avg - a.avg);
+  const top1 = sorted[0];
+  const top2 = sorted[1];
+  const top3 = sorted[2];
+  const avgNum = parseFloat(totalAvg);
+  const concRatio = Math.max(0.18, Math.min(0.95, (avgNum - 0.8) / 3.5));
+
+  // 极致松弛健康特调（均分 < 1.55）
+  if (avgNum < 1.55) {
+    return {
+      zhName: "晴空青柠的气泡感",
+      enName: "Sunshine Sparkle Special",
+      baseSpirit: "冷萃苏打 · 无负担轻饮",
+      topNote: "青柠薄荷 · 松弛感",
+      midNote: "冰镇白桃",
+      baseNote: "清泉苏打气泡",
+      concLabel: `${concRatio.toFixed(2)} · 清冽微醺`,
+      concPct: Math.round(concRatio * 100),
+      bodyFeel: "Light · 通透松弛",
+      quote: "“一杯清冽起泡的快乐水，印证你此刻稳得令人羡慕的松弛底色。”",
+      cupColors: ["#7AB893", "#D8E5C8"],
+      moodClass: "mood-calm"
+    };
+  }
+
+  // 重度耗竭特调矩阵（均分 >= 2.45 或 总分 > 235）
+  if (avgNum >= 2.45 || totalScore >= 235) {
+    let zhName = "沉入海底的那句叹息", enName = "Midnight Echo Reserve";
+    let cupColors = ["#2B3F6B", "#7A6258"];
+    if (top1.name === "焦虑" || top1.name === "强迫症状") {
+      zhName = "零点未眠的冰萃可可";
+      enName = "Sleepless Espresso Blend";
+      cupColors = ["#4A3B5E", "#C46D53"];
+    } else if (top1.name === "躯体化" || top1.name === "敌对") {
+      zhName = "深宵微烫的烟熏波本";
+      enName = "Smoked Ember Nocturne";
+      cupColors = ["#6E3B3B", "#D98A4E"];
+    }
+    return {
+      zhName,
+      enName,
+      baseSpirit: "深海黑朗姆 · 浓缩沉潜",
+      topNote: FLAVOR_MAP[top1.name].top,
+      midNote: FLAVOR_MAP[top2.name].mid,
+      baseNote: FLAVOR_MAP[top3.name].base,
+      concLabel: `${concRatio.toFixed(2)} · 浓烈超频`,
+      concPct: Math.round(concRatio * 100),
+      bodyFeel: "Heavy & Tight · 亟需解酒断电",
+      quote: "“夜色很沉，但杯底还有余温。你不用一个人硬撑到天亮，先喝完这一杯歇歇脚。”",
+      cupColors,
+      moodClass: "mood-deep"
+    };
+  }
+
+  // 中轻度打工人微醺特调矩阵（1.55 <= avg < 2.45）
+  let zhName = "午夜可可·轻酿版", enName = "Midnight Cacao Mild";
+  let cupColors = ["#E5A93C", "#F0937B"];
+  if (top1.name === "人际关系敏感" || top1.name === "偏执") {
+    zhName = "微苦海盐白桃雾";
+    enName = "Salted Peach Reverie";
+    cupColors = ["#D48A92", "#E5B78A"];
+  } else if (top1.name === "焦虑") {
+    zhName = "琥珀气泡里的黄昏";
+    enName = "Amber Dusk Spritz";
+    cupColors = ["#E5A93C", "#E07A5F"];
+  } else if (top1.name === "睡眠与饮食" || top1.name === "抑郁") {
+    zhName = "加奶洋甘菊热托迪";
+    enName = "Warm Chamomile Toddy";
+    cupColors = ["#C99E67", "#7D6B5D"];
+  }
+
+  return {
+    zhName,
+    enName,
+    baseSpirit: "陈年金酒 · 微醺平衡",
+    topNote: FLAVOR_MAP[top1.name].top,
+    midNote: FLAVOR_MAP[top2.name].mid,
+    baseNote: FLAVOR_MAP[top3.name].base,
+    concLabel: `${concRatio.toFixed(2)} · 中度酿制`,
+    concPct: Math.round(concRatio * 100),
+    bodyFeel: "Tight · 情绪明显但可掌控",
+    quote: "“生活带点微苦前调没关系，至少今夜这份配方，温柔地接住了你的微疲与倔强。”",
+    cupColors,
+    moodClass: "mood-warm"
+  };
+}
+
+function renderTumblerSvg(cTop, cBot) {
+  return `
+    <svg class="tumbler-svg" viewBox="0 0 140 164" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="liqGrad" x1="70" y1="54" x2="70" y2="150" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="${cTop}" stop-opacity="0.92"/>
+          <stop offset="100%" stop-color="${cBot}" stop-opacity="0.96"/>
+        </linearGradient>
+        <linearGradient id="glassRim" x1="20" y1="10" x2="120" y2="156" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="rgba(255,255,255,0.45)"/>
+          <stop offset="50%" stop-color="rgba(255,255,255,0.12)"/>
+          <stop offset="100%" stop-color="rgba(255,255,255,0.28)"/>
+        </linearGradient>
+        <clipPath id="cupClip">
+          <path d="M 22 18 L 118 18 L 118 106 C 118 134 97 152 70 152 C 43 152 22 134 22 106 Z"/>
+        </clipPath>
+      </defs>
+      <g clip-path="url(#cupClip)">
+        <path d="M 20 68 Q 45 60 70 68 T 120 68 L 120 155 L 20 155 Z" fill="url(#liqGrad)"/>
+        <path d="M 20 68 Q 45 60 70 68 T 120 68" stroke="rgba(255,255,255,0.55)" stroke-width="1.5" fill="none"/>
+        <circle cx="52" cy="112" r="2.2" fill="rgba(255,255,255,0.55)"/>
+        <circle cx="86" cy="126" r="1.6" fill="rgba(255,255,255,0.45)"/>
+        <circle cx="68" cy="92" r="1.8" fill="rgba(255,255,255,0.5)"/>
+        <circle cx="94" cy="98" r="1.2" fill="rgba(255,255,255,0.4)"/>
+      </g>
+      <!-- U 型水晶玻璃轮廓与高光 -->
+      <path d="M 22 18 L 118 18 L 118 106 C 118 134 97 152 70 152 C 43 152 22 134 22 106 Z" stroke="url(#glassRim)" stroke-width="2.2" fill="rgba(255,255,255,0.03)"/>
+      <path d="M 32 30 L 32 104 C 32 118 40 130 50 136" stroke="rgba(255,255,255,0.22)" stroke-width="2" stroke-linecap="round"/>
+    </svg>`;
 }
 
 function formatNow() {
@@ -1582,87 +2147,25 @@ function calculateAndRenderReport(timestampStr, saveRecord) {
   const rawSum = weightedScores.reduce((a, b) => a + b, 0);
   const totalScore = Math.round(rawSum);
   const totalAverage = (rawSum / 90).toFixed(2);
-
-  // 阳性项目判定：临床版 ans >= 2；牛马场景版 B为正常微疲(1.25)，选 C/D/E (ans >= 3) 计为显著阳性耗电项
-  const posThreshold = VERSION === "pro" ? 2 : 3;
-  const posScores = weightedScores.filter((_, idx) => (answers[idx] || 1) >= posThreshold);
-  const positiveItems = posScores.length;
-  const positiveAvg = positiveItems > 0
-    ? (posScores.reduce((a, b) => a + b, 0) / positiveItems).toFixed(2)
-    : "0.00";
-
-  let levelText = "", badgeClass = "badge-normal", insightText = "";
-
-  if (VERSION === "pro") {
-    if (totalScore > 300 || parseFloat(totalAverage) >= 3.0) {
-      levelText = "重度 · 心理困扰突出";
-      badgeClass = "badge-severe";
-      insightText = `总分 ${totalScore} 分，近期整体心理压力与情绪困扰较为突出。这并非您不够坚强，很大程度是身心在长期高压负荷下发出的保护性预警信号。请重点关注下方标红/标橙维度的调适建议，必要时积极寻求线下专业心理支持。`;
-    } else if (totalScore > 200 || parseFloat(totalAverage) >= 2.5) {
-      levelText = "中度 · 情绪负荷较明显";
-      badgeClass = "badge-moderate";
-      insightText = `总分 ${totalScore} 分，近期存在较为明显的情绪内耗或躯体紧绷反应。建议结合下方各维度的具体改善动作（如呼吸放松与睡眠节律调整），及时为身心减负。`;
-    } else if (totalScore > 160 || positiveItems >= 43) {
-      levelText = "轻度 · 存在一定压力波动";
-      badgeClass = "badge-mild";
-      insightText = `总分 ${totalScore} 分，整体处于轻度压力波动范围。在快节奏生活下出现阶段性疲惫十分常见，适度休息与自我关照即可良好平复。`;
-    } else {
-      levelText = "正常 · 心理健康状态良好";
-      badgeClass = "badge-normal";
-      insightText = `总分 ${totalScore} 分，您的整体心理健康状况处于正常良好水平！情绪调节能力与内在韧性较稳固，请继续保持规律作息与自我觉察。`;
-    }
-  } else {
-    if (totalScore > 280 || parseFloat(totalAverage) >= 3.0) {
-      levelText = "电量告急 · 亟需深度断电自愈";
-      badgeClass = "badge-severe";
-      insightText = `总分 ${totalScore} 分。你的身心电量已经严重见底！这不是你矫情或脆弱，而是你的机体替你硬扛了太多职场、人际与生活的隐形暴击。今晚放下对齐、微信和自责，先照着下方处方让自己彻底断电喘口气。`;
-    } else if (totalScore > 200 || parseFloat(totalAverage) >= 2.4) {
-      levelText = "超频待机 · 隐性内耗明显";
-      badgeClass = "badge-moderate";
-      insightText = `总分 ${totalScore} 分。当前处于“表面情绪稳定、后台疯狂耗电”的超频状态，部分维度的警报灯已经亮起。请重点查看下方偏高维度的回血动作，给下班后的自己筑起防线。`;
-    } else if (totalScore > 160) {
-      levelText = "轻度损耗 · 局部微疲状态";
-      badgeClass = "badge-mild";
-      insightText = `总分 ${totalScore} 分。存在轻度的日常搬砖耗电与小情绪积压，整体底盘依然稳健。今晚吃顿好的、睡个饱觉就能逐步满血回春！`;
-    } else {
-      levelText = "身心平衡 · 精神状态遥遥领先";
-      badgeClass = "badge-normal";
-      insightText = `总分 ${totalScore} 分。牛马内耗指数极低！你的精神状态稳健通透，自带高段位钝感力与自我修复机制，请继续保持这股让人羡慕的松弛感！`;
-    }
-  }
-
-  document.getElementById("rep-timestamp").textContent = `测评完成时间：${timestampStr}`;
-  document.getElementById("rep-total-score").textContent = totalScore;
-  document.getElementById("rep-level-text").textContent = levelText;
-  document.getElementById("rep-level-badge").className = `level-pill-badge ${badgeClass}`;
-  document.getElementById("rep-warm-insight").textContent = insightText;
-  document.getElementById("rep-avg-score").textContent = totalAverage;
-  document.getElementById("rep-positive-items").textContent = `${positiveItems} 项`;
-  document.getElementById("rep-positive-avg").textContent = positiveAvg;
+  const posItems = weightedScores.filter((_, idx) => (answers[idx] || 1) >= 3).length;
 
   const factorResults = dimensions.map(dim => {
     const dimWeighted = dim.indices.map(idx => OPTION_WEIGHTS[answers[idx] || 1]);
-    const rawDimSum = Math.round(dimWeighted.reduce((a, b) => a + b, 0));
+    const dimSum = Math.round(dimWeighted.reduce((a, b) => a + b, 0));
     const avg = parseFloat((dimWeighted.reduce((a, b) => a + b, 0) / dim.indices.length).toFixed(2));
 
-    let sevKey = "normal", status = "正常", statusClass = "badge-normal", dotColor = "#38A169";
-    if (avg >= 3.0) {
-      sevKey = "severe"; status = "重度"; statusClass = "badge-severe"; dotColor = "#E53E3E";
-    } else if (avg >= 2.5) {
-      sevKey = "moderate"; status = "中度"; statusClass = "badge-moderate"; dotColor = "#DD6B20";
-    } else if (avg >= 2.0) {
-      sevKey = "mild"; status = "轻度"; statusClass = "badge-mild"; dotColor = "#D69E2E";
-    }
+    let sevKey = "normal", status = "清冽", dotColor = "#7AB893";
+    if (avg >= 3.0) { sevKey = "severe"; status = "高压"; dotColor = "#E26D6D"; }
+    else if (avg >= 2.5) { sevKey = "moderate"; status = "浓烈"; dotColor = "#F0937B"; }
+    else if (avg >= 2.0) { sevKey = "mild"; status = "轻酿"; dotColor = "#E5A93C"; }
 
     return {
       name: dim.name,
       tag: dim.tag,
-      rawSum,
-      dimSum: rawDimSum,
+      dimSum,
       avg,
       sevKey,
       status,
-      statusClass,
       dotColor,
       summary: dim.summary,
       traitText: dim.traits[sevKey],
@@ -1671,53 +2174,88 @@ function calculateAndRenderReport(timestampStr, saveRecord) {
     };
   });
 
-  renderSummaryTable(factorResults);
-  renderFactorsList(factorResults);
-  renderMonumentRadarChart(factorResults);
+  const profile = buildCocktailProfile(totalScore, totalAverage, factorResults);
+  document.body.classList.remove("mood-calm", "mood-warm", "mood-deep");
+  document.body.classList.add(profile.moodClass);
 
-  if (saveRecord) {
-    saveHistoryRecord({ timestamp: timestampStr, totalScore, levelText, badgeClass, answers: [...answers] });
+  // 填充首屏特调酒单艺术卡
+  document.getElementById("blend-title-zh").textContent = profile.zhName;
+  document.getElementById("blend-title-en").textContent = profile.enName;
+  document.getElementById("tumbler-svg-slot").innerHTML = renderTumblerSvg(profile.cupColors[0], profile.cupColors[1]);
+  document.getElementById("recipe-base-spirit").textContent = profile.baseSpirit;
+  document.getElementById("recipe-top-note").textContent = profile.topNote;
+  document.getElementById("recipe-mid-note").textContent = profile.midNote;
+  document.getElementById("recipe-base-note").textContent = profile.baseNote;
+  document.getElementById("recipe-conc-fill").style.width = `${profile.concPct}%`;
+  document.getElementById("recipe-conc-val").textContent = profile.concLabel;
+  document.getElementById("recipe-body-feel").textContent = `体感｜${profile.bodyFeel}`;
+  document.getElementById("recipe-score-chip").textContent = `指数 ${totalScore} 分`;
+  document.getElementById("blend-poetic-quote").textContent = profile.quote;
+
+  // 填充下滑深度报告层
+  let insightText = `加权总分 ${totalScore} 分。牛马内耗指数极低！你的精神状态稳健通透，自带高段位钝感力与自我修复机制，请继续保持这份松弛感！`;
+  if (totalScore > 280 || parseFloat(totalAverage) >= 3.0) {
+    insightText = `加权总分 ${totalScore} 分。你的身心电量已经严重告急！这不是你矫情或脆弱，而是你的机体替你硬扛了太多职场、人际与生活的隐形暴击。今晚放下对齐、微信和自责，先照着下方回血处方让自己彻底断电喘口气。`;
+  } else if (totalScore > 200 || parseFloat(totalAverage) >= 2.4) {
+    insightText = `加权总分 ${totalScore} 分。当前处于“表面情绪稳定、后台疯狂耗电”的超频状态，部分维度的警报灯已经亮起。请重点查看下方浓烈维度的解酒建议，给下班后的自己筑起边界防线。`;
+  } else if (totalScore > 160) {
+    insightText = `加权总分 ${totalScore} 分。存在轻度的日常搬砖耗电与小情绪积压，整体底盘依然稳健。今晚吃顿好的、睡个饱觉就能逐步满血回春！`;
   }
-}
 
-function renderSummaryTable(factors) {
-  const tbody = document.getElementById("factor-table-body");
-  tbody.innerHTML = factors.map(f => `
+  document.getElementById("rep-timestamp").textContent = `调制完成时间：${timestampStr}`;
+  document.getElementById("rep-total-score").textContent = totalScore;
+  document.getElementById("rep-avg-score").textContent = totalAverage;
+  document.getElementById("rep-positive-items").textContent = `${posItems} 项`;
+  document.getElementById("rep-warm-insight").textContent = insightText;
+
+  document.getElementById("factor-table-body").innerHTML = factorResults.map(f => `
     <tr>
       <td>${f.name}</td>
       <td>${f.dimSum}</td>
       <td style="color:${f.dotColor}; font-weight:800;">${f.avg.toFixed(2)}</td>
-      <td><span class="tbl-pill ${f.statusClass}">${f.status}</span></td>
+      <td><span class="tbl-pill-dark" style="background:${f.dotColor};">${f.status}</span></td>
     </tr>
   `).join("");
-}
 
-function renderFactorsList(factors) {
-  const container = document.getElementById("factors-list-dom");
-  container.innerHTML = factors.map(f => `
-    <div class="factor-item-card" style="border-top: 3px solid ${f.dotColor};">
-      <div class="factor-header-line">
-        <div class="factor-name">
-          <span class="factor-dot" style="background:${f.dotColor}"></span>
+  document.getElementById("factors-list-dom").innerHTML = factorResults.map(f => `
+    <div class="glass-card factor-detail-dark" style="border-left: 3px solid ${f.dotColor};">
+      <div class="fd-head">
+        <div class="fd-name">
+          <span class="std-dot" style="background:${f.dotColor};"></span>
           <span>${f.name}</span>
-          <span style="font-size:0.74rem; color:var(--text-light); font-weight:500;">(${f.tag})</span>
+          <span style="font-size:0.72rem; color:var(--text-dim); font-weight:500;">(${f.tag})</span>
         </div>
-        <span class="factor-score-pill ${f.statusClass}">${f.avg.toFixed(2)}分 · ${f.status}</span>
+        <span class="tbl-pill-dark" style="background:${f.dotColor};">${f.avg.toFixed(2)} · ${f.status}</span>
       </div>
-      <div style="font-size:0.78rem; color:var(--text-muted); line-height:1.5;">${f.summary}</div>
-      <div class="factor-sub-box">
-        <div class="factor-sub-title"><span class="badge-icon-blue">特</span> <span>当前状态表现</span></div>
+      <div style="font-size:0.76rem; color:var(--text-muted); line-height:1.5;">${f.summary}</div>
+      <div class="fd-sub-box">
+        <div class="fd-sub-title" style="color:#93C5FD;"><i class="fa-solid fa-droplet"></i> 风味成因 · 当前心理特征</div>
         <div>${f.traitText}</div>
       </div>
-      <div class="factor-sub-box" style="background:#F0FDF4;">
-        <div class="factor-sub-title"><span class="badge-icon-green">建</span> <span>日常调适与自愈建议</span></div>
+      <div class="fd-sub-box" style="background:rgba(122, 184, 147, 0.08);">
+        <div class="fd-sub-title" style="color:#A7DFBE;"><i class="fa-solid fa-leaf"></i> 解酒处方 · 针对性舒缓动作</div>
         <div>${f.adviceText}</div>
       </div>
     </div>
   `).join("");
+
+  renderDarkRadarChart(factorResults, profile.cupColors[0]);
+
+  if (saveRecord) {
+    saveHistoryRecord({
+      cocktailName: profile.zhName,
+      cocktailEn: profile.enName,
+      cupColors: profile.cupColors,
+      concentrationPct: profile.concPct,
+      timestamp: timestampStr,
+      totalScore,
+      levelText: profile.bodyFeel,
+      answers: [...answers]
+    });
+  }
 }
 
-function renderMonumentRadarChart(factors) {
+function renderDarkRadarChart(factors, accentColor) {
   const chartDom = document.getElementById("radar-chart-dom");
   if (!chartDom || typeof echarts === "undefined") return;
   if (radarChartInstance) radarChartInstance.dispose();
@@ -1727,17 +2265,19 @@ function renderMonumentRadarChart(factors) {
     backgroundColor: "transparent",
     legend: {
       bottom: 0,
-      data: ["您的得分", "参考常模"],
-      textStyle: { color: "#6E7582", fontSize: 11 }
+      data: ["你的风味浓度", "参考基线"],
+      textStyle: { color: "rgba(243,242,238,0.6)", fontSize: 11 }
     },
     radar: {
       indicator: factors.map(f => ({ name: f.name, max: 5 })),
-      radius: "62%",
+      radius: "60%",
       splitNumber: 4,
-      axisName: { color: "#2D3139", fontSize: 11, fontWeight: "bold" },
+      axisName: { color: "#F3F2EE", fontSize: 10.5 },
+      splitLine: { lineStyle: { color: "rgba(255,255,255,0.10)" } },
+      axisLine: { lineStyle: { color: "rgba(255,255,255,0.12)" } },
       splitArea: {
         areaStyle: {
-          color: ["rgba(244,217,220,0.22)", "rgba(203,227,213,0.22)", "rgba(198,216,235,0.22)", "rgba(252,230,210,0.22)"]
+          color: ["rgba(255,255,255,0.015)", "rgba(255,255,255,0.035)"]
         }
       }
     },
@@ -1746,26 +2286,26 @@ function renderMonumentRadarChart(factors) {
       data: [
         {
           value: factors.map(f => f.avg),
-          name: "您的得分",
+          name: "你的风味浓度",
           symbol: "circle",
-          symbolSize: 5,
-          lineStyle: { width: 2.5, color: "#7B73E8" },
-          areaStyle: { color: "rgba(85, 104, 201, 0.28)" },
-          itemStyle: { color: "#7B73E8" }
+          symbolSize: 4,
+          lineStyle: { width: 2.2, color: accentColor || "#E5A93C" },
+          areaStyle: { color: "rgba(229, 169, 60, 0.28)" },
+          itemStyle: { color: "#F5F4F0" }
         },
         {
           value: factors.map(f => f.normMean),
-          name: "参考常模",
+          name: "参考基线",
           symbol: "none",
-          lineStyle: { width: 1.5, type: "dashed", color: "#9AA1AE" },
-          itemStyle: { color: "#9AA1AE" }
+          lineStyle: { width: 1.3, type: "dashed", color: "rgba(255,255,255,0.38)" },
+          itemStyle: { color: "rgba(255,255,255,0.38)" }
         }
       ]
     }]
   });
 }
 
-// ==================== 题目网格 & 历史记录 & 海报 ====================
+// ==================== 进度清单 & ③ 酒单历史抽屉 & 海报导出 ====================
 function openGridModal() {
   const container = document.getElementById("indices-grid-dom");
   container.innerHTML = "";
@@ -1806,18 +2346,28 @@ function openHistoryModal() {
   try { list = JSON.parse(localStorage.getItem(STORAGE_HISTORY_KEY) || "[]"); } catch (e) {}
 
   if (!list.length) {
-    container.innerHTML = `<div style="text-align:center; color:var(--text-light); padding:32px 0; font-size:0.86rem;">暂无本机历史测评记录，完成一次测评后将自动保存在此处</div>`;
+    container.innerHTML = `<div style="text-align:center; color:var(--text-dim); padding:36px 0; font-size:0.86rem;">你的私人酒单暂空，调完一杯属于自己的特调后将自动珍藏于此</div>`;
   } else {
-    container.innerHTML = list.map((item, idx) => `
-      <div class="history-item-row" data-hidx="${idx}">
-        <div>
-          <div style="font-weight:800; font-size:0.92rem;">总分 ${item.totalScore} 分 · ${item.levelText}</div>
-          <div style="font-size:0.75rem; color:var(--text-light); margin-top:2px;">${item.timestamp}</div>
+    container.innerHTML = list.map((item, idx) => {
+      const c1 = (item.cupColors && item.cupColors[0]) || "#E5A93C";
+      const c2 = (item.cupColors && item.cupColors[1]) || "#C46D53";
+      const title = item.cocktailName || `SCL-90 测评归档 (${item.totalScore}分)`;
+      const pctStr = item.concentrationPct ? `浓度 ${item.concentrationPct}% · ` : "";
+      return `
+        <div class="cellar-card" data-hidx="${idx}">
+          <div class="cellar-mini-cup">
+            <div class="cellar-mini-liquid" style="background:linear-gradient(180deg, ${c1}, ${c2});"></div>
+          </div>
+          <div style="flex:1;">
+            <div style="font-family:var(--serif); font-weight:700; font-size:0.95rem; color:var(--ivory);">${title}</div>
+            <div style="font-size:0.73rem; color:var(--text-muted); margin-top:3px;">${item.timestamp} · ${pctStr}指数 ${item.totalScore}</div>
+          </div>
+          <i class="fa-solid fa-chevron-right" style="color:var(--text-dim); font-size:0.8rem;"></i>
         </div>
-        <span style="color:var(--primary-color); font-size:0.8rem; font-weight:700;">查看报告 <i class="fa-solid fa-chevron-right"></i></span>
-      </div>
-    `).join("");
-    container.querySelectorAll(".history-item-row").forEach(row => {
+      `;
+    }).join("");
+
+    container.querySelectorAll(".cellar-card").forEach(row => {
       row.onclick = () => {
         const item = list[parseInt(row.getAttribute("data-hidx"), 10)];
         if (item && Array.isArray(item.answers) && item.answers.length === 90) {
@@ -1833,57 +2383,58 @@ function openHistoryModal() {
   document.body.style.overflow = "hidden";
 }
 
-function generateReportPoster() {
-  const target = document.getElementById("report-canvas-target");
+function exportDomAsImage(elementId, btnEl, loadingLabel) {
+  const target = document.getElementById(elementId);
   if (!target || typeof html2canvas === "undefined") {
-    alert("请直接使用手机系统截屏保存报告");
+    alert("请直接使用手机系统截屏保存");
     return;
   }
-  const btn = document.getElementById("btn-generate-poster");
-  const old = btn.innerHTML;
-  btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> 正在生成高清完整报告长图...`;
-  html2canvas(target, { scale: 2, useCORS: true, backgroundColor: "#FAF8F5" }).then(canvas => {
-    btn.innerHTML = old;
-    document.getElementById("poster-img-container").innerHTML = `<img src="${canvas.toDataURL("image/png")}" alt="测评报告长图" />`;
+  const old = btnEl.innerHTML;
+  btnEl.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i>`;
+  html2canvas(target, {
+    scale: 2,
+    useCORS: true,
+    backgroundColor: "#14171A",
+    onclone: clonedDoc => {
+      // 为保证导出图文字100%高对比清晰，去除克隆节点中的模糊滤镜并加重暗底
+      clonedDoc.querySelectorAll(".glass-card").forEach(el => {
+        el.style.backdropFilter = "none";
+        el.style.background = "#1B2027";
+      });
+    }
+  }).then(canvas => {
+    btnEl.innerHTML = old;
+    document.getElementById("poster-img-container").innerHTML = `<img src="${canvas.toDataURL("image/png")}" alt="MOOD LAB 特调报告" />`;
     document.getElementById("poster-modal").classList.add("active");
     document.body.style.overflow = "hidden";
   }).catch(() => {
-    btn.innerHTML = old;
-    alert("生成长图遇到限制，请直接使用手机截屏保存！");
+    btnEl.innerHTML = old;
+    alert(loadingLabel + "遇到限制，请直接手机截屏保存！");
   });
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  // 恢复未完成答题进度
+  welcomeFluid.start();
+
   try {
     const savedAns = JSON.parse(localStorage.getItem(STORAGE_ANSWERS_KEY) || "null");
     if (Array.isArray(savedAns) && savedAns.length === 90) answers = savedAns;
   } catch (e) {}
 
-  if (getSavedSession()) {
-    document.getElementById("vip-status-tag").classList.add("active");
-  }
+  if (getSavedSession()) document.getElementById("vip-status-tag").classList.add("active");
 
-  // 支持链接附带 ?code= 自动填入弹窗
   const urlCode = new URLSearchParams(window.location.search).get("code");
-  if (urlCode) {
-    document.getElementById("auth-code-input").value = urlCode.trim();
-  }
+  if (urlCode) document.getElementById("auth-code-input").value = urlCode.trim();
 
   document.getElementById("btn-start").onclick = startOrRequireAuth;
   document.getElementById("btn-submit-auth").onclick = submitAuthCode;
   document.getElementById("auth-code-input").addEventListener("keypress", e => {
     if (e.key === "Enter") submitAuthCode();
   });
-  document.getElementById("btn-close-auth").onclick = () => {
-    document.getElementById("auth-gate-modal").classList.remove("active");
-  };
+  document.getElementById("btn-close-auth").onclick = () => document.getElementById("auth-gate-modal").classList.remove("active");
   document.getElementById("btn-how-to-get-code").onclick = () => {
-    if (SHOP_URL) {
-      window.open(SHOP_URL, "_blank");
-    } else {
-      alert("【授权码获取指引】\n\n1. 已下单用户：请打开小红书客服聊天窗查看自动发送的 6 位授权码，或直接在订单详情页复制【P开头的订单编号】粘贴即可激活！\n\n2. 未下单用户：请返回小红书原笔记左下角或评论区置顶链接拍下，系统 24 小时自动秒发授权码。");
-    }
+    if (SHOP_URL) window.open(SHOP_URL, "_blank");
+    else alert("【入场券获取方式】\n\n1. 已下单用户：打开小红书客服聊天窗查看自动发送的 6 位授权码，或直接在订单详情页复制【P开头的订单编号】粘贴即可秒开启！\n\n2. 未下单用户：返回小红书原笔记左下角或评论区置顶链接拍下，24 小时秒发货。");
   };
 
   document.getElementById("btn-prev-q").onclick = () => {
@@ -1908,8 +2459,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
+  document.getElementById("btn-back-welcome").onclick = () => switchScreen("screen-welcome");
+
   document.getElementById("btn-restart").onclick = () => {
-    if (confirm("确定要清空当前作答进度并重新开始吗？")) {
+    if (confirm("确定要清零当前配方重新调制一杯吗？")) {
       answers = new Array(90).fill(0);
       localStorage.removeItem(STORAGE_ANSWERS_KEY);
       currentQuestionIndex = 0;
@@ -1917,11 +2470,26 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  document.getElementById("btn-generate-poster").onclick = generateReportPoster;
+  document.getElementById("btn-save-blend-card").onclick = function() { exportDomAsImage("cocktail-share-card", this, "保存特调卡片"); };
+  document.getElementById("btn-save-blend-top").onclick = function() { exportDomAsImage("cocktail-share-card", this, "保存特调卡片"); };
+  document.getElementById("btn-generate-poster").onclick = function() { exportDomAsImage("report-canvas-target", this, "生成完整长图"); };
   document.getElementById("btn-close-poster").onclick = () => {
     document.getElementById("poster-modal").classList.remove("active");
     document.body.style.overflow = "";
   };
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      welcomeFluid.stop();
+      mixerFluid.stop();
+      ritualFluid.stop();
+    } else {
+      const active = document.querySelector(".screen.active")?.id;
+      if (active === "screen-welcome") welcomeFluid.start();
+      else if (active === "screen-test") mixerFluid.start();
+      else if (active === "screen-ritual") ritualFluid.start();
+    }
+  });
 
   window.addEventListener("resize", () => {
     if (radarChartInstance) radarChartInstance.resize();
